@@ -18,7 +18,7 @@ fs.readFile('ClientKey.txt', 'utf8', function read(err,data){
 });
 
 function getClientKey(){
-		client.login(clientKey);
+	client.login(clientKey);
 }
 
 
@@ -110,7 +110,7 @@ client.on('message', message => {
 	}
 
 	if (message.content === '.ver') {
-		message.channel.send('Puyobot rc1.56\nchanges made: Resurrecting the server and making crons a thing.  Self-maintenance protocols put in place.  Now in trial mode. \n-Added .currentTime protocol to determine current date and time in SA time. \n-Added current game.  Might change version after version\n-Removed text about $sauce working in the .source command since it was disabled due to negligent use.\n\nNote that the server will reboot at 5AM and 5PM local time every day for maintenance. The server takes about 3 minutes to reboot, so it would be up by 5:03 respectively. \n added additional debugging - times added.\n\nDepreciation Messages NO MORE!')
+		message.channel.send('Puyobot rc1.60\nchanges made: We\'re now on GitHub!!! https://github.com/NostalgiaNinja/Puyobot  Git pushes will be updated with .ver every update.')
 	}
 
 	if (message.content === '.currentTime') {

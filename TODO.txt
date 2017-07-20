@@ -1,6 +1,6 @@
-#					#
-#	TO DO LIST FOR PIYOBOT		#
-#					#
+#                           #
+#   TO DO LIST FOR PIYOBOT  #
+#                           #
 
 Requests - Requested by users.  will come in release candidate processes
 
@@ -27,5 +27,6 @@ What's done:
 Image to .sauce (raggu sauce is nice okay?)
 File structure reorganization
 getting ready for git compatibility
+Git compatibility has been completed: https://github.com/NostalgiaNinja/Puyobot <- pushed here0
 
-NPR will have io and calendar details added.
+IO has been fixed up.  Will make a custom calendar sometime soon.
