@@ -1,0 +1,31 @@
+#					#
+#	TO DO LIST FOR PIYOBOT		#
+#					#
+
+Requests - Requested by users.  will come in release candidate processes
+
+1. Sheepytina - Calendar command which finds birthdays for closest Puyo
+characters, shall name it .PuyoBirthday
+
+Priority tasks - Self-prioritised tasks which will be handled by NPM JS and
+further instructional tasks.
+
+1. - file structure reorganization.  rc2.0 importance.
+	Massive file layout restructuring in need of happening.
+	May also want to make it git compatible.
+	this includes but is not limited to bandwidth saving fixes.
+	Such as making all gifs links to imgur. - git compatibility coming soon.
+
+2. - Consistency checks with names and memes.
+	Actually requested by Steelix100 for lack of a better term
+	Needs some clarity checks. - will look into this for rc2.0
+
+3. - Make sure commands are memorable and meaningful.
+	This goes along the consistency checks, though it's not that important.
+
+What's done:
+Image to .sauce (raggu sauce is nice okay?)
+File structure reorganization
+getting ready for git compatibility
+
+NPR will have io and calendar details added.
