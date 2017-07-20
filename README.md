@@ -4,7 +4,7 @@ Public repository for Puyobot
 
 Puyobot is the simple and easy to use bot for Discord - specifically made for Puyo Puyo EN community.
 
-To run, you will require a file called ClientKey.txt with the Bot application token put in.  Once all is set and done, rune "node PuyoBot.js" and you're all set.
+To run, you will require a file called ClientKey.txt with the Bot application token put in.  Once all is set and done, run "node PuyoBot.js" and you're all set.
 
 # Dependancies:
 
