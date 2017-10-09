@@ -140,22 +140,58 @@ client.on('message', message =>
 	if (message.content.startsWith(prefix + 'help'))
 	{
 		em = new Discord.RichEmbed();
-		em.setTitle("HELP!  Puyobot Command List")
-		  .setColor(0x00FF00)
-			.setDescription(".r1 \n.r2 \n.r3 \n.botrule \n.help \n.sauce \n.meme \n.request \n.ver \n.currentTime")
-		message.reply("check your DMs!");
-		message.member.send(em);
+		try
+		{
+				em.setTitle("HELP!  Puyobot Command List")
+		  		.setColor(0x00FF00)
+					.setDescription(prefix + "r1\n" +
+													prefix + "r2\n" +
+													prefix + "r3\n" +
+													prefix + "r4\n" +
+													prefix + "r5\n" +
+													prefix + "help\n" +
+													prefix + "meme\n" +
+													prefix + "ver\n" +
+													prefix + "currentTime");
+				message.reply("check your DMs!");
+				message.member.send(em);
+		}
+		catch (e)
+		{
+				em.setTitle("Error!")
+					.setColor(0xFF0000)
+					.setDescription(e);
+				message.channel.send("Cannot send message: Error details as follows:/n" + em + "\n ping NN immediately!");
+		}
 		console.log('response from', message.author.username, 'sent: Requested the bot list. at', getDateTime());
 	}
 
 	if (message.content.startsWith(prefix + "meme"))
 	{
 		em = new Discord.RichEmbed();
-		em.setTitle("Get your freshest memes here:")
-		  .setColor(0xFFFF00)
-		  .setDescription(".WAZZUP \n.notpuyo \n.freakout \n.AAAAAAA \n.yuintensifies \n.DracoPraying \n.CarbunclePop \n.thegirlwiththefunnyhat \n.badman");
-		message.reply("check your DMs!");
-		message.member.send(em);
+		try
+		{
+			em.setTitle("Get your freshest memes here:")
+		  	.setColor(0xFFFF00)
+				.setDescription(prefix + "WAZZUP\n" +
+												prefix + "notpuyo\n" +
+												prefix + "AAAAAAA\n" +
+												prefix + "freakout\n" +
+												prefix + "yuintensifies\n" +
+												prefix + "DracoPraying\n" +
+												prefix + "CarbunclePop\n" +
+												prefix + "thegirlwiththefunnyhat\n" +
+												prefix + "badman");
+			message.reply("check your DMs!");
+			message.member.send(em);
+		}
+		catch (e)
+		{
+			em.setTitle("Error!")
+				.setColor(0xFF0000)
+				.setDescription(e)
+			message.channel.send("Cannot send message: Error details as follows:/n" + em + "\n ping NN immediately!");
+		}
 		console.log('response from', message.author.username, 'sent: asked for memes. at', getDateTime());
 	}
 
@@ -165,10 +201,11 @@ client.on('message', message =>
 		em.setTitle("Puyobot release candidate version 1.70")
  		   .setColor(0x215F88)
 	 		 .setDescription("Changes made:")
-			 .addField("total code rewrite:", "I changed everything from code blocks to embeds, making bot usage cleaner and bot maintenance more... fasionable", false)
+			 .addField("total code rewrite:", "I changed everything from code blocks to embeds, making bot usage cleaner and bot maintenance more... fashionable", false)
 			 .addField("Code beautification:", "the code now looks easier on the eyes, and now you can actually see what's going on", false)
 			 .addField("File restructure:", "You now need a config.json file with prefix and your bot token as described in this guide: https://www.gitbook.com/book/anidiotsguide/discord-js-bot-guide", false)
 			 .addField("As always, code is now pushed to github after being released.  You can find it here:" ," https://github.com/NostalgiaNinja/Puyobot", false)
+			 .addField("Smart Prefix Detection:", "If someone else hosts the bot the help will propogate with the correct prefix.", false)
 			 .setFooter("Puyobot ver. 1.70 made by Nostalgia Ninja");
 		message.channel.send(em);
 		console.log('response from', message.author.username, 'sent: Version history. at', getDateTime());
