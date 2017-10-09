@@ -154,7 +154,7 @@ client.on('message', message =>
 		console.log('response from', message.author.username, 'sent: Version history. at', getDateTime());
 	}
 
-	if (message.content,startsWith(prefix + "currentTime"))
+	if (message.content.startsWith(prefix + "currentTime"))
 	{
 		em.setTitle("Current Bot Server Time (GMT+2.00 - South African Standard Time)")
 		  .setColor(0x00FF00)
