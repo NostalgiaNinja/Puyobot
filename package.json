@@ -1,0 +1,23 @@
+{
+  "name": "Puyobot",
+  "version": "1.0.0",
+  "description": "Public repository for Puyobot",
+  "main": "PuyoBot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NostalgiaNinja/Puyobot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NostalgiaNinja/Puyobot/issues"
+  },
+  "homepage": "https://github.com/NostalgiaNinja/Puyobot#readme",
+  "dependencies": {
+    "discord.js": "^11.2.1"
+  }
+}

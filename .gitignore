@@ -1,2 +1,3 @@
-#ignore Clientkey.txt as contains a clientkey for Discord.
-ClientKey.txt
+#ignore Node_modules folder and config.json because private data is involved in the these ignored files/folders
+config.json
+\node_modules
