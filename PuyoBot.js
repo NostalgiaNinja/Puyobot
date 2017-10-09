@@ -82,7 +82,7 @@ client.on('message', message =>
 
 	if (message.content.startsWith(prefix + "yuintensifies"))
 	{
-		em = new discord.RichEmbed();
+		em = new Discord.RichEmbed();
 		em.setImage("http://imgur.com/qeMQywX.gif");
 		message.channel.send(em);
 		console.log('response from', message.author.username, 'sent: YU RANG intensifies! at', getDateTime());
