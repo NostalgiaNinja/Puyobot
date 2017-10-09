@@ -8,7 +8,7 @@ const prefix = config.prefix;
 
 client.on('ready', () => {
 	console.log('PuyoBot active!');
-	client.user.setGame("PROTOTYPING MODE: Expect features to break!")
+	client.user.setGame("Puyo Puyo!! 20th Anniversary!");
 });
 
 client.login(config.token);
@@ -40,6 +40,24 @@ client.on('message', message =>
 		  .setDescription("**Keep it safe for work.** Explicit content, such as sexualized, violent, or otherwise disturbing imagery or language, as well as unwelcome advances, are strictly prohibited. As it is against Discord’s TOS to post such content on their platform, it is also against the rules of our server. Violating this rule is likely to be an immediate permanent ban. Not knowing the rules is not an excuse.");
 		message.channel.send(em);
 		console.log('response from', message.author.username, 'sent: rule 3 specified. at', getDateTime());
+	}
+
+	if (message.content.startsWith(prefix + "r4"))
+	{
+		em.setTitle("Rule 4:")
+			.setColor(0xFF0000)
+			.setDescription("**Do not link to pirated material or discussions about where to pirate material.** Discussion about piracy, such as in the context of game emulation, is allowed. ");
+		message.channel.send(em);
+		console.log('response from', message.author.username, 'sent: rule 4 specified. at', getDateTime());
+	}
+
+	if (message.content.startsWith(prefix + "r5"))
+	{
+		em.setTitle("Rule 5:")
+			.setColor(0xFF0000)
+			.setDescription("**Repost artwork with a link to original source.** If the art is not yours, a link source must be given. If you cannot find a source, do not repost! If an artist requires permission to repost, ask! For a full guide on how to source, get permission for reposting, templates for asking permission from non-English speakers, and what to do in the event you are/are not given permission, please refer to this document: https://docs.google.com/document/d/1XLchLr0S7WUNNet8LLHSS7eVqvcj1PI2cg47jtKuZqM/edit");
+		message.channel.send(em);
+		console.log('response from', message.author.username, 'sent: rule 4 specified. at', getDateTime());
 	}
 
 	if (message.content.startsWith(prefix + "WAZZUP"))
@@ -136,7 +154,7 @@ client.on('message', message =>
 		console.log('response from', message.author.username, 'sent: Version history. at', getDateTime());
 	}
 
-	if (message.content,startsWith(".currentTime"))
+	if (message.content,startsWith(prefix + "currentTime"))
 	{
 		em.setTitle("Current Bot Server Time (GMT+2.00 - South African Standard Time)")
 		  .setColor(0x00FF00)
