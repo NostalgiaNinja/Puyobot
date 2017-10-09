@@ -61,14 +61,14 @@ client.on('message', message =>
 			.setColor(0xFF0000)
 			.setDescription("**Repost artwork with a link to original source.** If the art is not yours, a link source must be given. If you cannot find a source, do not repost! If an artist requires permission to repost, ask! For a full guide on how to source, get permission for reposting, templates for asking permission from non-English speakers, and what to do in the event you are/are not given permission, please refer to this document: https://docs.google.com/document/d/1XLchLr0S7WUNNet8LLHSS7eVqvcj1PI2cg47jtKuZqM/edit");
 		message.channel.send(em);
-		console.log('response from', message.author.username, 'sent: rule 4 specified. at', getDateTime());
+		console.log('response from', message.author.username, 'sent: rule 5 specified. at', getDateTime());
 	}
 
 	if (message.content.startsWith(prefix + "WAZZUP"))
 	{
 		em = new Discord.RichEmbed();
 		em.setImage("http://imgur.com/7uneviX.gif");
-		message.channel.send(em);  //NB: GIFs don't work as embeds
+		message.channel.send(em);  //NB: Embeds require you to use full filenames for it to work.
 		console.log('response from', message.author.username, 'sent: WAZZUP! at', getDateTime());
 	}
 
@@ -172,7 +172,7 @@ client.on('message', message =>
 		try
 		{
 			em.setTitle("Get your freshest memes here:")
-		  	.setColor(0xFFFF00)
+		  	.setColor(0xFF00FF)
 				.setDescription(prefix + "WAZZUP\n" +
 												prefix + "notpuyo\n" +
 												prefix + "AAAAAAA\n" +
@@ -228,21 +228,21 @@ function getDateTime() {
 	var date  = new Date();
 
 	var hour = date.getHours();
-	hour = (hour < 10 ? "0" : "") + hour;
+	hour = (hour < 10 ? "00" : "") + hour;
 
 	var minut = date.getMinutes();
-	min = (minut < 10 ? "0" : "") + minut;
+	min = (minut < 10 ? "00" : "") + minut;
 
 	var sec = date.getSeconds();
-	sec = (sec < 10 ? "0" : "") + sec;
+	sec = (sec < 10 ? "00" : "") + sec;
 
 	var year = date.getFullYear();
 
 	var month = date.getMonth() + 1;
-	month = (month < 10 ? "0" : "") + month;
+	month = (month < 10 ? "00" : "") + month;
 
 	var day = date.getDate();
-	day = (day < 10 ? "0" : "") + day;
+	day = (day < 10 ? "00" : "") + day;
 
 	return year + "/" + month + "/" + day + " - " + hour + ":" + minut + ":" + sec;
 }
