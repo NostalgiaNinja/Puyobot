@@ -203,7 +203,9 @@ client.on('message', message =>
  		   .setColor(0x215F88)
 	 		 .setDescription("Changes made:")
 			 .addField("added an \"Am I Alive?\" function: ", "Now you can use your prefix and amIAlive to check if the bot is currently sending heartbeats(checks for latencies if the bot is alive and receiving messages as per async promises). Will have the last 3 pings, but if there aren't enough, it will make them undefined and use only the average of those available.", false)
-			 .addField("Added further debugging to prevent the bot from dying without reason.", "Now the bot will state its async actions so that you know what it's doing.", false)
+			 .addField("Added further debugging to prevent the bot from dying without reason.", "Now the bot will state its async actions so that you know what it's doing.  Make sure that debug is set to 1 in your config.json", false)
+			 .addField("More config.json stuff","Now you can set whether or not you want the bot to output debugging data.  Bot Owner ID (use developer ID to get your user ID) added for killswitches and diagnostics",false)
+			 .addField("Added a killswitch for when the app needs to close manually. "," requires Bot Owner ID for verification sake." false)
 			 .setFooter("Puyobot ver. 1.71 made by Nostalgia Ninja");
 		message.channel.send(em);
 		console.log('response from', message.author.username, 'sent: Version history. at', getDateTime());
@@ -230,11 +232,18 @@ client.on('message', message =>
 		em.setTitle("Yes!")
 		  .setColor(0x00FF00)
 			.setDescription("Current Bot Latency: " + client.ping + "ms.") //broadcast the average of the past 3 pings
-			.addField("Previous 3 latencies:\n", pingone + "ms.\n " + pingtwo + "ms.\n " + pingthree + "ms.") //broadcast the last 3 pings
+			.addField("Previous 3 latencies:\n", pingone + " ms.\n" + pingtwo + " ms.\n" + pingthree + " ms.") //broadcast the last 3 pings
 			.setFooter("current bot time: " + getDateTime());
 		message.channel.send(em);
-		console.log("Ping! Latency at: " + client.ping + "ms.  PONG!");
+		console.log("Ping! Latency at: " + client.ping + "ms.");
 	}
+
+	if (message.content.startsWith(prefix + "kill") && message.member.id == config.botOwnerID)
+	{
+		console.log("Bye bye~");
+		process.exit();
+	}
+
 });
 
 
@@ -265,4 +274,8 @@ function getDateTime() {
 //Logging - Catching all output messages to console, Let's see what's wrong with it?
 client.on("error", (e) => console.error(e));
 client.on("warn", (e) => console.warn(e));
-client.on("debug", (e) => console.info(e));  //NB: outputs token, be careful with this.
+
+if (config.debug == "1")
+{
+	client.on("debug", (e) => console.info(e));  //NB: outputs token, be careful with this.
+}

@@ -8,9 +8,13 @@ To run: you will require a config.json file with the following format:
 ```
   {
      "token": "[YOUR BOT TOKEN HERE]",
-     "prefix": "."
+     "prefix": ".",
+     "botOwnerID": "[YOUR BOT OWNER ID HERE]",
+     "debug": "0"
   }
 ```
+Note that you can set debug controls to 1 if you want to debug the bot.  Note however that it is slightly dangerous, as it will output token at times.
+
 You can change the prefix as necessary before starting the bot and the bot will automatically detect the prefix necessary.
 
 # Dependancies:
