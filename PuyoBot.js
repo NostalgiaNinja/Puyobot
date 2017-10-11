@@ -241,6 +241,7 @@ client.on('message', message =>
 	if (message.content.startsWith(prefix + "kill") && message.member.id == config.botOwnerID)
 	{
 		console.log("Bye bye~");
+		client.destroy();
 		process.exit();
 	}
 
