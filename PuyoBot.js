@@ -205,7 +205,7 @@ client.on('message', message =>
 			 .addField("added an \"Am I Alive?\" function: ", "Now you can use your prefix and amIAlive to check if the bot is currently sending heartbeats(checks for latencies if the bot is alive and receiving messages as per async promises). Will have the last 3 pings, but if there aren't enough, it will make them undefined and use only the average of those available.", false)
 			 .addField("Added further debugging to prevent the bot from dying without reason.", "Now the bot will state its async actions so that you know what it's doing.  Make sure that debug is set to 1 in your config.json", false)
 			 .addField("More config.json stuff","Now you can set whether or not you want the bot to output debugging data.  Bot Owner ID (use developer ID to get your user ID) added for killswitches and diagnostics",false)
-			 .addField("Added a killswitch for when the app needs to close manually. "," requires Bot Owner ID for verification sake." false)
+			 .addField("Added a killswitch for when the app needs to close manually. "," requires Bot Owner ID for verification sake.", false)
 			 .setFooter("Puyobot ver. 1.71 made by Nostalgia Ninja");
 		message.channel.send(em);
 		console.log('response from', message.author.username, 'sent: Version history. at', getDateTime());
