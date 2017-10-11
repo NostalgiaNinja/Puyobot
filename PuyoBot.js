@@ -14,6 +14,10 @@ client.login(config.token);
 
 client.on('message', message =>
 {
+
+
+	const args = message.content.split(" ").splice(1);
+
 	if (message.content.startsWith(prefix + "r1"))
 	{
 		em = new Discord.RichEmbed();
@@ -153,7 +157,9 @@ client.on('message', message =>
 													prefix + "meme\n" +
 													prefix + "ver\n" +
 													prefix + "amIAlive\n" +
-													prefix + "currentTime");
+													prefix + "currentTime")
+					.addField("Bot Owner Functions ONLY:", prefix + "kill\n" +
+																								 prefix + "eval", false);
 				message.reply("check your DMs!");
 				message.member.send(em);
 		}
@@ -206,6 +212,7 @@ client.on('message', message =>
 			 .addField("Added further debugging to prevent the bot from dying without reason.", "Now the bot will state its async actions so that you know what it's doing.  Make sure that debug is set to 1 in your config.json", false)
 			 .addField("More config.json stuff","Now you can set whether or not you want the bot to output debugging data.  Bot Owner ID (use developer ID to get your user ID) added for killswitches and diagnostics",false)
 			 .addField("Added a killswitch for when the app needs to close manually. "," requires Bot Owner ID for verification sake.", false)
+			 .addField("eval command: Evaluate commands on the fly", "Requires botOwnerID to work, otherwise sends a console message to the bot owner and notifies the user of the action.  Use with Caution!", false)
 			 .setFooter("Puyobot ver. 1.71 made by Nostalgia Ninja");
 		message.channel.send(em);
 		console.log('response from', message.author.username, 'sent: Version history. at', getDateTime());
@@ -238,18 +245,50 @@ client.on('message', message =>
 		console.log("Ping! Latency at: " + client.ping + "ms.");
 	}
 
-	if (message.content.startsWith(prefix + "kill") && message.member.id == config.botOwnerID)
+	if (message.content.startsWith(prefix + "kill"))
 	{
-		console.log("Bye bye~");
-		client.destroy();
-		process.exit();
+		if (message.author.id == config.botOwnerID)
+		{
+			console.log("Bye bye~");
+			client.destroy();
+			process.exit();
+		}
+		else return;
 	}
 
+	if (message.content.startsWith(prefix + "eval"))
+	{
+		if (message.author.id !== config.botOwnerID)
+		{
+			message.reply("Nice try. The Bot Owner has been notified.");
+			console.log(message.author.id + "(" + message.author.username + ")" + " Tried using the .eval command.");
+			return;
+		}
+		else
+		{
+			try
+			{
+				const code = args.join(" ");
+				let evaled = eval(code);
+
+				if (typeof evaled !== "string")
+				{
+					evaled = require("util").inspect(evaled);
+				}
+
+				message.channel.send(clean(evaled), {code:"xl"});
+			}
+			catch (e)
+			{
+				message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(e)}\n\`\`\``)
+			}
+		}
+	}
 });
 
 
-function getDateTime() {
-
+function getDateTime()
+{
 	var date  = new Date();
 
 	var hour = date.getHours();
@@ -270,6 +309,18 @@ function getDateTime() {
 	day = (day < 10 ? "0" : "") + day;
 
 	return year + "/" + month + "/" + day + " - " + hour + ":" + minut + ":" + sec;
+}
+
+function clean(text)
+{
+	if (typeof(text) === "string")
+	{
+		return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
+	}
+	else
+	{
+		return text;
+	}
 }
 
 //Logging - Catching all output messages to console, Let's see what's wrong with it?
