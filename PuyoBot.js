@@ -152,6 +152,7 @@ client.on('message', message =>
 													prefix + "help\n" +
 													prefix + "meme\n" +
 													prefix + "ver\n" +
+													prefix + "amIAlive\n" +
 													prefix + "currentTime");
 				message.reply("check your DMs!");
 				message.member.send(em);
@@ -198,15 +199,12 @@ client.on('message', message =>
 	if (message.content.startsWith(prefix + "ver"))
 	{
 		em = new Discord.RichEmbed();
-		em.setTitle("Puyobot release candidate version 1.70")
+		em.setTitle("Puyobot release candidate version 1.71")
  		   .setColor(0x215F88)
 	 		 .setDescription("Changes made:")
-			 .addField("total code rewrite:", "I changed everything from code blocks to embeds, making bot usage cleaner and bot maintenance more... fashionable", false)
-			 .addField("Code beautification:", "the code now looks easier on the eyes, and now you can actually see what's going on", false)
-			 .addField("File restructure:", "You now need a config.json file with prefix and your bot token as described in this guide: https://www.gitbook.com/book/anidiotsguide/discord-js-bot-guide", false)
-			 .addField("As always, code is now pushed to github after being released.  You can find it here:" ," https://github.com/NostalgiaNinja/Puyobot", false)
-			 .addField("Smart Prefix Detection:", "If someone else hosts the bot the help will propogate with the correct prefix.", false)
-			 .setFooter("Puyobot ver. 1.70 made by Nostalgia Ninja");
+			 .addField("added an \"Am I Alive?\" function: ", "Now you can use your prefix and amIAlive to check if the bot is currently sending heartbeats(checks for latencies if the bot is alive and receiving messages as per async promises). Will have the last 3 pings, but if there aren't enough, it will make them undefined and use only the average of those available.", false)
+			 .addField("Added further debugging to prevent the bot from dying without reason.", "Now the bot will state its async actions so that you know what it's doing.", false)
+			 .setFooter("Puyobot ver. 1.71 made by Nostalgia Ninja");
 		message.channel.send(em);
 		console.log('response from', message.author.username, 'sent: Version history. at', getDateTime());
 	}
@@ -220,6 +218,23 @@ client.on('message', message =>
 		message.channel.send(em);
 		console.log('response from', message.author.username, 'sent: requested for current system date time on server');
 	}
+
+	if (message.content.startsWith(prefix + "amIAlive"))
+	{
+		//get the last 3 pings.
+		var pingone = client.pings[0];
+		var pingtwo = client.pings[1];
+		var pingthree = client.pings[2];
+
+		em = new Discord.RichEmbed();
+		em.setTitle("Yes!")
+		  .setColor(0x00FF00)
+			.setDescription("Current Bot Latency: " + client.ping + "ms.") //broadcast the average of the past 3 pings
+			.addField("Previous 3 latencies:\n", pingone + "ms.\n " + pingtwo + "ms.\n " + pingthree + "ms.") //broadcast the last 3 pings
+			.setFooter("current bot time: " + getDateTime());
+		message.channel.send(em);
+		console.log("Ping! Latency at: " + client.ping + "ms.  PONG!");
+	}
 });
 
 
@@ -228,21 +243,26 @@ function getDateTime() {
 	var date  = new Date();
 
 	var hour = date.getHours();
-	hour = (hour < 10 ? "00" : "") + hour;
+	hour = (hour < 10 ? "0" : "") + hour;
 
 	var minut = date.getMinutes();
-	min = (minut < 10 ? "00" : "") + minut;
+	min = (minut < 10 ? "0" : "") + minut;
 
 	var sec = date.getSeconds();
-	sec = (sec < 10 ? "00" : "") + sec;
+	sec = (sec < 10 ? "0" : "") + sec;
 
 	var year = date.getFullYear();
 
 	var month = date.getMonth() + 1;
-	month = (month < 10 ? "00" : "") + month;
+	month = (month < 10 ? "0" : "") + month;
 
 	var day = date.getDate();
-	day = (day < 10 ? "00" : "") + day;
+	day = (day < 10 ? "0" : "") + day;
 
 	return year + "/" + month + "/" + day + " - " + hour + ":" + minut + ":" + sec;
 }
+
+//Logging - Catching all output messages to console, Let's see what's wrong with it?
+client.on("error", (e) => console.error(e));
+client.on("warn", (e) => console.warn(e));
+client.on("debug", (e) => console.info(e));  //NB: outputs token, be careful with this.
