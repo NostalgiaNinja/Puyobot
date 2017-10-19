@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+﻿const Discord = require('discord.js');
 const config = require('./config.json')
 
 const client = new Discord.Client();
@@ -15,7 +15,7 @@ client.login(config.token);
 client.on('message', message =>
 {
 
-
+	if (!message.content.startsWith(prefix)) return; //missed this important check, bot should operate faster now.
 	const args = message.content.split(" ").splice(1);
 
 	if (message.content.startsWith(prefix + "r1"))
@@ -119,7 +119,7 @@ client.on('message', message =>
 	if (message.content.startsWith(prefix + "AAAAAAA"))
 	{
 		em = new Discord.RichEmbed();
-		em.setImage("http://imgur.com/LdrIBUYjpg");
+		em.setImage("http://imgur.com/LdrIBUY.jpg");
 		message.channel.send(em);
 		console.log('response from', message.author.username, 'sent: [screams internally]! at', getDateTime());
 	}
@@ -159,7 +159,8 @@ client.on('message', message =>
 													prefix + "amIAlive\n" +
 													prefix + "currentTime")
 					.addField("Bot Owner Functions ONLY:", prefix + "kill\n" +
-																								 prefix + "eval", false);
+														   prefix + "eval\n" +
+														   prefix + "setgame", false);
 				message.reply("check your DMs!");
 				message.member.send(em);
 		}
@@ -205,14 +206,11 @@ client.on('message', message =>
 	if (message.content.startsWith(prefix + "ver"))
 	{
 		em = new Discord.RichEmbed();
-		em.setTitle("Puyobot release candidate version 1.71")
+		em.setTitle("Puyobot release candidate version 1.7.2")
  		   .setColor(0x215F88)
 	 		 .setDescription("Changes made:")
-			 .addField("added an \"Am I Alive?\" function: ", "Now you can use your prefix and amIAlive to check if the bot is currently sending heartbeats(checks for latencies if the bot is alive and receiving messages as per async promises). Will have the last 3 pings, but if there aren't enough, it will make them undefined and use only the average of those available.", false)
-			 .addField("Added further debugging to prevent the bot from dying without reason.", "Now the bot will state its async actions so that you know what it's doing.  Make sure that debug is set to 1 in your config.json", false)
-			 .addField("More config.json stuff","Now you can set whether or not you want the bot to output debugging data.  Bot Owner ID (use developer ID to get your user ID) added for killswitches and diagnostics",false)
-			 .addField("Added a killswitch for when the app needs to close manually. "," requires Bot Owner ID for verification sake.", false)
-			 .addField("eval command: Evaluate commands on the fly", "Requires botOwnerID to work, otherwise sends a console message to the bot owner and notifies the user of the action.  Use with Caution!", false)
+			 .addField("Bot Owner: Set Game Name", "allows the bot owner to set a game name", false)
+			 .addField("small optimizations to improve performance", "Getting time and date functions are improved by a small percentage.", false)
 			 .setFooter("Puyobot ver. 1.71 made by Nostalgia Ninja");
 		message.channel.send(em);
 		console.log('response from', message.author.username, 'sent: Version history. at', getDateTime());
@@ -223,7 +221,7 @@ client.on('message', message =>
 		em = new Discord.RichEmbed();
 		em.setTitle("Current Bot Server Time (GMT+2.00 - South African Standard Time)")
 		  .setColor(0x00FF00)
-			.setDescription(getDateTime());
+			.setDescription(new Date());
 		message.channel.send(em);
 		console.log('response from', message.author.username, 'sent: requested for current system date time on server');
 	}
@@ -254,6 +252,17 @@ client.on('message', message =>
 			process.exit();
 		}
 		else return;
+	}
+
+	if (message.content.startsWith(prefix + "setgame"))
+	if(message.author.id == config.botOwnerID)
+	{
+		{
+			let gamename = args.slice(0).join(" ");
+
+			message.channel.send("Set game to: " + gamename);
+			client.user.setGame(gamename);
+		}
 	}
 
 	if (message.content.startsWith(prefix + "eval"))
@@ -291,24 +300,7 @@ function getDateTime()
 {
 	var date  = new Date();
 
-	var hour = date.getHours();
-	hour = (hour < 10 ? "0" : "") + hour;
-
-	var minut = date.getMinutes();
-	min = (minut < 10 ? "0" : "") + minut;
-
-	var sec = date.getSeconds();
-	sec = (sec < 10 ? "0" : "") + sec;
-
-	var year = date.getFullYear();
-
-	var month = date.getMonth() + 1;
-	month = (month < 10 ? "0" : "") + month;
-
-	var day = date.getDate();
-	day = (day < 10 ? "0" : "") + day;
-
-	return year + "/" + month + "/" + day + " - " + hour + ":" + minut + ":" + sec;
+	return date;
 }
 
 function clean(text)
