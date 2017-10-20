@@ -10,7 +10,8 @@ To run: you will require a config.json file with the following format:
      "token": "[YOUR BOT TOKEN HERE]",
      "prefix": ".",
      "botOwnerID": "[YOUR BOT OWNER ID HERE]",
-     "debug": "0"
+     "debug": "0",
+     "PPQTag": "[YOUR PPQ MENTIONABLE ROLE ID HERE]"
   }
 ```
 Note that you can set debug controls to 1 if you want to debug the bot.  Note however that it is slightly dangerous, as it will output token at times.

@@ -143,12 +143,17 @@ client.on('message', message =>
 
 	if (message.content.startsWith(prefix + 'help'))
 	{
+		let postfix = args[0];
+
 		em = new Discord.RichEmbed();
+
 		try
 		{
+			if (!postfix)
+			{
 				em.setTitle("HELP!  Puyobot Command List")
-		  		.setColor(0x00FF00)
-					.setDescription(prefix + "r1\n" +
+		  		  .setColor(0x00FF00)
+				  .setDescription(prefix + "r1\n" +
 													prefix + "r2\n" +
 													prefix + "r3\n" +
 													prefix + "r4\n" +
@@ -157,19 +162,44 @@ client.on('message', message =>
 													prefix + "meme\n" +
 													prefix + "ver\n" +
 													prefix + "amIAlive\n" +
-													prefix + "currentTime")
-					.addField("Bot Owner Functions ONLY:", prefix + "kill\n" +
+													prefix + "currentTime" +
+												    prefix + "multiQuest")
+				  .addField("Bot Owner Functions ONLY:", prefix + "kill\n" +
 														   prefix + "eval\n" +
-														   prefix + "setgame", false);
+														   prefix + "setgame", false)
+				  .setFooter("type " + prefix +  "help and the name of the command you need help with for more details.");
 				message.reply("check your DMs!");
 				message.member.send(em);
+			}
+			else if (postfix == "multiQuest")
+			{
+				em.setTitle("HELP: Multiplayer Quest help.  Syntax:")
+				  .setColor(0x00FF00)
+				  .setDescription(prefix + "multiQuest (Quest Code) (Quest Access) (Quest title - optional)")
+				  .addField("Quest Code", "Get the quest code from your Everybody Quest!! game",false)
+				  .addField("Quest Access","1: Open to Public\n2: Open to Guild\n3: Code Only",false)
+				  .addField("Quest Title","A description for your quest, optional.",false)
+				  .setFooter("Quests will come with a TAPI PPQ link for members to join.  Please use responsibly!");
+				message.channel.send(em);
+			}
+			else if (postfix == "questBattle")
+			{
+				em.setTitle("HELP: Multiplayer Battle help.  Syntax:")
+				  .setColor(0x00FF00)
+				  .setDescription(prefix + "questBattle (Battle Code) (Battle Type) (Battle Title - Optional)")
+				  .addField("Battle Code", "get the quest code from your Everybody Battle!! game", false)
+				  .addField("Battle Type", "1: Standard PvP\n2: PPQ Fight Club!",false)
+				  .addField("Battle Title", "A description for your battle, optional.",false)
+				  .setFooter("Battles will come with a TAPI PPQ link for members to join.  Please use responsibly!");
+				message.channel.send(em);
+			}
 		}
 		catch (e)
 		{
 				em.setTitle("Error!")
 					.setColor(0xFF0000)
 					.setDescription(e);
-				message.channel.send("Cannot send message: Error details as follows:/n" + em + "\n ping NN immediately!");
+				message.channel.send("Cannot send message: Error details as follows:\n" + e + "\n ping NN immediately!");
 		}
 		console.log('response from', message.author.username, 'sent: Requested the bot list. at', getDateTime());
 	}
@@ -211,7 +241,9 @@ client.on('message', message =>
 	 		 .setDescription("Changes made:")
 			 .addField("Bot Owner: Set Game Name", "allows the bot owner to set a game name", false)
 			 .addField("small optimizations to improve performance", "Getting time and date functions are improved by a small percentage.", false)
-			 .setFooter("Puyobot ver. 1.71 made by Nostalgia Ninja");
+			 .addField("Puyo Puyo Quest!! Multiplayer function added", "now Everybody!! Quests are able to be prettified and give ease of access using the TAPI link.",false)
+			 .addField("Puyo Puyo Quest!! Battle function added", "allows for a prettier battle function",false)
+			 .setFooter("Puyobot ver. 1.7.2 made by Nostalgia Ninja");
 		message.channel.send(em);
 		console.log('response from', message.author.username, 'sent: Version history. at', getDateTime());
 	}
@@ -263,6 +295,85 @@ client.on('message', message =>
 			message.channel.send("Set game to: " + gamename);
 			client.user.setGame(gamename);
 		}
+	}
+
+	if (message.content.startsWith(prefix + "multiQuest"))
+	{
+		em = new Discord.RichEmbed();
+
+		let roomcode =  args[0];
+		let roomaccess = args[1];
+		let roomname = args.slice(2).join(" ");
+
+		let roomaccessvalue = "";
+
+		if (roomaccess == "1")
+		{
+			roomaccessvalue = "Open to Public";
+			em.setColor(0x0000FF);
+		}
+		else if (roomaccess == "2")
+		{
+			roomaccessvalue = "Open to Guild";
+			em.setColor(0x00FF00);
+		}
+		else if (roomaccess == "3")
+		{
+			roomaccessvalue = "Code Only";
+			em.setColor(0xFF0000);
+		}
+		else
+		{
+			message.channel.send("please input 1, 2, or 3 as your access code.  View `" + prefix + "help multiQuest` for more details.");
+			return;
+		}
+
+		if (parseInt(roomcode) > 999999 || isNaN(roomcode))
+		{
+			message.channel.send("Room code invalid!");
+			return;
+		} 
+
+		em.setTitle("A Multiplayer Quest room has opened!")
+		  .setDescription("Room Name: " + roomname + "\nRoom Access: " + roomaccessvalue + "\nRoom Code: " + roomcode + "\n\n" + "https://tapi.puyoquest.jp/multi/redirect/?room_no=" + roomcode);		  
+
+		message.channel.send("<@&" + config.PPQTag + ">");
+		message.channel.send(em);
+	}
+
+	if (message.content.startsWith(prefix + "questBattle"))
+	{
+		em = new Discord.RichEmbed();
+		let roomcode = args[0];
+		let roomtype = args[1];
+		let roomname = args.slice(2).join(" ");
+
+		let roomtypevalue = "";
+
+		if (roomtype == "1")
+		{
+			roomtypevalue = "Standard PvP";
+		}
+		else if (roomtype == "2")
+		{
+			roomtypevalue = "PPQ Fight Club!";
+		}
+		else
+		{
+			message.channel.send("Please input 1 or 2 as your room type code.  View `" + prefix + "help questBattle` for more details.");
+			return;
+		}
+
+		if (parseInt(roomcode) > 999999 || isNaN(roomcode))
+		{
+			message.channel.send("Room code invalid!");
+			return
+		}
+		em.setTitle("You are being challenged by " + message.author.username)
+		  .setDescription("Room Code: " + roomcode + "\nRoom Type: " + roomtypevalue + "\nRoom Name: " + roomname + "\n\n" + "http://tapi.puyoquest.jp/multibattle/redirect/?room_no=" + roomcode);
+		
+		message.channel.send("<@&" + config.PPQTag + ">");
+		message.channel.send(em);
 	}
 
 	if (message.content.startsWith(prefix + "eval"))
