@@ -177,7 +177,7 @@ client.on('message', message =>
 				  .setColor(0x00FF00)
 				  .setDescription(prefix + "multiQuest (Quest Code) (Quest Access) (Quest title - optional)")
 				  .addField("Quest Code", "Get the quest code from your Everybody Quest!! game",false)
-				  .addField("Quest Access","1: Open to Public\n2: Open to Guild\n3: Code Only",false)
+				  .addField("Quest Access","1: **Open to Public**\n2: **Open to Guild**\n3: Code Only",false)
 				  .addField("Quest Title","A description for your quest, optional.",false)
 				  .setFooter("Quests will come with a TAPI PPQ link for members to join.  Please use responsibly!");
 				message.channel.send(em);
@@ -188,7 +188,10 @@ client.on('message', message =>
 				  .setColor(0x00FF00)
 				  .setDescription(prefix + "questBattle (Battle Code) (Battle Type) (Battle Title - Optional)")
 				  .addField("Battle Code", "get the quest code from your Everybody Battle!! game", false)
-				  .addField("Battle Type", "1: Standard PvP\n2: PPQ Fight Club!",false)
+				  .addField("Battle Type", "1: **Standard PvP**" +
+											"\n2: **Death Match** (1 row vs. 1 row)",false)
+				  .addField("For EXP:","3: **Fight Club** (visitor brings close to nothing, lets host kill as quickly as possible)" +
+				  "\n4: **Target Practice** (host lets visitor kill as quickly as possible)")
 				  .addField("Battle Title", "A description for your battle, optional.",false)
 				  .setFooter("Battles will come with a TAPI PPQ link for members to join.  Please use responsibly!");
 				message.channel.send(em);
@@ -242,7 +245,6 @@ client.on('message', message =>
 			 .addField("Bot Owner: Set Game Name", "allows the bot owner to set a game name", false)
 			 .addField("small optimizations to improve performance", "Getting time and date functions are improved by a small percentage.", false)
 			 .addField("Puyo Puyo Quest!! Multiplayer function added", "now Everybody!! Quests are able to be prettified and give ease of access using the TAPI link.",false)
-			 .addField("Puyo Puyo Quest!! Battle function added", "allows for a prettier battle function",false)
 			 .setFooter("Puyobot ver. 1.7.2 made by Nostalgia Ninja");
 		message.channel.send(em);
 		console.log('response from', message.author.username, 'sent: Version history. at', getDateTime());
@@ -310,7 +312,7 @@ client.on('message', message =>
 		if (roomaccess == "1")
 		{
 			roomaccessvalue = "Open to Public";
-			em.setColor(0x0000FF);
+			em.setColor(0x004080);
 		}
 		else if (roomaccess == "2")
 		{
@@ -356,7 +358,15 @@ client.on('message', message =>
 		}
 		else if (roomtype == "2")
 		{
-			roomtypevalue = "PPQ Fight Club!";
+			roomtypevalue = "Death Match";
+		}
+		else if (roomtype == "3")
+		{
+			roomtypevalue = "Fight Club";
+		}
+		else if (roomtype == "4")
+		{
+			roomtypevalue = "Target Practice";
 		}
 		else
 		{
@@ -370,6 +380,7 @@ client.on('message', message =>
 			return
 		}
 		em.setTitle("You are being challenged by " + message.author.username)
+		  .setColor("0x00FFFF")
 		  .setDescription("Room Code: " + roomcode + "\nRoom Type: " + roomtypevalue + "\nRoom Name: " + roomname + "\n\n" + "http://tapi.puyoquest.jp/multibattle/redirect/?room_no=" + roomcode);
 		
 		message.channel.send("<@&" + config.PPQTag + ">");
