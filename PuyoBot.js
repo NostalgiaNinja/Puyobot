@@ -330,16 +330,17 @@ client.on('message', message =>
 			return;
 		}
 
-		if (parseInt(roomcode) > 999999 || isNaN(roomcode))
+		var testRegex = /^\d{6}$/;  //thanks, Anwonu
+		if (testRegex.test(roomcode) == false)
 		{
 			message.channel.send("Room code invalid!");
 			return;
-		} 
+		}
 
 		em.setTitle("A Multiplayer Quest room has opened!")
 		  .setDescription("Room Name: " + roomname + "\nRoom Access: " + roomaccessvalue + "\nRoom Code: " + roomcode + "\n\n" + "https://tapi.puyoquest.jp/multi/redirect/?room_no=" + roomcode);		  
 
-		message.channel.send("<@&" + config.PPQTag + ">");
+		//message.channel.send("<@&" + config.PPQTag + ">");
 		message.channel.send(em);
 	}
 
@@ -374,16 +375,18 @@ client.on('message', message =>
 			return;
 		}
 
-		if (parseInt(roomcode) > 999999 || isNaN(roomcode))
+		var testRegex = /^\d{6}$/;  //thanks, Anwonu
+		if (testRegex.test(roomcode) == false)
 		{
 			message.channel.send("Room code invalid!");
-			return
+			return;
 		}
+
 		em.setTitle("You are being challenged by " + message.author.username)
 		  .setColor("0x00FFFF")
 		  .setDescription("Room Code: " + roomcode + "\nRoom Type: " + roomtypevalue + "\nRoom Name: " + roomname + "\n\n" + "http://tapi.puyoquest.jp/multibattle/redirect/?room_no=" + roomcode);
 		
-		message.channel.send("<@&" + config.PPQTag + ">");
+		//message.channel.send("<@&" + config.PPQTag + ">");
 		message.channel.send(em);
 	}
 
