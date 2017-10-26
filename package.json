@@ -1,6 +1,6 @@
 {
-  "name": "Puyobot",
-  "version": "1.0.0",
+  "name": "puyobot",
+  "version": "2.0.0",
   "description": "Public repository for Puyobot",
   "main": "PuyoBot.js",
   "scripts": {
@@ -11,8 +11,8 @@
     "url": "git+https://github.com/NostalgiaNinja/Puyobot.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Nostalgia Ninja",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/NostalgiaNinja/Puyobot/issues"
   },
