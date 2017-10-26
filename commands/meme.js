@@ -1,5 +1,9 @@
 const Discord = require('discord.js');
 
+const config = require ('../config.json');
+
+prefix = config.prefix;
+
 exports.run = (client, message) =>
 {
   em = new Discord.RichEmbed();

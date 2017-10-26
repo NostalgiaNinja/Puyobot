@@ -22,7 +22,6 @@ exports.run = (client, message, args) =>
                         prefix + "r4\n" +
                         prefix + "r5\n" +
                         prefix + "help\n" +
-                        prefix + "meme\n" + 
                         prefix + "ver\n" +
                         prefix + "amIAlive\n" +
                         prefix + "currentTime\n" +
