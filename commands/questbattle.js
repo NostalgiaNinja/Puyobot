@@ -44,6 +44,5 @@ exports.run = (client, message, args) =>
     .setColor("0x00FFFF")
     .setDescription("Room Code: " + roomcode + "\nRoom Type: " + roomtypevalue + "\nRoom Name: " + roomname + "\n\n" + "http://tapi.puyoquest.jp/multibattle/redirect/?room_no=" + roomcode);
 
-  //message.channel.send("<@&" + config.PPQTag + ">");
   message.channel.send(em);
 }

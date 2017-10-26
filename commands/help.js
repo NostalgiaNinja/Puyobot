@@ -1,5 +1,8 @@
 //help syntaxes - needs to be rewritten as per command handler update
 const Discord = require('discord.js');
+const config = require('../config.json');
+
+const prefix = config.prefix;
 
 exports.run = (client, message, args) =>
 {
@@ -19,10 +22,9 @@ exports.run = (client, message, args) =>
                         prefix + "r4\n" +
                         prefix + "r5\n" +
                         prefix + "help\n" +
-                        prefix + "meme\n" + //disabled during command handler update.
                         prefix + "ver\n" +
                         prefix + "amIAlive\n" +
-                        prefix + "currentTime" +
+                        prefix + "currentTime\n" +
                         prefix + "multiQuest")
         .addField("Bot Owner Functions ONLY:", prefix + "kill\n" +
                              prefix + "eval\n" +
@@ -38,7 +40,7 @@ exports.run = (client, message, args) =>
         .setColor(0x00FF00)
         .setDescription(prefix + "multiQuest (Quest Code) (Quest Access) (Quest title - optional)")
         .addField("Quest Code", "Get the quest code from your Everybody Quest!! game",false)
-        .addField("Quest Access","1: **Open to Public**\n2: **Open to Guild**\n3: Code Only",false)
+        .addField("Quest Access","1: **Open to Public**\n2: **Open to Guild**\n3: **Code Only**",false)
         .addField("Quest Title","A description for your quest, optional.",false)
         .setFooter("Quests will come with a TAPI PPQ link for members to join.  Please use responsibly!");
       message.channel.send(em);
@@ -73,5 +75,4 @@ exports.run = (client, message, args) =>
         .setDescription(e);
       message.channel.send("Cannot send message: Error details as follows:\n" + e + "\n ping NN immediately!");
   }
-  console.log('response from', message.author.username, 'sent: Requested the bot list. at', getDateTime());
 }

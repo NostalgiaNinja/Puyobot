@@ -7,8 +7,8 @@ exports.run = (client, message) =>
   var pingtwo = client.pings[1];
   var pingthree = client.pings[2];
 
-  em = new Discord.RichEmbed();
-  em.setTitle("Pong!")
+  em = new Discord.RichEmbed()
+    .setTitle("Pong!")
     .setColor(0x00FF00)
     .setDescription("Current Bot Latency: " + client.ping + "ms.") //broadcast the average of the past 3 pings
     .addField("Previous 3 latencies:\n", pingone + " ms.\n" + pingtwo + " ms.\n" + pingthree + " ms.") //broadcast the last 3 pings

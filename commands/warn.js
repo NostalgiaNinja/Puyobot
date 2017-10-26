@@ -10,8 +10,20 @@ exports.run = (client, message, args) =>
     if (message.member.roles.has(config.moderatorid))
     {
       em = new Discord.RichEmbed();
-      let warnedUser = args[0];
+      let warnedUser = message.mentions.members.first();
       let warning = args.slice(1).join(" ");
+
+      if (message.mentions.users.size === 0)
+      {
+        message.channel.send("no user to warn");
+        return;
+      }
+
+      if (!warning)
+      {
+        message.channel.send("no warning description");
+        return;
+      }
 
       em.setTitle(`⚠ WARNING GIVEN TO ${warnedUser} ⚠`)
         .setDescription("**Warned user for**: " + warning)

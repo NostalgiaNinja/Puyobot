@@ -43,6 +43,5 @@
   em.setTitle("A Multiplayer Quest room has opened!")
     .setDescription("Room Name: " + roomname + "\nRoom Access: " + roomaccessvalue + "\nRoom Code: " + roomcode + "\n\n" + "https://tapi.puyoquest.jp/multi/redirect/?room_no=" + roomcode);
 
-  //message.channel.send("<@&" + config.PPQTag + ">"); --disabled due to people bothered by pings.
   message.channel.send(em);
 }
