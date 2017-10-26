@@ -7,10 +7,9 @@ exports.run = (client, message) =>
     .setColor(0x00FF00)
     .setDescription(new Date()); //new date function gives times automatically
   message.channel.send(em);
-  console.log('response from', message.author.username, 'sent: requested for current system date time on server');
 }
 
 /*TODO:
 1) Add timezone arguments
 2) parse timezones correctly.
-*/ 
+*/

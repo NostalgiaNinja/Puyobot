@@ -1,12 +1,13 @@
-const Discord = require('discord.js');
-const config = require('./config.json');
-const fs = require('fs');
+const Discord = require("discord.js");  //require the discord library so that we can use it
+const client = new Discord.Client();  //start a new instance of client
 
-const client = new Discord.Client();
+const fs = require("fs");  //load filesystem
 
-const prefix = config.prefix;
+const config = require("./config.json");  //require the configuration file
+var prefix = config.prefix; //grab the prefix from the configuration file
 
-fs.readdir("./events/", (err, files) =>
+
+fs.readdir("./events", (err,files) =>
 {
     files.forEach(file =>
     {
@@ -16,30 +17,32 @@ fs.readdir("./events/", (err, files) =>
     });
 });
 
-client.on("message", message =>
+client.on("message", (message) =>
 {
-  if (message.author.bot) return;
-  if (message.content.indexOf(config.prefix) !== 0) return;
 
-  const args = message.content.slice(config.prefix.length).trim().split(/ +/g); //<-- No spaces!!!
-  const command = args.shift().toLowerCase();
+    if (message.author.bot) return; // check if author is a bot?
+    if (message.content.indexOf(config.prefix) !== 0) return; //checks if config prefix is set correctly
 
-  try
-  {
-		fs.open(`commands/${command}.js`,'r',(err,fd) =>
-		{
-				if (err)
-				{
-					return;
-				}
-				let commandFile = require(`./commands/${command}.js`); //command handler data - fixed :)
-		    commandFile.run(client, message, args);
-		});
-  }
-  catch (e)
-  {
-    console.error(e);
-  }
+    const args = message.content.slice(prefix.length).trim().split(/ +/g); //no spaces!!!
+    const command = args.shift().toLowerCase();
+
+    try
+    {
+        fs.open(`commands/${command}.js`,'r',(err,fd) =>  //fs.access - open, just read.
+        {
+            if (err)
+            {
+               return;
+            }
+            let commandFile = require(`./commands/${command}.js`); //NB: command handler script data
+            commandFile.run(client, message, args);
+        });
+
+    }
+    catch (e)
+    {
+        console.error(e);
+    }
 
 });
 
@@ -51,4 +54,4 @@ if (config.debug == "1")
 	client.on("debug", (e) => console.info(e));  //NB: outputs token, be careful with this.
 }
 
-client.login(config.token);
+client.login(config.token); //NEVER store the token here, grab it from the configuration file instead!

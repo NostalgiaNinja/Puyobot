@@ -8,12 +8,12 @@ exports.run = (client, message) =>
 
   em = new Discord.RichEmbed(); //create a new rich embed.
   em.setTitle("Message Deleted")
-    .addField("Message Author", message.author.username,true)
-    .addField("Message created at", message.createdAt,true)
+    .addField("Message Author", message.author.username, true)
+    .addField("Message created at", message.createdAt, true)
     .addField("Message content:", message.toString(), false)
     .addField("Channel Name:", message.channel.name, false)
+    .setColor(0x59AFEF)
     .setFooter("Message deleted at " + new Date());
 
   client.channels.get(config.moderationChannel).send(em).catch(console.error);
-  console.log(message);
 }
