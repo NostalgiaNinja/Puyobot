@@ -1,6 +1,9 @@
 //battle in Puyo Puyo!! Quest! - asks for room code, type of room and a room name (optional)
 
 const Discord = require('discord.js');
+const config = require('../config.json');
+
+var prefix = config.prefix
 
 exports.run = (client, message, args) =>
 {

@@ -2,7 +2,7 @@
 
 const Discord = require('discord.js');
 
-exports.run = (client, user, guild) =>
+exports.run = (client, Member, guild) =>
 {
   //console.log(`banned ${user.username} (${user}) from the server`); //test data
 
@@ -10,7 +10,7 @@ exports.run = (client, user, guild) =>
 
   const em = new Discord.RichEmbed();
   em.setTitle("Member banned")
-    .setDescription(`${user} has been banished!`)
+    .setDescription(`${member.user.username}:${member.user.discriminator} has been banished!`)
     .setColor(0xFF0000)
     .setFooter(new Date());
 

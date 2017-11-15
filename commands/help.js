@@ -12,7 +12,7 @@ exports.run = (client, message, args) =>
 
   try
   {
-    if (!postfix)  //if there's no arguments, send a DM to the user who requested the command list.
+    if ((!postfix) || (postfix == "here"))  //if there's no arguments, send a DM to the user who requested the command list.
     {
       em.setTitle("HELP!  Puyobot Command List. commands are NOT CASE SENSITIVE!")
           .setColor(0x00FF00)
@@ -23,16 +23,24 @@ exports.run = (client, message, args) =>
                         prefix + "r5\n" +
                         prefix + "help\n" +
                         prefix + "ver\n" +
-                        prefix + "amIAlive\n" +
+                        prefix + "ping\n" +
                         prefix + "currentTime\n" +
-                        prefix + "multiQuest")
+                        prefix + "chainsim\n" +
+                        prefix + "questBattle* \n" +
+                        prefix + "multiQuest*")
         .addField("Bot Owner Functions ONLY:", prefix + "kill\n" +
-                             prefix + "eval\n" +
-                             prefix + "setgame", false)
-        .addField("Moderator functions:", prefix + "warn", false)
-        .setFooter("type " + prefix +  "help and the name of the command you need help with for more details.");
-      message.reply("check your DMs!");
-      message.member.send(em);
+                        prefix + "setgame", false)
+        .addField("Moderator functions:", prefix + "warn*", false)
+        .addField("an asterisk denotes commands which have subhelp", "use `help [command name]` for more details.");
+      if (!postfix)
+      {
+        message.reply("check your DMs!");
+        message.member.send(em);
+      }
+      else
+      {
+        message.channel.send(em);
+      }
     }
     else if (postfix == "multiQuest")  //checks for arguments to see MultiQuest, if so, provides in-channel help for the person who requested it.
     {

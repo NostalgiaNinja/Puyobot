@@ -26,7 +26,9 @@ exports.run = (client, message, args) =>
       }
 
       em.setTitle(`⚠ WARNING GIVEN TO ${warnedUser} ⚠`)
-        .setDescription("**Warned user for**: " + warning)
+        .addField("User Name:", `${warnedUser.user.username}:${warnedUser.user.discriminator}`,true)
+        .addField("Current Display name:", `${warnedUser}`,true)
+        .addField("Warned for:",warning,false)
         .setColor(0xFFFF00);
 
       message.channel.send(em);

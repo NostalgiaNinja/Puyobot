@@ -19,9 +19,18 @@ exports.run = (client, message) =>
                       prefix + "DracoPraying\n" +
                       prefix + "CarbunclePop\n" +
                       prefix + "thegirlwiththefunnyhat\n" +
-                      prefix + "badman");
-    message.reply("check your DMs!");
-    message.member.send(em);
+                      prefix + "badman\n" +
+                      prefix + "yaa");
+    if (message.channel.type !== "dm")
+    {
+      message.reply("check your DMs!");
+      message.member.send(em);
+    }
+    else
+    {
+      message.reply("You're already in DMs, so I'll just send this here.");
+      message.channel.send(em);
+    }
   }
   catch (e)
   {

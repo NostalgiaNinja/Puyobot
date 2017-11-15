@@ -1,6 +1,9 @@
  //multiplayer quests with others - asks for room code, room access and a room name (customizable and optional)
 
  const Discord = require('discord.js');
+ const config = require('../config.json');
+
+ var prefix = config.prefix;
 
  exports.run = (client, message, args) =>
 {
