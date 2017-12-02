@@ -32,8 +32,7 @@ exports.run = (client, message, args) =>
   }
   else
   {
-    message.channel.send("Please input 1 or 2 as your room type code.  View `" + prefix + "help questBattle` for more details.");
-    return;
+    roomtypevalue = "Standard PvP (unspecified)";
   }
 
   var testRegex = /^\d{6}$/;  //thanks, Anwonu

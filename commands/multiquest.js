@@ -32,8 +32,8 @@
   }
   else
   {
-    message.channel.send("please input 1, 2, or 3 as your access code.  View `" + prefix + "help multiQuest` for more details.");
-    return;
+    roomaccessvalue = "Code Only (unspecified)";
+    em.setColor(0x59AFEF);
   }
 
   var testRegex = /^\d{6}$/;  //thanks, Anwonu
