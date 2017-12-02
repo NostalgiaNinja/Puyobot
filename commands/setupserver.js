@@ -26,24 +26,36 @@ exports.run = (client, message, args) =>
                 id = id.slice(2,-1)
             }
 
-            if (type == "ModID")
+            sql.get(`SELECT * FROM server WHERE serverID = ${message.guild.id}`).then(row =>
             {
-                sql.run(`UPDATE server SET moderatorID = '${id}' WHERE serverID = ${message.guild.id}`)
-                message.channel.send("Moderator ID has been added to the database.")
-            }
+                if(!row) 
+                {
+                    message.channel.send(`Not initialized in database! first use \`${prefix}initialize server\` to set the database up for this server.`)
+                    return;
+                }
+                else
+                {
+                    if (type == "ModID")
+                    {
+                        sql.run(`UPDATE server SET moderatorID = '${id}' WHERE serverID = ${message.guild.id}`)
+                        message.channel.send("Moderator ID has been added to the database.")
+                    }
+        
+                    if (type == "ModChannel")
+                    {
+                        sql.run(`UPDATE server SET moderationChannel = '${id}' WHERE SERVERID = ${message.guild.id}`)
+                        message.channel.send("Moderator Channel has been added to the database.")
+                    }
+        
+                    if (type == "MutedRole")
+                    {
+                        sql.run(`UPDATE server SET mutedRoleID = '${id}' WHERE SERVERID = ${message.guild.id}`)
+                        message.channel.send("Muted role ID has been added to the database.")
+                    }
+            
+                }
+            })
 
-            if (type == "ModChannel")
-            {
-                sql.run(`UPDATE server SET moderationChannel = '${id}' WHERE SERVERID = ${message.guild.id}`)
-                message.channel.send("Moderator Channel has been added to the database.")
-            }
-
-            if (type == "MutedRole")
-            {
-                sql.run(`UPDATE server SET mutedRoleID = '${id}' WHERE SERVERID = ${message.guild.id}`)
-                message.channel.send("Muted role ID has been added to the database.")
-            }
-    
         }
         catch (e)
         {
