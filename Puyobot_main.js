@@ -6,6 +6,10 @@ const fs = require("fs");  //load filesystem
 const config = require("./config.json");  //require the configuration file
 var prefix = config.prefix; //grab the prefix from the configuration file
 
+const sql = require("sqlite");
+sql.open("./db/puyobotDB.sqlite"); //open up the SQL database for promise handling
+console.log("Puyobot - Database files initialized"); //initialization message to know it's open.
+
 
 fs.readdir("./events", (err,files) =>
 {

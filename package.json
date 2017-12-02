@@ -1,6 +1,6 @@
 {
   "name": "puyobot",
-  "version": "2.0.2",
+  "version": "2.1.2",
   "description": "Public repository for Puyobot",
   "main": "PuyoBot.js",
   "scripts": {
@@ -19,6 +19,7 @@
   "homepage": "https://github.com/NostalgiaNinja/Puyobot#readme",
   "dependencies": {
     "discord.js": "^11.2.1",
-    "fetch": "^1.1.0"
+    "fetch": "^1.1.0",
+    "sqlite": "^2.9.0"
   }
 }

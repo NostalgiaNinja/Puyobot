@@ -10,11 +10,7 @@ To run: you will require a config.json file with the following format:
      "token": "[YOUR BOT TOKEN HERE]",
      "prefix": ".",
      "botOwnerID": "[YOUR BOT OWNER ID HERE]",
-     "debug": "0",
-     "PPQTag": "[YOUR PPQ MENTIONABLE ROLE ID HERE]",
-     "moderationChannel": "[YOUR MODERATION CHANNEL ID]",
-     "moderatorid":[YOUR MODERATOR ROLE ID]
-
+     "debug": "0"
   }
 ```
 
@@ -29,5 +25,7 @@ You can change the prefix as necessary before starting the bot and the bot will 
 the bot requires the following to run.  Get these from NPM before starting the file:
 
     -Discord.JS
+    -Fetch
+    -sqlite
 
 That's it!  Now you can create your own version of Puyobot!

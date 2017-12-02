@@ -30,7 +30,10 @@ exports.run = (client, message, args) =>
                         prefix + "multiQuest*")
         .addField("Bot Owner Functions ONLY:", prefix + "kill\n" +
                         prefix + "setgame", false)
-        .addField("Moderator functions:", prefix + "warn*", false)
+        .addField("Moderator functions:", prefix + "warn*\n" +
+                        prefix + "setupserver*\n" +
+                        prefix + "getids\n" +
+                        prefix + "initialize*", false)
         .addField("an asterisk denotes commands which have subhelp", "use `help [command name]` for more details.");
       if (!postfix)
       {
@@ -73,6 +76,27 @@ exports.run = (client, message, args) =>
         .setColor(0x00FF00)
         .setDescription(prefix + "warn [user to warn] [warning]")
         .addField("warns a user and logs it appropriately", "An embed will respond.",false);
+      message.channel.send(em);
+    }
+    else if (postfix == "setupserver")
+    {
+      em.setTitle("HELP: Setting up server administration:")
+        .setColor(0x00FF00)
+        .setDescription(prefix + "setupserver [type of ID to set up]")
+        .addField("Adds a database entry to the server.", "there are three types:")
+        .addField("ModID", "Sets up the Moderator ID for moderator exclusive commands")
+        .addField("ModChannel", "Sets up the Moderation channel for logging purposes")
+        .addField("MutedRole", "Sets up the Muted role so that Puyobot can mute people with reason.");
+      message.channel.send(em);
+    }
+    else if (postfix == "initialize")
+    {
+      em.setTitle("HELP: Initializing server database:")
+        .setColor(0x00FF00)
+        .setDescription(prefix + "initialize [type of server initialization to set up]")
+        .addField("Initializes database entries for the server, or initializes the database itself", "There are two types:")
+        .addField("server", "Initializes the server.  Anyone with MANAGE_ROLE permissions will be able to do this")
+        .addField("database", "Only Bot Owner will be able to use this.  Initializes the database for use on multiple servers.");
       message.channel.send(em);
     }
   }
