@@ -12,7 +12,11 @@ exports.run = (client, message, args) =>
     {
         sql.get(`SELECT * FROM server WHERE serverID = '${message.guild.id}'`).then(row =>
         {
-            if (!row) message.channel.send("Not initialized in database."); return;
+            if (!row) 
+            {
+                message.channel.send("Not initialized in database."); return;
+            }
+
             message.channel.send(`ServerID: ${row.serverID}\nModeratorID: ${row.moderatorID}\nModeratorChannel: ${row.moderationChannel}\nMutedRoleID: ${row.mutedRoleID}`);
         })
     }

@@ -8,9 +8,11 @@ exports.run = (client, message) =>
   try
   {
     sql.get(`SELECT * FROM server WHERE serverID = '${message.guild.id}'`).then(row =>
-    {
+    { //SQL - Select everything from server where serverID is the guild ID.  THEN
 
-      if (!row) return;
+      if (!row) return; //Checks if the guildID has been initialized
+
+      if (!client.channels.get(row.moderationChannel)) return; //checks if the channel exists
 
       em = new Discord.RichEmbed(); //create a new rich embed.
       em.setTitle("Message Deleted")
@@ -21,7 +23,7 @@ exports.run = (client, message) =>
         .setColor(0x59AFEF)
         .setFooter("Message deleted at " + new Date());
 
-      client.channels.get(row.moderationChannel).send(em).catch(console.error);
+      client.channels.get(row.moderationChannel).send(em).catch(console.error); //posts the pretty embed in the moderation channel
 
     });
   }
