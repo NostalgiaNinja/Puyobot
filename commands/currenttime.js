@@ -1,12 +1,11 @@
 const Discord = require('discord.js');
 const moment = require(`moment-timezone`);
+const sql = require('sqlite');
 
 exports.run = (client, message,args) =>
 {
     let request = args[0];
 
-
-    let requestTime = moment.tz(`${request}`);
     em = new Discord.RichEmbed();
 
   try
@@ -21,15 +20,18 @@ exports.run = (client, message,args) =>
     if (request == "help")
     {
       message.channel.send("Please use this to find your timezone: http://momentjs.com/timezone");
+      return;
     }
-    else
+    if (request != undefined || request !== "help")
     {
+      let requestTime = moment.tz(`${request}`);
+
       em.setTitle(`Current time in ${request}`)
         .setColor(0x59AFEF)
         .setDescription(requestTime);
       message.channel.send(em);
     }
-    
+
   }
 
   catch (e)
