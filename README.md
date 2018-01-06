@@ -27,5 +27,6 @@ the bot requires the following to run.  Get these from NPM before starting the f
     -Discord.JS
     -Fetch
     -sqlite
+    -moment-timezone
 
 That's it!  Now you can create your own version of Puyobot!

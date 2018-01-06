@@ -8,6 +8,8 @@ exports.run = (client, message, args) =>
 {
   let postfix = args[0];
 
+  let poihammer = client.emojis.get("393085640046018561");
+
   em = new Discord.RichEmbed();
 
   try
@@ -24,23 +26,31 @@ exports.run = (client, message, args) =>
                         prefix + "help\n" +
                         prefix + "ver\n" +
                         prefix + "ping\n" +
-                        prefix + "currentTime\n" +
+                        prefix + "currentTime*\n" +
                         prefix + "chainsim\n" +
                         prefix + "questBattle* \n" +
                         prefix + "multiQuest*")
         .addField("Bot Owner Functions ONLY:", prefix + "kill\n" +
+                        prefix + "reload\n" +
                         prefix + "setgame", false)
-        .addField("Moderator functions:", prefix + "warn*\n" +
-                        prefix + "setupserver*\n" +
-                        prefix + "getids\n" +
-                        prefix + "initialize*", false)
+        .addField("Moderator functions: if suffixed with a hammer, means higher privledged moderator functions", prefix + "warn*\n" +
+                        prefix + "setupserver* " + poihammer +"\n" +
+                        prefix + "getids " + poihammer + "\n" +
+                        prefix + "initialize* " + poihammer, false)
         .addField("an asterisk denotes commands which have subhelp", "use `help [command name]` for more details.");
       if (!postfix)
       {
-        message.reply("check your DMs!");
-        message.member.send(em);
+        if (message.channel.type === "dm")
+        {
+          message.channel.send(em);
+        }
+        else
+        {
+          message.reply("check your DMs!");
+          message.member.send(em);
+        }
       }
-      else
+      if (postfix == "here")
       {
         message.channel.send(em);
       }
@@ -54,6 +64,15 @@ exports.run = (client, message, args) =>
         .addField("Quest Access","1: **Open to Public**\n2: **Open to Guild**\n3: **Code Only**",false)
         .addField("Quest Title","A description for your quest, optional.",false)
         .setFooter("Quests will come with a TAPI PPQ link for members to join.  Please use responsibly!");
+      message.channel.send(em);
+    }
+    else if (postfix == "currentTime")  //checks for arguments to see MultiQuest, if so, provides in-channel help for the person who requested it.
+    {
+      em.setTitle("HELP: Current Time Help: Syntax")
+        .setColor(0x59AFEF)
+        .setDescription(prefix + "currenttime [timezone]")
+        .addField("to find timezone:", `use ${prefix}currenttime help`,false)
+        .setFooter("Timezone information brought to you by Moment Timezone");
       message.channel.send(em);
     }
     else if (postfix == "questBattle") //checks for arguments to see QuestBattle, if so, provides in-channel help for the person who requested it.
@@ -102,9 +121,6 @@ exports.run = (client, message, args) =>
   }
   catch (e)
   {
-      em.setTitle("Error!")
-        .setColor(0xFF0000)
-        .setDescription(e);
       message.channel.send("Cannot send message: Error details as follows:\n" + e + "\n ping NN immediately!");
   }
 }

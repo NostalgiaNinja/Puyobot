@@ -18,6 +18,7 @@ exports.run = (client, message) =>
                       prefix + "yuintensifies\n" +
                       prefix + "DracoPraying\n" +
                       prefix + "CarbunclePop\n" +
+                      prefix + "LightenUp\n" +
                       prefix + "thegirlwiththefunnyhat\n" +
                       prefix + "badman\n" +
                       prefix + "yaa");
