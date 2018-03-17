@@ -17,6 +17,8 @@ exports.run = (client, message,args) =>
         .setDescription(new Date()); //Do it the old way
       message.channel.send(em);
     }
+   
+   /*
     if (request == "help")
     {
       message.channel.send("Please use this to find your timezone: http://momentjs.com/timezone");
@@ -31,6 +33,7 @@ exports.run = (client, message,args) =>
         .setDescription(requestTime);
       message.channel.send(em);
     }
+    */ //to fix - timezone parsing broken
 
   }
 

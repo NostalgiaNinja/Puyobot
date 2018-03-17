@@ -32,7 +32,7 @@ exports.run = (client, message, args) =>
                         prefix + "multiQuest*")
         .addField("Bot Owner Functions ONLY:", prefix + "kill\n" +
                         prefix + "reload\n" +
-                        prefix + "setgame", false)
+                        prefix + "setpresence", false)
         .addField("Moderator functions: if suffixed with a hammer, means higher privledged moderator functions", prefix + "warn*\n" +
                         prefix + "setupserver* " + poihammer +"\n" +
                         prefix + "getids " + poihammer + "\n" +

@@ -21,6 +21,7 @@ exports.run = (client, message) =>
                       prefix + "LightenUp\n" +
                       prefix + "thegirlwiththefunnyhat\n" +
                       prefix + "badman\n" +
+                      prefix + "imnoexpert\n" +
                       prefix + "yaa");
     if (message.channel.type !== "dm")
     {

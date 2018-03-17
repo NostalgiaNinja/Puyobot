@@ -7,9 +7,11 @@ exports.run = (client, message) =>
   em.setTitle("Puyobot version " + package.version)
      .setColor(0x215F88)
      .setDescription("Changes made:")
-     .addField("Current time now accepts timezone parsing!", "Now you can use current time to show the current time in a certain timezone.  invalid timezones will default to GMT.")
-     .addField("Lighten Up command thanks to Suzu", "as per request :).")
-     .addField("Poihammer integrated into help.", "minor update to help to show commands which need higher privledges to set data.")
+     .addField("Current time minor patch", "needs fixing so I've prepped it for patching.")
+     .addField("SetPresence now takes place of SetGame", "Updated to the new Presence system")
+     .addField("Added reload method", "Can now reload commands without needing to reset the system")
+     .addField("added a buffer to a moderation event", "Attachments that are deleted no longer throw errors.")
+     .addField("Added the DB folder", "No more needing to create a db folder yourself")
      .setFooter("Puyobot ver. " + package.version + " made by Nostalgia Ninja");
   message.channel.send(em);
 }

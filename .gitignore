@@ -2,4 +2,4 @@
 config.json
 \node_modules
 package-lock.json
-\db
+db/puyobotDB.sqlite
