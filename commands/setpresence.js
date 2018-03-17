@@ -45,7 +45,7 @@ exports.run = (client, message, args) =>
           }
           else
           {
-              message.channel.send(`\`Syntax: ${prefix} [richpresence enum] [game]\` \n where richpresence = 0, 1, 2, 3 `);
+              message.channel.send(`\`Syntax: ${prefix}setpresence [richpresence enum] [game]\` \n where richpresence = 0, 1, 2, 3 `);
           }
       }
       catch(e)
