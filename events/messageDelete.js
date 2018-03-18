@@ -15,6 +15,8 @@ exports.run = (client, message) =>
 
       if (!client.channels.get(row.moderationChannel)) return; //checks if the channel exists
 
+      if (message.content.length > 1000) return;  //check if the command is higher than 1000 characters and if so don't throw an error.
+
       em = new Discord.RichEmbed(); //create a new rich embed.
       em.setTitle("Message Deleted")
       em.addField("Message Author", message.author.username, true)
