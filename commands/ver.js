@@ -12,6 +12,7 @@ exports.run = (client, message) =>
      .addField("Added reload method", "Can now reload commands without needing to reset the system")
      .addField("added a buffer to a moderation event", "Attachments that are deleted no longer throw errors.")
      .addField("Added the DB folder", "No more needing to create a db folder yourself")
+     .addField("MultiQuest overhaul", "New Layout and new LINE option for those wanting to unlock their LINE stones")
      .setFooter("Puyobot ver. " + package.version + " made by Nostalgia Ninja");
   message.channel.send(em);
 }
