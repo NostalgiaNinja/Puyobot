@@ -1,87 +1,135 @@
-//new multiplayer quest data
-
 const Discord = require('discord.js');
-const config = require('../config.json')
 
-var prefix = config.prefix;
+module.exports = {
+	name: 'multiquest',
+	description: 'Provides Puyo Puyo!! Quest Players the command to open up multiplayer quests.',
+	args: true,
+	usage: '<Room Code> <Quest Access> <Quest Title - Optional>',
+	category: 'PPQ',
+	aliases: ['mq'],
+	execute(message, args) {
+		try	{
+			const em = new Discord.RichEmbed();
 
-exports.run = (client, message, args) =>
+			const roomcode = args[0];
+			const roomaccess = args[1];
+			const roomname = args.slice(2).join(' ');
 
-{
+			// set up the richEmbed values beforehand: no needing to mess with room access values any longer
+			em.setTitle('A Multiplayer Quest room has opened!');
 
-    try
-    {
-        em = new Discord.RichEmbed();
+			// ----------------------------------------------------------------------------------------//
+			//              THUMBNAIL DATA
+			// ----------------------------------------------------------------------------------------//
 
-        let roomcode = args[0];
-        let roomaccess = args[1];
-        let roomname = args.slice(2).join(" ");
+			if ((roomname.includes('green') === true) || (roomname.includes('Green') === true)) {
+				em.setThumbnail('https://cdn.discordapp.com/emojis/429944006948945931.png');
+			}
+			else if ((roomname.includes('blue') === true) || (roomname.includes('Blue') === true)) {
+				em.setThumbnail('https://cdn.discordapp.com/emojis/429944006601080849.png');
+			}
+			else if ((roomname.includes('red') === true) || (roomname.includes('Red') === true)) {
+				em.setThumbnail('https://cdn.discordapp.com/emojis/429944006135382017.png');
+			}
+			else if ((roomname.includes('yellow') === true) || (roomname.includes('Yellow') === true)) {
+				em.setThumbnail('https://cdn.discordapp.com/emojis/429944006718521345.png');
+			}
+			else if ((roomname.includes('purple') === true) || (roomname.includes('Purple') === true)) {
+				em.setThumbnail('https://cdn.discordapp.com/emojis/429944007397736448.png');
+			}
 
-        let roomaccessvalue = "";
+			// ----------------------------------------------------------------------------------------//
+			//          OVERRIDE ANY THUMBNAIL DATA FOR EVENT QUESTS
+			// ----------------------------------------------------------------------------------------//
 
-        //set up the richEmbed values beforehand: no needing to mess with Room access values any longer.
-        em.setTitle("A Multiplayer Quest room has opened!");
+			else if ((roomname.includes('yue') === true) || (roomname.includes('Yue') === true)) {
+				em.setThumbnail('https://cdn.discordapp.com/attachments/188877926786269184/496144007530020885/00001896_000009.png');
+				em.addField('Quest Type: ', 'Intrusion', true);
+			}
 
-        if (roomname) //check if room name exists
-        {
-            if (roomaccess != "LINE") //if room access not LINE, allow the room name to show
-            {
-                em.addField("Room Name", roomname, true);
-            }
-        }
+			// ----------------------------------------------------------------------------------------//
+			//          END OF THUMBNAIL DATA FOR EVENT QUESTS
+			// ----------------------------------------------------------------------------------------//
 
-        //new fancy switch... case statements to make room access easier to determine.
-        switch(roomaccess)
-        {
-            case '1':
-                em.addField("Room Access:", "Open to Public", true);
-                em.setColor(0x004080);
-                break;
+			else {
+				em.setThumbnail('https://cdn.discordapp.com/emojis/429944006948945931.png');
+			}
 
-            case '2':
-                em.addField("Room Access:", "Open to Guild", true);
-                em.setColor(0x00FF00);
-                break;
+			// ----------------------------------------------------------------------------------------//
+			//          END THUMBNAIL DATA
+			// ----------------------------------------------------------------------------------------//
 
-            case '3':                
-                em.addField("Room Access:", "Code Only", true);
-                em.setColor(0xFF0000);
-                break;
+			// check if room name exists
+			if (roomname) {
 
-            case 'LINE':
-                em.addField("Room Access:", "LINE Stone Linkage", true);
-                em.setColor(0x59AFEF);
-                break;
+				// if room access not LINE, allow the room name to show
+				if (roomaccess != 'LINE') {
+					em.addField('Room Name', roomname, false);
+				}
+			} // Check if possible to add a roomaccess default value
 
-            default:
-                em.addField("Room Access", "Code Only (unspecified)");
-                em.setColor(0x59AFEF);
-                break;
-        }
+			// new fancy switch... case statements to make room access easier to determine.
+			switch(roomaccess) {
+			case '1':
+				em.addField('Room Access:', 'Open to Public', true);
+				em.setColor(0x004080);
+				break;
 
-        var testRegex = /^\d{6}$/; //Checks the 6 digit code for standard case-by-case basis
-        if (testRegex.test(roomcode) == false)
-        {
-            message.channel.send("room code invalid!  Exiting!");
-            return;
-        }
+			case '2':
+				em.addField('Room Access:', 'Open to Guild', true);
+				em.setColor(0x00FF00);
+				break;
 
-        em.addField("Room Code",roomcode,true);
+			case '3':
+				em.addField('Room Access:', 'Code Only', true);
+				em.setColor(0xFF0000);
+				break;
 
-        if (roomaccess == "LINE")  //if the room is LINE linked, then show this
-        {   
-            let ppq_uid = roomname;
-            em.addField("TAPI Link:",`https://tapi.puyoquest.jp/multi/redirect/?room_no=` + roomcode + `&invite_display_person_id=` + ppq_uid, false);
-        }
-        else //else show this
-        {
-            em.addField("TAPI link:","https://tapi.puyoquest.jp/multi/redirect/?room_no=" + roomcode, false);
-        }
+			case 'LINE':
+				em.addField('Room Access:', 'LINE Stone Linkage', true);
+				em.setColor(0x59AFEF);
+				break;
 
-        message.channel.send(em);
-    }
-    catch (e)
-    {
-        message.channel.send("Error: " + e);
-    }
-}
+			default:
+				em.addField('Room Access', 'Code Only (unspecified)');
+				em.setColor(0x59AFEF);
+				break;
+			}
+
+			const testRegex = /^\d{6}$/; // Checks the 6 digit code for standard case-by-case basis
+			if (testRegex.test(roomcode) == false) {
+				message.channel.send('room code invalid! Exiting!');
+				return;
+			}
+
+			em.addField('Room Code', roomcode, true);
+
+			// if the room is LINE linked, then show this
+			if (roomaccess == 'LINE') {
+				const testRegexUID = /^\d{8}$/;
+				if (testRegexUID.test(roomname) == false) {
+					message.channel.send('User ID Invalid! Exiting!');
+					return;
+				}
+
+				const ppq_uid = roomname;
+				em.addField('TAPI Link:', 'https://tapi.puyoquest.jp/multi/redirect/?room_no=' + roomcode + '&invite_display_person_id=' + ppq_uid, false);
+			}
+
+			// else show this
+			else {
+				em.addField('TAPI link:', 'https://tapi.puyoquest.jp/multi/redirect/?room_no=' + roomcode, false);
+			}
+
+
+			em.setFooter('Room Opened by ' + message.author.username);
+
+			message.channel.send(em);
+
+
+		}
+		catch (e) {
+			console.log(e);
+		}
+	},
+};

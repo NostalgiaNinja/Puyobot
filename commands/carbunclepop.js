@@ -1,8 +1,14 @@
-const Discord = require('discord.js');
+module.exports = {
+	name: 'badman',
+	description: 'Ready?  Go!',
+	args: false,
+	usage: '',
+	category: 'fun',
+	execute(message) {
+		const Discord = require('discord.js');
 
-exports.run = (client, message) =>
-{
-  em = new Discord.RichEmbed();
-  em.setImage("https://imgur.com/WrJmrmY.gif");
-  message.channel.send(em);
-}
+		const em = new Discord.RichEmbed();
+		em.setImage('https://imgur.com/WrJmrmY.gif');
+		message.channel.send(em);
+	},
+};

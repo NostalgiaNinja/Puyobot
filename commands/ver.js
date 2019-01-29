@@ -1,18 +1,23 @@
 const Discord = require('discord.js');
-const package = require("../package.json");
+const { version } = require('../package.json');
 
-exports.run = (client, message) =>
-{
-  em = new Discord.RichEmbed();
-  em.setTitle("Puyobot version " + package.version)
-     .setColor(0x215F88)
-     .setDescription("Changes made:")
-     .addField("Current time minor patch", "needs fixing so I've prepped it for patching.")
-     .addField("SetPresence now takes place of SetGame", "Updated to the new Presence system")
-     .addField("Added reload method", "Can now reload commands without needing to reset the system")
-     .addField("added a buffer to a moderation event", "Attachments that are deleted no longer throw errors.")
-     .addField("Added the DB folder", "No more needing to create a db folder yourself")
-     .addField("MultiQuest overhaul", "New Layout and new LINE option for those wanting to unlock their LINE stones")
-     .setFooter("Puyobot ver. " + package.version + " made by Nostalgia Ninja");
-  message.channel.send(em);
-}
+module.exports = {
+	name: 'ver',
+	description: 'Versions, and what\'s new in the bot!',
+	aliases: ['version', 'v'],
+	category: ['Help'],
+	usage: [''],
+	execute(message) {
+
+		const em = new Discord.RichEmbed();
+		em.setTitle('Puyobot version ' + version)
+			.setDescription('2019 rewrite')
+			.setColor(0x59AFEF)
+			.addField('new Help command', 'Every command now has help attached to it, and gives new information about aliasing', false)
+			.addField('Aliases!', 'Commands now have new aliases. use the help command with your command of choice to get an alias', false)
+			.setFooter('Puyobot ver.' + version + ' made by Nostalgia Ninja');
+
+		message.channel.send(em);
+
+	},
+};

@@ -1,10 +1,17 @@
 const Discord = require('discord.js');
 
-exports.run = (client, message) =>
-{
-  em = new Discord.RichEmbed();
-  em.setTitle("Rule 4:")
-    .setColor(0xFF0000)
-    .setDescription("**Do not link to pirated material or discussions about where to pirate material.** Discussion about piracy, such as in the context of game emulation, is allowed. ");
-  message.channel.send(em);
-}
+module.exports = {
+	name: 'r4',
+	description: 'Displays Rule 4 in an embed',
+	args: true,
+	usage: '',
+	execute(message) {
+
+		const em = new Discord.RichEmbed();
+		em.setTitle('Rule 1:')
+			.setColor(0xFF0000)
+			.addField('**Do not link to pirated material or discussions about where to pirate material.** ', 'Linking to pirated material is against the Terms of Use and the law in and of itself, as such we are strict about this.  \n*Discussion about other things within the topic of emulation is however acceptable, these include topics such as emulators, romhacking, patching, etc.*');
+		message.channel.send(em);
+	},
+
+};
