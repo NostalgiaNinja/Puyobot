@@ -26,7 +26,7 @@ module.exports = {
 						message.channel.send('"This is used to initialize the database.  If not initialized, ask the bot owner to run this command."');
 						return;
 					}
-					db.run('CREATE TABLE IF NOT EXISTS server (serverID TEXT, moderatorID TEXT, moderationChannel TEXT, mutedRoleID TEXT)');
+					db.run('CREATE TABLE IF NOT EXISTS server (serverID TEXT, moderatorID TEXT, moderationChannel TEXT, mutedRoleID TEXT, PRIMARY KEY(serverID)');
 
 					message.channel.send('Database initialized successfully!');
 					console.log('Database tables initialized.');
