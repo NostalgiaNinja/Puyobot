@@ -54,6 +54,9 @@ client.on('message', (message) => {
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 	// don't fuss with bots who check for pings.
 
+	if (message.content.length == 1) return;
+	// Prevent ECMAScript weirdness with sleep functionality.
+
 	const args = message.content.slice(prefix.length).split(/ +/);
 	// provide arguments for the system to work.
 	const commandName = args.shift().toLowerCase();
