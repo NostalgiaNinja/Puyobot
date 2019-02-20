@@ -4,7 +4,6 @@ module.exports = {
     args: true,
     usage: '',
     category: 'fun',
-    aliases: 'sleep',
     execute(message, args) {
         const Discord = require("discord.js");
 

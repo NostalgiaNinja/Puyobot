@@ -24,9 +24,35 @@ You can change the prefix as necessary before starting the bot and the bot will 
 
 the bot requires the following to run.  Get these from NPM before starting the file:
 
-    -Discord.JS
-    -Fetch
-    -sqlite
-    -moment-timezone
+      -Discord.JS
+      -sqlite
+      -fetch
 
-That's it!  Now you can create your own version of Puyobot!
+an `npm install` generally gets the job done and sets the environment up for you.
+
+# Creating new commands:
+
+To create a new command, consider the following:
+
+```
+const Discord = require('discord.js');
+
+module.exports = {
+  name: 'name of command',
+  description: 'description of what the command does',
+  usage: '',  //usually this gets outputted as command ['']
+  execute(message, args, client) {
+
+    //command data goes here.  For consistency, make an embed called em and send the message with message.channel.send(em);
+    //for example:
+
+    const em = new Discord.RichEmbed()
+          .setTitle('command title goes here')
+          .setColor(0x000000) //color goes here, either recognizable colors or 0xRRGGBB in hex
+          .setFooter('command footer goes here, if you want one');
+    message.channel.semd(em).catch(console.error);
+  },
+}
+```
+
+Note: the execute method can have no arguments or links to the client, but it's recommended to add them when necessary.  message is Discord.message, so it is requred to send messages.
