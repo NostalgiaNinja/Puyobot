@@ -13,8 +13,7 @@ module.exports = {
 		em.setTitle('Puyobot version ' + version)
 			.setDescription('2019 rewrite')
 			.setColor(0x59AFEF)
-			.addField('new Help command', 'Every command now has help attached to it, and gives new information about aliasing', false)
-			.addField('Aliases!', 'Commands now have new aliases. use the help command with your command of choice to get an alias', false)
+			.addField('Some guides', 'Fixed some guide functionality in puyobot, feel free to ask for guides.', false)
 			.setFooter('Puyobot ver.' + version + ' made by Nostalgia Ninja');
 
 		message.channel.send(em);
