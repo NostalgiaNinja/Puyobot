@@ -1,5 +1,38 @@
 # Puyobot
 
+## v4 Notes
+Dev environment with hot reloading that uses ts-node.
+```bash
+npm run dev
+```
+
+Production build that compiles normal JavaScript files to `built/`
+```bash
+npm run prod
+```
+
+### Setting up VS Code TypeScript Linting and Prettier
+First you need to install the VS Code Eslint extension at https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint. ESLint will check for errors as you type.
+
+Then install Prettier at https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode. Prettier will automatically clean up your file to conform to the style specified in `.prettierrc.js`. This helps keep code consistent between collaborators.
+
+ESLint won't automatically lint TypeScript files. You need to go into File > Preferences > Settings > Search for `eslint.validate`, and open the settings.json.
+
+Add:
+
+```json
+{
+  ...,
+  "eslint.autoFixOnSave":  true,
+  "eslint.validate": [
+    "javascript",
+    {"language":  "typescript",  "autoFix":  true  }
+  ]
+}
+```
+
+## Introduction
+
 Public repository for Puyobot, the English Puyo Puyo Discord Community's private bot.
 
 Puyobot is the simple and easy to use bot for Discord - specifically made for Puyo Puyo EN community.
@@ -20,7 +53,7 @@ Note that you can set debug controls to 1 if you want to debug the bot.  Note ho
 
 You can change the prefix as necessary before starting the bot and the bot will automatically detect the prefix necessary.
 
-# Dependancies:
+## Dependancies:
 
 the bot requires the following to run.  Get these from NPM before starting the file:
 
@@ -30,7 +63,7 @@ the bot requires the following to run.  Get these from NPM before starting the f
 
 an `npm install` generally gets the job done and sets the environment up for you.
 
-# Creating new commands:
+## Creating new commands:
 
 To create a new command, consider the following:
 
