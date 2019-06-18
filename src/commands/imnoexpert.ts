@@ -1,6 +1,6 @@
 import Discord from 'discord.js';
 
-module.exports = {
+export default {
   name: 'freakout',
   description: "I'm no expert but...",
   args: false,

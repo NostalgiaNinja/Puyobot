@@ -1,7 +1,7 @@
 import config from '../config.json';
 import Discord from 'discord.js';
 
-module.exports = {
+export default {
   name: 'reload',
   description: 'clears the cache for commands to be run.',
   args: true,

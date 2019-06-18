@@ -1,12 +1,12 @@
 // -- Environment stuff
 import * as fs from 'fs';
 import path from 'path';
-import dotenv from 'dotenv';
 import sqlite3 from 'sqlite3';
 import config from './config.json';
 import Discord from 'discord.js';
 import { Command } from './@types/bot';
-dotenv.config();
+// import dotenv from 'dotenv';
+// dotenv.config();
 
 const prefix = config.prefix;
 
@@ -15,31 +15,47 @@ const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
 // Load command files
-const commandFiles = fs.readdirSync(path.resolve(__dirname, './commands')).filter((file: string): RegExpMatchArray | null => file.match(/(\.js|\.ts)/));
+const commandFiles = fs.readdirSync(path.resolve(__dirname, './commands')).filter((file: string): boolean => /(\.js|\.ts)/.test(file));
+console.log(commandFiles);
 commandFiles.forEach((file: string): void => {
   const command = require(path.resolve(__dirname, `./commands/${file}`)).default as Command;
+  console.log(command);
   client.commands.set(command.name, command);
 
   // Clone additional commands in client.commands if the current command has aliases.
-  command.aliases.forEach((alias): void => {
-    client.commands.set(alias, command);
-  });
+  if (command.aliases) {
+    command.aliases.forEach((alias): void => {
+      client.commands.set(alias, command);
+    });
+  }
 });
 
-// Database stuff
-const dbFile = './data/database.sqlite';
+// https://gist.github.com/wilensky/30780b42cc1978aed378
+const mkdirSyncRecursive = (directory: string): void => {
+  const path = directory.replace(/\/$/, '').split('/');
+  for (var i = 1; i <= path.length; i++) {
+    const segment = path.slice(0, i).join('/');
+    segment.length > 0 && !fs.existsSync(segment) ? fs.mkdirSync(segment) : null;
+  }
+};
+
+// Set name of base folder based on whether it's dev or production.
+// Possible values: 'src' or 'built'
+const baseFolder = path.basename(__dirname);
+const dbFolder = `${baseFolder}/data/`;
+const dbFile = `${baseFolder}/data/database.sqlite`;
+mkdirSyncRecursive(dbFolder);
+
 const exists = fs.existsSync(dbFile);
+console.log(exists);
 const db = new sqlite3.Database(dbFile);
 
 db.serialize((): void => {
-  if (!exists) {
-    db.run('CREATE TABLE IF NOT EXISTS server (serverID TEXT, moderatorID TEXT, moderationChannel TEXT, mutedRoleID TEXT)');
-    console.log('Database not found.  Creating new database.');
-  }
+  db.run('CREATE TABLE IF NOT EXISTS server (serverID TEXT, moderatorID TEXT, moderationChannel TEXT, mutedRoleID TEXT)');
   console.log('Database files initialized');
 });
 
-fs.readdir('./events', (err: unknown, files: string[]): void => {
+fs.readdir(path.resolve(__dirname, './events'), (err: unknown, files: string[]): void => {
   files.forEach((file): void => {
     const eventFunction = require(`./events/${file}`).default;
     const eventName: string = file.split('.')[0];
@@ -81,4 +97,4 @@ client.on('message', (message: Discord.Message): void => {
 });
 
 // -- Login Bot
-client.login(process.env.BOT_TOKEN);
+client.login(config.token);

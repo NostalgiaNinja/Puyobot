@@ -1,6 +1,6 @@
 import Discord from 'discord.js';
 
-module.exports = {
+export default {
   name: 'multiquest',
   description: 'Provides Puyo Puyo!! Quest Players the command to open up multiplayer quests.',
   args: true,

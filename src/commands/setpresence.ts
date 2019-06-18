@@ -1,7 +1,7 @@
 import Discord from 'discord.js';
 import { prefix, botOwnerID } from '../config.json';
 
-module.exports = {
+export default {
   name: 'setpresence',
   description: 'Provides administration the means to set a presence for the bot',
   args: true,

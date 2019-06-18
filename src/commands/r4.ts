@@ -1,6 +1,6 @@
 import Discord from 'discord.js';
 
-module.exports = {
+export default {
   name: 'r4',
   description: 'Displays Rule 4 in an embed',
   args: true,
