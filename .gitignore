@@ -4,3 +4,5 @@ config.json
 package-lock.json
 \db
 .env
+.env.json
+src/data/database.sqlite
