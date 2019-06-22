@@ -31,6 +31,24 @@ Add:
 }
 ```
 
+### Using .env.json
+Using the dotenv-json package, you can put environment variables in a JSON file as so:
+```json
+{
+  "api_key": "string"
+}
+```
+
+The dotenv-json package expects all variables to be strings. If you need to embed another JSON structure as an environment variable, you have to stringify it and make sure the `"` and `\` (for escaped characters like `\n`) are escaped on another level. Try:
+```js
+const json = {
+  "test": "test"
+}
+
+const embeddedJsonString = JSON.stringify(json).replace(/"/g, '\\"').replace(/(\\)/g, '\\\\');
+console.log(embeddedJsonString);
+```
+
 ## Introduction
 
 Public repository for Puyobot, the English Puyo Puyo Discord Community's private bot.

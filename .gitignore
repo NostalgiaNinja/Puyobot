@@ -3,6 +3,7 @@ config.json
 \node_modules
 package-lock.json
 \db
+\built
 .env
 .env.json
-src/data/database.sqlite
+data/database.sqlite

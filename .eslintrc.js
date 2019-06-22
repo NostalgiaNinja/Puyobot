@@ -13,5 +13,8 @@ module.exports = {
 	parserOptions: {
 		ecmaVersion: 2018,
 		sourceType: "module"
+	},
+	rules: {
+		"@typescript-eslint/no-angle-bracket-type-assertion": "off",
 	}
 }

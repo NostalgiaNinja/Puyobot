@@ -4,8 +4,7 @@ const botOwnerId = config.botOwnerID;
 import Discord from 'discord.js';
 import sqlite3 from 'sqlite3';
 sqlite3.verbose();
-import path from 'path';
-const dbFile = path.basename(path.dirname((require.main as NodeModule).filename)) + '/data/database.sqlite';
+const dbFile = './data/database.sqlite';
 const db = new sqlite3.Database(dbFile);
 
 export default {

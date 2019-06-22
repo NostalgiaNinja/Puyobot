@@ -7,6 +7,8 @@ import Discord from 'discord.js';
 import { Command } from './@types/bot';
 // import dotenv from 'dotenv';
 // dotenv.config();
+import dotenv from 'dotenv-json';
+dotenv();
 
 const prefix = config.prefix;
 
@@ -16,7 +18,6 @@ client.commands = new Discord.Collection();
 
 // Load command files
 const commandFiles = fs.readdirSync(path.resolve(__dirname, './commands')).filter((file: string): boolean => /(\.js|\.ts)/.test(file));
-console.log(commandFiles);
 commandFiles.forEach((file: string): void => {
   const command = require(path.resolve(__dirname, `./commands/${file}`)).default as Command;
   console.log(command);
@@ -41,13 +42,10 @@ const mkdirSyncRecursive = (directory: string): void => {
 
 // Set name of base folder based on whether it's dev or production.
 // Possible values: 'src' or 'built'
-const baseFolder = path.basename(__dirname);
-const dbFolder = `${baseFolder}/data/`;
-const dbFile = `${baseFolder}/data/database.sqlite`;
+const dbFolder = 'data/';
+const dbFile = 'data/database.sqlite';
 mkdirSyncRecursive(dbFolder);
 
-const exists = fs.existsSync(dbFile);
-console.log(exists);
 const db = new sqlite3.Database(dbFile);
 
 db.serialize((): void => {

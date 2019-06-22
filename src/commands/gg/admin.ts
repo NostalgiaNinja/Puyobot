@@ -1,39 +1,37 @@
 import Discord from 'discord.js';
 import fs from 'fs';
 import path from 'path';
-import { Command } from '../@types/bot';
+import { Command } from '../../@types/bot';
 
-const ggCommands = new Discord.Collection();
+const ggAdminCommands = new Discord.Collection();
 
-const commandFiles = fs.readdirSync(path.resolve(__dirname, './gg')).filter((file: string): boolean => /(\.js|\.ts)/.test(file));
+const commandFiles = fs.readdirSync(path.resolve(__dirname, './admin')).filter((file: string): boolean => /(\.js|\.ts)/.test(file));
 commandFiles.forEach((file: string): void => {
-  const command: Command = require(path.resolve(__dirname, `./gg/${file}`)).default;
-  ggCommands.set(command.name, command);
+  const command: Command = require(path.resolve(__dirname, `./admin/${file}`)).default;
+  ggAdminCommands.set(command.name, command);
 
-  // Clone additional commands if current command has aliases
   if (command.aliases && command.aliases.length > 0) {
     command.aliases.forEach((alias): void => {
-      ggCommands.set(alias, command);
+      ggAdminCommands.set(alias, command);
     });
   }
 });
 
-export { ggCommands };
+export { ggAdminCommands };
 
 export default {
   name: 'gg',
   description: 'puyo.gg League Commands',
   aliases: [],
   category: ['League'],
-  usage: ['gg [subcommand] [parameters...]'],
+  usage: ['.gg admin [subcommand] [parameters...]'],
   execute(message: Discord.Message, args: string[], client: Discord.Client): void {
     if (args.length === 0) {
-      message.reply('The .gg command was called without any parameters.');
-      return;
+      message.reply('The .gg admin command was called without any parameters.');
     }
 
     const subCommandName = args[0].toLowerCase();
-    const subCommand = <Command>ggCommands.get(subCommandName);
+    const subCommand = <Command>ggAdminCommands.get(subCommandName);
 
     if (!subCommand) return;
 
