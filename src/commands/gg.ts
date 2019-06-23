@@ -5,7 +5,7 @@ import { Command } from '../@types/bot';
 
 const ggCommands = new Discord.Collection();
 
-const commandFiles = fs.readdirSync(path.resolve(__dirname, './gg')).filter((file: string): boolean => /(\.js|\.ts)/.test(file));
+const commandFiles = fs.readdirSync(path.resolve(__dirname, './gg/')).filter((file: string): boolean => /(\.js|\.ts)/.test(file));
 commandFiles.forEach((file: string): void => {
   const command: Command = require(path.resolve(__dirname, `./gg/${file}`)).default;
   ggCommands.set(command.name, command);

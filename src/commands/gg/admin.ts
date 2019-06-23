@@ -20,7 +20,7 @@ commandFiles.forEach((file: string): void => {
 export { ggAdminCommands };
 
 export default {
-  name: 'gg',
+  name: 'admin',
   description: 'puyo.gg League Commands',
   aliases: [],
   category: ['League'],
@@ -28,6 +28,11 @@ export default {
   execute(message: Discord.Message, args: string[], client: Discord.Client): void {
     if (args.length === 0) {
       message.reply('The .gg admin command was called without any parameters.');
+    }
+
+    if (!message.member.hasPermission('ADMINISTRATOR')) {
+      message.reply('You need to be an administrator to use this command.');
+      return;
     }
 
     const subCommandName = args[0].toLowerCase();

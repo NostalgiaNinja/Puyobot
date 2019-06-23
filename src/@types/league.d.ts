@@ -4,6 +4,12 @@ export interface UserRefs {
   name: string;
 }
 
+export interface ChannelRefs {
+  id: string;
+  at: string;
+  name: string;
+}
+
 export interface PlayerData {
   avatar: string;
   createdTimestamp: number;
@@ -14,7 +20,8 @@ export interface PlayerData {
 }
 
 export interface LeagueConfig {
-  TO_role: UserRefs;
-  organizers: UserRefs[];
-  current_season: string;
+  ORGANIZER_ROLE: UserRefs;
+  ORGANIZERS: UserRefs[];
+  CURRENT_SEASON: string;
+  VERIFICATION_CHANNEL: ChannelRefs;
 }

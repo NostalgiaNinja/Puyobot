@@ -20,7 +20,6 @@ client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync(path.resolve(__dirname, './commands')).filter((file: string): boolean => /(\.js|\.ts)/.test(file));
 commandFiles.forEach((file: string): void => {
   const command = require(path.resolve(__dirname, `./commands/${file}`)).default as Command;
-  console.log(command);
   client.commands.set(command.name, command);
 
   // Clone additional commands in client.commands if the current command has aliases.

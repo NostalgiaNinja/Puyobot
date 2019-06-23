@@ -1,6 +1,5 @@
 import Discord from 'discord.js';
-import { configRef } from '../../../utility/firebase';
-import { UserRefs } from '../../../@types/league';
+import { getOrganizers, getOrganizerRole, setOrganizers } from '../../../utility/firebase';
 
 export default {
   name: 'add_organizer',
@@ -22,25 +21,11 @@ export default {
       message.reply('Error: You tried to give an invalid user the organizer role.');
     }
 
-    const USER_NAME = (<Discord.GuildMember>message.guild.members.get(USER_ID)).nickname;
+    const USER_NAME = (<Discord.GuildMember>message.guild.members.get(USER_ID)).displayName;
 
     // Get current list of organizers and the organizer role
-    const organizers = await configRef.get().then((doc): UserRefs[] => {
-      const data = doc.data();
-      if (data) {
-        return <UserRefs[]>data.organizers;
-      } else {
-        return [];
-      }
-    });
-    const ORGANIZER_ROLE = await configRef.get().then((doc): string | null => {
-      const data = doc.data();
-      if (data) {
-        return <string>data.TO_ROLE.id;
-      } else {
-        return null;
-      }
-    });
+    const ORGANIZERS = await getOrganizers();
+    const ORGANIZER_ROLE = await getOrganizerRole();
 
     if (!ORGANIZER_ROLE) {
       message.reply('Error: You need to set the organizer role first with ".gg admin organizer_role"');
@@ -48,12 +33,13 @@ export default {
     }
 
     // Add the requested user to the list of tournament organizers
-    if (organizers.some((organizer): boolean => organizer.id === USER_ID)) {
+    if (ORGANIZERS && ORGANIZERS.some((organizer): boolean => organizer.id === USER_ID)) {
       message.reply(`${USER} is already a tournament organizer.`);
       return;
     } else {
+      let oldArray = ORGANIZERS ? [...ORGANIZERS] : [];
       const newOrganizersArray = [
-        ...organizers,
+        ...oldArray,
         {
           id: USER_ID,
           at: USER,
@@ -61,8 +47,7 @@ export default {
         },
       ];
 
-      configRef
-        .set({ organizers: newOrganizersArray }, { merge: true })
+      setOrganizers(newOrganizersArray)
         .then((): void => {
           (<Discord.GuildMember>message.guild.members.get(USER_ID)).addRole(ORGANIZER_ROLE);
           message.channel.send(`${USER} was successfully added as a tournament organizer.`);
