@@ -6,13 +6,10 @@ export default {
   args: true,
   usage: '',
   execute(message: Discord.Message): void {
-    const em = new Discord.RichEmbed();
-    em.setTitle('Rule 1:')
-      .setColor(0xff0000)
-      .addField(
-        '**Keep it safe for work.**',
-        'As per the Discord Terms of Use, explicit content is strictly prohibited. Sexual, violent, or otherwise disturbing imagery, language, or implications is unnacceptable. *Violating this rule is likely to be an immediate permanent ban. Not knowing the rules is inexcusable.*',
-      );
-    message.channel.send(em);
-  },
+		const em = new Discord.RichEmbed();
+		em.setTitle('Rule 3:')
+			.setColor(0xFF0000)
+			.addField('**__Keep it safe for work.__**', 'As per Discord\'s Terms of Service, explicit content is strictly prohibited. Sexual, fetish, violent, or otherwise disturbing imagery, language, content, or implications are unacceptable. This includes "loli/shota", as well as other commonly joked-about topics related to anything NSFW. \n\n*The intensity of the rule violation will result in relative moderation action. Repeated minor rule-breaks will add up, and stepping over the line too much will result in a permanent ban.*');
+		message.channel.send(em);
+	},
 };

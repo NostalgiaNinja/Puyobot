@@ -37,6 +37,17 @@ export default {
           console.log('Server ID initialized.');
           message.channel.send('Server ready!');
         }
+        if(type == 'charaicon') {
+					db.run('CREATE TABLE IF NOT EXISTS charaicon (character TEXT, urlcode TEXT)');
+					
+					const em = new Discord.RichEmbed()
+					.setTitle('Character Icon Tables initialized')
+					.setDescription('Please contact a moderator to add character icons.')
+					.setColor(0xFF0000);
+					
+					message.channel.send(em);
+					console.log('Character icons table initialized');          
+				  }
       } catch (e) {
         console.log(e);
         message.channel.send(e);

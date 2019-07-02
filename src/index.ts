@@ -49,6 +49,7 @@ const db = new sqlite3.Database(dbFile);
 
 db.serialize((): void => {
   db.run('CREATE TABLE IF NOT EXISTS server (serverID TEXT, moderatorID TEXT, moderationChannel TEXT, mutedRoleID TEXT)');
+  db.run('CREATE TABLE IF NOT EXISTS yike (serverID TEXT, yikecount INT)');
   console.log('Database files initialized');
 });
 

@@ -1,4 +1,6 @@
 import Discord from 'discord.js';
+import sqlite3 from 'sqlite3';
+const db = new sqlite3.Database('./data/sqlite.db');
 
 export default {
   name: 'multiquest',
@@ -14,44 +16,10 @@ export default {
       const roomcode = args[0];
       const roomaccess = args[1];
       const roomname = args.slice(2).join(' ');
+      const roomparser = roomname.toLowerCase();
 
       // set up the richEmbed values beforehand: no needing to mess with room access values any longer
       em.setTitle('A Multiplayer Quest room has opened!');
-
-      // ----------------------------------------------------------------------------------------//
-      //              THUMBNAIL DATA
-      // ----------------------------------------------------------------------------------------//
-
-      if (roomname.includes('green') === true || roomname.includes('Green') === true) {
-        em.setThumbnail('https://cdn.discordapp.com/emojis/429944006948945931.png');
-      } else if (roomname.includes('blue') === true || roomname.includes('Blue') === true) {
-        em.setThumbnail('https://cdn.discordapp.com/emojis/429944006601080849.png');
-      } else if (roomname.includes('red') === true || roomname.includes('Red') === true) {
-        em.setThumbnail('https://cdn.discordapp.com/emojis/429944006135382017.png');
-      } else if (roomname.includes('yellow') === true || roomname.includes('Yellow') === true) {
-        em.setThumbnail('https://cdn.discordapp.com/emojis/429944006718521345.png');
-      } else if (roomname.includes('purple') === true || roomname.includes('Purple') === true) {
-        em.setThumbnail('https://cdn.discordapp.com/emojis/429944007397736448.png');
-      }
-
-      // ----------------------------------------------------------------------------------------//
-      //          OVERRIDE ANY THUMBNAIL DATA FOR EVENT QUESTS
-      // ----------------------------------------------------------------------------------------//
-      else if (roomname.includes('yue') === true || roomname.includes('Yue') === true) {
-        em.setThumbnail('https://cdn.discordapp.com/attachments/188877926786269184/496144007530020885/00001896_000009.png');
-        em.addField('Quest Type: ', 'Intrusion', true);
-      }
-
-      // ----------------------------------------------------------------------------------------//
-      //          END OF THUMBNAIL DATA FOR EVENT QUESTS
-      // ----------------------------------------------------------------------------------------//
-      else {
-        em.setThumbnail('https://cdn.discordapp.com/emojis/429944006948945931.png');
-      }
-
-      // ----------------------------------------------------------------------------------------//
-      //          END THUMBNAIL DATA
-      // ----------------------------------------------------------------------------------------//
 
       // check if room name exists
       if (roomname) {
@@ -118,7 +86,49 @@ export default {
 
       em.setFooter('Room Opened by ' + message.author.username);
 
-      message.channel.send(em);
+      // DB GRABBING STUFF FOR ROOMPARSER/URLPARSER
+      db.all(`SELECT * FROM charaicon`, function(err,row) {
+
+        row.forEach(function(row) {
+          if (roomparser.includes(row.character) === true) {
+            em.setThumbnail(`${row.urlcode}`);
+          }
+        });
+        message.channel.send(em);
+      });
+
+      // ----------------------------------------------------------------------------------------//
+			//              THUMBNAIL DATA      
+      // ----------------------------------------------------------------------------------------//
+
+      if ((roomparser.includes('green') === true)) {
+				em.setThumbnail('https://cdn.discordapp.com/emojis/429944006948945931.png');
+			}
+			else if ((roomparser.includes('blue') === true)) {
+				em.setThumbnail('https://cdn.discordapp.com/emojis/429944006601080849.png');
+			}
+			else if ((roomparser.includes('red') === true)) {
+				em.setThumbnail('https://cdn.discordapp.com/emojis/429944006135382017.png');
+			}
+			else if ((roomparser.includes('yellow') === true)) {
+				em.setThumbnail('https://cdn.discordapp.com/emojis/429944006718521345.png');
+			}
+			else if ((roomparser.includes('purple') === true)) {
+				em.setThumbnail('https://cdn.discordapp.com/emojis/429944007397736448.png');
+      }
+      
+      // ----------------------------------------------------------------------------------------//
+			//          END OF THUMBNAIL DATA FOR EVENT QUESTS
+			// ----------------------------------------------------------------------------------------//
+
+			else {
+				em.setThumbnail('https://cdn.discordapp.com/emojis/429944006948945931.png');
+			}
+
+			// ----------------------------------------------------------------------------------------//
+			//          END THUMBNAIL DATA
+			// ----------------------------------------------------------------------------------------//
+
     } catch (e) {
       console.log(e);
     }

@@ -6,12 +6,10 @@ export default {
   args: true,
   usage: '',
   execute(message: Discord.Message): void {
-    const em = new Discord.RichEmbed();
-    em.setTitle('Rule 1:')
-      .setColor(0xff0000)
-      .setDescription(
-        'Intentionally causing disruptions or harm to anyone is unacceptable. Every user from here come from a variety of places and upbringings, so please treat everyone with equal respect.\n*Unacceptable behaviour include, but are not limited to: Use of offensive slurs, making fun of people for disabilities, sexuality, and/or identity, (This includes the use of "trap", "triggered", "autism", "retard", and more.) and in general harassing people in any way.*',
-      );
-    message.channel.send(em);
-  },
+		const em = new Discord.RichEmbed();
+		em.setTitle('Rule 2:')
+			.setColor(0xFF0000)
+			.addField('**__Be excellent to each other and mindful of your words and actions__**','Our community is home to people of many different backgrounds and upbringings, so please respect everyone as you would in a public space. In other words, be mindful of what you say and how you act. Intentionally causing disruption and/or discomfort among the users is not acceptable.\nUnacceptable behavior includes, but is not limited to:\n\t• Use of offensive slurs, \n\t• Targeted harassment, \n\t• Using sexualities, identities, and/or disabilities as the butt of a joke. (This includes jokes based on "trap", "triggered", "autism", "retarded", "cancer", among others.)');
+		message.channel.send(em);
+	},
 };
