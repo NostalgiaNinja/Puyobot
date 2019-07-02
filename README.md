@@ -86,14 +86,15 @@ an `npm install` generally gets the job done and sets the environment up for you
 To create a new command, consider the following:
 
 ```
-const Discord = require('discord.js');
+import Discord from 'discord.js';
 
 module.exports = {
   name: 'name of command',
   description: 'description of what the command does',
   usage: '',  //usually this gets outputted as command ['']
-  execute(message, args, client) {
-
+  
+  //execute now is handled through typeScript support - You will need to add types to each property you import.
+  execute(message: Discord.Message): void {
     //command data goes here.  For consistency, make an embed called em and send the message with message.channel.send(em);
     //for example:
 
