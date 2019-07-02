@@ -3,13 +3,8 @@ config.json
 \node_modules
 package-lock.json
 \db
-<<<<<<< HEAD
 \built
 .env
 .env.json
 data/database.sqlite
 src/data/database.sqlite
-=======
-.env
-\data
->>>>>>> Update missing files in commands directory + index
