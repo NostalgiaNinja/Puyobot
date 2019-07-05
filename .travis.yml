@@ -2,4 +2,4 @@ language: node_js
 node_js:
   - "11"
 install: npm install
-script: ciPass.sh
+script: bash ciPass.sh
