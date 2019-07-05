@@ -2,5 +2,4 @@ language: node_js
 node_js:
   - "11"
 install: npm install
-after_install: bash ciPass.sh
-script: npm run tsc
+script: ciPass.sh
