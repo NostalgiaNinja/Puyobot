@@ -60,7 +60,7 @@ To run: you will require a config.json file with the following format:
   {
      "token": "[YOUR BOT TOKEN HERE]",
      "prefix": ".",
-     "botOwnerID": "[YOUR BOT OWNER ID HERE]",
+     "botOwnerId": "[YOUR BOT OWNER ID HERE]",
      "debug": "0"
   }
 ```
