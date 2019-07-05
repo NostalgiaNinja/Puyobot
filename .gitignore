@@ -1,4 +1,5 @@
 #ignore Node_modules folder and config.json because private data is involved in the these ignored files/folders
+src/config.json
 \node_modules
 package-lock.json
 \db
