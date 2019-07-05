@@ -8,7 +8,7 @@ export default {
 	args: true,
 	usage: '[user] [time in days] [reason]',
 	category: 'Administration',
-	execute(message: Discord.Message, args: string[]): void {
+	execute(message: Discord.Message, args: string[], client: Discord.Client): void {
 		try {
 			db.each(`SELECT * FROM server WHERE serverID = '${message.guild.id}'`, function(err, row) {
 
@@ -46,7 +46,10 @@ export default {
 						.setColor(0xFF0000);
 
 					message.channel.send(em);
-					client.channels.get(row.moderationChannel).send(em).catch(console.error);
+					const modChannel = client.channels.get(row.moderationChannel);
+					if (!modChannel) return;
+					if (!((modChannel): modChannel is Discord.TextChannel => modChannel.type === 'text')(modChannel)) return;
+					modChannel.send(em).catch(console.error);
 				}
 				else {
                     return;
