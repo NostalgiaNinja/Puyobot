@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/NostalgiaNinja/Puyobot.svg?branch=master)](https://travis-ci.org/NostalgiaNinja/Puyobot)
 # Puyobot
 
 ## v4 Notes
