@@ -1,6 +1,8 @@
 language: node_js
 node_js:
   - "11"
-before_install: touch /home/travis/build/NostalgiaNinja/Puyobot/src/config.json
+before_install: 
+  - touch /home/travis/build/NostalgiaNinja/Puyobot/src/config.json
+  - echo "{'token':'','prefix': '.', 'botOwnerId': '', 'verifyUserID': ''}" >> /home/travis/build/NostalgiaNinja/Puyobot/src/config.json
 install: npm install
 script: npm run tsc
