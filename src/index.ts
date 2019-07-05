@@ -63,11 +63,6 @@ fs.readdir(path.resolve(__dirname, './events'), (err: unknown, files: string[]):
   });
 });
 
-// Bot loaded message
-client.once('ready', (): void => {
-  console.log('Ready!');
-});
-
 // Message Handler
 client.on('message', (message: Discord.Message): void => {
   // Don't fuss with bots who check for pings.

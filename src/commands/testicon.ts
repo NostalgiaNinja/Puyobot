@@ -1,7 +1,7 @@
 //initialization of database items always outside the module exports
 //db: charaicon (character, urlcode)
 import sqlite3 from 'sqlite3';
-const db = new sqlite3.Database('./data/sqlite.db');
+const db = new sqlite3.Database('./data/database.sqlite');
 import Discord from 'discord.js';
 
 export default {

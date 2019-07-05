@@ -1,6 +1,6 @@
 import Discord from 'discord.js';
 import sqlite3 from 'sqlite3';
-const db = new sqlite3.Database('./data/sqlite.db');
+const db = new sqlite3.Database('./data/database.sqlite');
 
 export default {
   name: 'multiquest',

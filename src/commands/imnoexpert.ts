@@ -1,7 +1,7 @@
 import Discord from 'discord.js';
 
 export default {
-  name: 'freakout',
+  name: 'imnoexpert',
   description: "I'm no expert but...",
   args: false,
   usage: '',

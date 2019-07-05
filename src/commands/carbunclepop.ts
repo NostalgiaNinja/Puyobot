@@ -1,7 +1,7 @@
 import Discord from 'discord.js';
 
 export default {
-  name: 'badman',
+  name: 'carbunclepop',
   description: 'Ready?  Go!',
   args: false,
   usage: '',

@@ -1,5 +1,5 @@
 import config from '../config.json';
-const botOwnerId = config.botOwnerID;
+const botOwnerId = config.botOwnerId;
 
 import Discord from 'discord.js';
 import sqlite3 from 'sqlite3';
@@ -11,7 +11,7 @@ export default {
   name: 'init',
   description: 'Intializes the database',
   args: true,
-  usage: '<database | server>',
+  usage: '<database | server | charaicon>',
   category: 'Administration',
   execute(message: Discord.Message, args: string[]): void {
     if (message.member.hasPermission('MANAGE_ROLES')) {
@@ -27,7 +27,7 @@ export default {
             message.channel.send('"This is used to initialize the database.  If not initialized, ask the bot owner to run this command."');
             return;
           }
-          db.run('CREATE TABLE IF NOT EXISTS server (serverID TEXT, moderatorID TEXT, moderationChannel TEXT, mutedRoleID TEXT, PRIMARY KEY(serverID)');
+          db.run('CREATE TABLE IF NOT EXISTS server (serverID TEXT, moderatorID TEXT, moderationChannel TEXT, mutedRoleID TEXT, PRIMARY KEY(serverID))');
 
           message.channel.send('Database initialized successfully!');
           console.log('Database tables initialized.');
