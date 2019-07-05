@@ -2,4 +2,4 @@ language: node_js
 node_js:
   - "11"
 install: npm install
-script: npm run dev
+script: npm run prod
