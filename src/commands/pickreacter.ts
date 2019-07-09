@@ -7,6 +7,9 @@ export default {
   category: ['League'],
   usage: ['pickreacter #channel messageID'],
   async execute(message: Discord.Message, args: string[]): Promise<void> {
+    if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+      return;
+    }
     if (args.length !== 2) {
       message.reply('Error. Incorrect number of permissions supplied.');
       return;
