@@ -34,17 +34,16 @@ export default {
         .addField('For EXP:', '3: **Fight Club** (visitor brings close to nothing, lets host kill as quickly as possible)' + '\n4: **Target Practice** (host lets visitor kill as quickly as possible)')
         .addField('Battle Title', 'A description for your battle, optional.', false)
         .setFooter('Battles will come with a TAPI PPQ link for members to join.  Please use responsibly!');
-    } 		
-    else if (postfix == 'mq') {
-			em.setTitle("HELP: Multiplayer Quest help.  Syntax:")
-			.setColor(0x00FF00)
-			.setDescription("multiQuest (Quest Code) (Quest Access) (Quest title - optional)")
-			.addField("Quest Code", "Get the quest code from your Everybody Quest!! game",false)
-			.addField("Quest Access","1: **Open to Public**\n2: **Open to Guild**\n3: **Code Only**\nLINE: ***LINE stone linkage***",false)
-			.addField("Quest Title","A description for your quest, optional.",false)
-			.addField("For Line stone Linkage:",".multiquest (quest code) LINE (PPQ User ID)")
-			.setFooter("Quests will come with a TAPI PPQ link for members to join.  Please use responsibly!");
-		}
+    } else if (postfix == 'mq') {
+      em.setTitle('HELP: Multiplayer Quest help.  Syntax:')
+        .setColor(0x00ff00)
+        .setDescription('multiQuest (Quest Code) (Quest Access) (Quest title - optional)')
+        .addField('Quest Code', 'Get the quest code from your Everybody Quest!! game', false)
+        .addField('Quest Access', '1: **Open to Public**\n2: **Open to Guild**\n3: **Code Only**\nLINE: ***LINE stone linkage***', false)
+        .addField('Quest Title', 'A description for your quest, optional.', false)
+        .addField('For Line stone Linkage:', '.multiquest (quest code) LINE (PPQ User ID)')
+        .setFooter('Quests will come with a TAPI PPQ link for members to join.  Please use responsibly!');
+    }
 
     message.channel.send(em);
   },

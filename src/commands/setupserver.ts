@@ -1,4 +1,3 @@
-import { prefix } from '../config.json';
 import Discord from 'discord.js';
 import sqlite3 from 'sqlite3';
 sqlite3.verbose();
@@ -29,7 +28,7 @@ export default {
         db.all(`SELECT * FROM server WHERE serverID = ${message.guild.id}`, function(err, row): void {
           // SQL: Select everything from the server table where the server ID comes from the Discord server
           if (!row) {
-            message.channel.send(`Not initialized in database! first use \`${prefix}initialize server\` to set the database up for this server.`); // kindly throw an error.
+            message.channel.send(`Not initialized in database! first use \`${process.env.PREFIX}initialize server\` to set the database up for this server.`); // kindly throw an error.
             return;
           } // else
 
@@ -50,7 +49,7 @@ export default {
             db.run(`UPDATE server SET mutedRoleID = '${id}' WHERE SERVERID = ${message.guild.id}`);
             message.channel.send('Muted role ID has been added to the database.');
           } else {
-            message.channel.send(`Invalid Type! Please read \`${prefix}help setupserver\` for details on how to use this command.`);
+            message.channel.send(`Invalid Type! Please read \`${process.env.PREFIX}help setupserver\` for details on how to use this command.`);
           }
         });
       }

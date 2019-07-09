@@ -1,5 +1,4 @@
 import Discord from 'discord.js';
-import { prefix } from '../config.json';
 
 export default {
   name: 'poll',
@@ -8,7 +7,7 @@ export default {
   category: ['Fun'],
   usage: ['<poll question>, <poll answer 1>, <poll answer 2>, <poll answer 3>, <poll answer 4>'],
   async execute(message: Discord.Message): Promise<void> {
-    const args = message.content.slice(prefix.length).split(', ');
+    const args = message.content.slice(JSON.parse(<string>process.env.PREFIX).length).split(', ');
 
     if (!args.length) {
       await message.channel.send('Poll set up incorrectly. use the help command to see how this works.');

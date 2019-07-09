@@ -87,9 +87,8 @@ export default {
       em.setFooter('Room Opened by ' + message.author.username);
 
       // DB GRABBING STUFF FOR ROOMPARSER/URLPARSER
-      db.all(`SELECT * FROM charaicon`, function(err,row) {
-
-        row.forEach(function(row) {
+      db.all(`SELECT * FROM charaicon`, function(err, row): void {
+        row.forEach(function(row): void {
           if (roomparser.includes(row.character) === true) {
             em.setThumbnail(`${row.urlcode}`);
           }
@@ -98,37 +97,31 @@ export default {
       });
 
       // ----------------------------------------------------------------------------------------//
-			//              THUMBNAIL DATA      
+      //              THUMBNAIL DATA
       // ----------------------------------------------------------------------------------------//
 
-      if ((roomparser.includes('green') === true)) {
-				em.setThumbnail('https://cdn.discordapp.com/emojis/429944006948945931.png');
-			}
-			else if ((roomparser.includes('blue') === true)) {
-				em.setThumbnail('https://cdn.discordapp.com/emojis/429944006601080849.png');
-			}
-			else if ((roomparser.includes('red') === true)) {
-				em.setThumbnail('https://cdn.discordapp.com/emojis/429944006135382017.png');
-			}
-			else if ((roomparser.includes('yellow') === true)) {
-				em.setThumbnail('https://cdn.discordapp.com/emojis/429944006718521345.png');
-			}
-			else if ((roomparser.includes('purple') === true)) {
-				em.setThumbnail('https://cdn.discordapp.com/emojis/429944007397736448.png');
+      if (roomparser.includes('green') === true) {
+        em.setThumbnail('https://cdn.discordapp.com/emojis/429944006948945931.png');
+      } else if (roomparser.includes('blue') === true) {
+        em.setThumbnail('https://cdn.discordapp.com/emojis/429944006601080849.png');
+      } else if (roomparser.includes('red') === true) {
+        em.setThumbnail('https://cdn.discordapp.com/emojis/429944006135382017.png');
+      } else if (roomparser.includes('yellow') === true) {
+        em.setThumbnail('https://cdn.discordapp.com/emojis/429944006718521345.png');
+      } else if (roomparser.includes('purple') === true) {
+        em.setThumbnail('https://cdn.discordapp.com/emojis/429944007397736448.png');
       }
-      
+
       // ----------------------------------------------------------------------------------------//
-			//          END OF THUMBNAIL DATA FOR EVENT QUESTS
-			// ----------------------------------------------------------------------------------------//
+      //          END OF THUMBNAIL DATA FOR EVENT QUESTS
+      // ----------------------------------------------------------------------------------------//
+      else {
+        em.setThumbnail('https://cdn.discordapp.com/emojis/429944006948945931.png');
+      }
 
-			else {
-				em.setThumbnail('https://cdn.discordapp.com/emojis/429944006948945931.png');
-			}
-
-			// ----------------------------------------------------------------------------------------//
-			//          END THUMBNAIL DATA
-			// ----------------------------------------------------------------------------------------//
-
+      // ----------------------------------------------------------------------------------------//
+      //          END THUMBNAIL DATA
+      // ----------------------------------------------------------------------------------------//
     } catch (e) {
       console.log(e);
     }

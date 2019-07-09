@@ -1,4 +1,3 @@
-import config from '../config.json';
 import Discord from 'discord.js';
 
 export default {
@@ -8,7 +7,7 @@ export default {
   aliases: ['clearcache', 'cc'],
   category: 'Administration',
   execute(message: Discord.Message): void {
-    if (message.author.id === config.botOwnerId) {
+    if (message.author.id === process.env.BOTOWNERID) {
       try {
         process.exit();
       } catch (e) {

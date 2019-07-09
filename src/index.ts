@@ -2,15 +2,12 @@
 import * as fs from 'fs';
 import path from 'path';
 import sqlite3 from 'sqlite3';
-import config from './config.json';
 import Discord from 'discord.js';
 import { Command } from './@types/bot';
 // import dotenv from 'dotenv';
 // dotenv.config();
 import dotenv from 'dotenv-json';
 dotenv();
-
-const prefix = config.prefix;
 
 // Module augmentation to extend Discord.Client with "commands" property
 const client = new Discord.Client();
@@ -41,8 +38,8 @@ const mkdirSyncRecursive = (directory: string): void => {
 
 // Set name of base folder based on whether it's dev or production.
 // Possible values: 'src' or 'built'
-const dbFolder = 'data/';
-const dbFile = 'data/database.sqlite';
+const dbFolder = 'src/data/';
+const dbFile = 'src/data/database.sqlite';
 mkdirSyncRecursive(dbFolder);
 
 const db = new sqlite3.Database(dbFile);
@@ -66,10 +63,10 @@ fs.readdir(path.resolve(__dirname, './events'), (err: unknown, files: string[]):
 // Message Handler
 client.on('message', (message: Discord.Message): void => {
   // Don't fuss with bots who check for pings.
-  if (!message.content.startsWith(prefix) || message.author.bot) return;
+  if (!message.content.startsWith(JSON.parse(<string>process.env.PREFIX)) || message.author.bot) return;
 
   // Provide arguments for the system to work.
-  const args = message.content.slice(prefix.length).split(/ +/);
+  const args = message.content.slice(JSON.parse(<string>process.env.PREFIX).length).split(/ +/);
   // Make the command case insensitive.
   // Need to add ! to tell TypeScript that the args is defined.
   const firstArg = args.shift();
@@ -90,4 +87,4 @@ client.on('message', (message: Discord.Message): void => {
 });
 
 // -- Login Bot
-client.login(config.token);
+client.login(process.env.BOT_TOKEN);
