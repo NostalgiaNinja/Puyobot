@@ -63,10 +63,10 @@ fs.readdir(path.resolve(__dirname, './events'), (err: unknown, files: string[]):
 // Message Handler
 client.on('message', (message: Discord.Message): void => {
   // Don't fuss with bots who check for pings.
-  if (!message.content.startsWith(JSON.parse(<string>process.env.PREFIX)) || message.author.bot) return;
+  if (!message.content.startsWith(<string>process.env.PREFIX) || message.author.bot) return;
 
   // Provide arguments for the system to work.
-  const args = message.content.slice(JSON.parse(<string>process.env.PREFIX).length).split(/ +/);
+  const args = message.content.slice((<string>process.env.PREFIX).length).split(/ +/);
   // Make the command case insensitive.
   // Need to add ! to tell TypeScript that the args is defined.
   const firstArg = args.shift();
