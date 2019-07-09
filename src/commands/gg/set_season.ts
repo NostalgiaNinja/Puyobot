@@ -3,11 +3,11 @@ import { configRef, getOrganizers, setSeason } from '../../utility/firebase';
 import { ChannelRefs, LeagueConfig } from '../../@types/league';
 
 export default {
-  name: 'new_season',
-  description: 'Create and set the current league season.',
+  name: 'set_season',
+  description: 'Set the current league season.',
   aliases: [],
   category: ['League'],
-  usage: ['.gg admin new_season'],
+  usage: ['.gg admin set_season'],
   async execute(message: Discord.Message, args: string[], client: Discord.Client): Promise<void> {
     // Check if the current user the current user is a tournament organizer
     const USER = message.author.id;

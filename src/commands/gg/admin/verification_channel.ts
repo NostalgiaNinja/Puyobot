@@ -1,8 +1,5 @@
 import Discord from 'discord.js';
 import { configRef } from '../../../utility/firebase';
-// import { ChannelRefs } from '../../../@types/league';
-// import { configRef } from '../../../utility/firebase';
-// import { UserRefs } from '../../../@types/league';
 
 export default {
   name: 'verification_channel',
@@ -16,11 +13,8 @@ export default {
       return;
     }
 
-    console.log(message.content);
-
     const CHANNEL_AT = args[0];
     const CHANNEL_ID = CHANNEL_AT.replace(/\D/g, '');
-    console.log(`${CHANNEL_ID}, ${CHANNEL_AT}`);
 
     // Check if the server has this channel.
     if (!message.guild.channels.has(CHANNEL_ID)) {
@@ -29,16 +23,13 @@ export default {
     }
 
     const CHANNEL_NAME = (<Discord.GuildChannel>message.guild.channels.get(CHANNEL_ID)).name;
-
-    console.log(CHANNEL_NAME);
-
     configRef
       .set(
         {
           VERIFICATION_CHANNEL: {
-            id: CHANNEL_ID,
-            at: CHANNEL_AT,
-            name: CHANNEL_NAME,
+            ID: CHANNEL_ID,
+            AT: CHANNEL_AT,
+            NAME: CHANNEL_NAME,
           },
         },
         { merge: true },

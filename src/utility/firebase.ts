@@ -15,43 +15,38 @@ export const configRef = admin
   .collection('league')
   .doc('config');
 
-export async function getOrganizers(): Promise<UserRefs[] | null> {
-  const ORGANIZERS = await configRef.get().then((doc): UserRefs[] | null => {
+export async function getOrganizers(): Promise<UserRefs[] | undefined> {
+  return await configRef.get().then((doc): UserRefs[] | undefined => {
     const data = doc.data();
-    if (data && data.ORGANIZERS) {
-      return data.ORGANIZERS;
-    } else {
-      return null;
-    }
+    if (data && data.ORGANIZERS) return data.ORGANIZERS;
   });
-
-  if (ORGANIZERS) {
-    return ORGANIZERS;
-  } else {
-    return null;
-  }
 }
 
-export async function getOrganizerRole(): Promise<string | null> {
-  const ORGANIZER_ROLE = await configRef.get().then((doc): string | null => {
+export async function getOrganizerRole(): Promise<string | undefined> {
+  return await configRef.get().then((doc): string | undefined => {
     const data = doc.data();
-    if (data && data.ORGANIZER_ROLE) {
-      return <string>data.ORGANIZER_ROLE.id;
-    } else {
-      return null;
-    }
+    if (data && data.ORGANIZER_ROLE) return <string>data.ORGANIZER_ROLE.id;
   });
-
-  if (ORGANIZER_ROLE) {
-    return ORGANIZER_ROLE;
-  } else {
-    return null;
-  }
 }
 
 export async function setOrganizers(organizersArray: UserRefs[]): Promise<void> {
   await configRef.set({ ORGANIZERS: organizersArray }, { merge: true });
   return;
+}
+
+export async function getSeasonName(): Promise<string | undefined> {
+  return await configRef.get().then((doc): string | undefined => {
+    const data = <LeagueConfig>doc.data();
+    if (data && data.CURRENT_SEASON) return <string>data.CURRENT_SEASON;
+  });
+}
+
+export function getSeasonRef(seasonName: string): FirebaseFirestore.CollectionReference {
+  return admin
+    .firestore()
+    .collection('league')
+    .doc('seasons')
+    .collection(seasonName);
 }
 
 export async function setSeason(seasonName: string, client: Discord.Client): Promise<void> {
@@ -70,7 +65,7 @@ export async function setSeason(seasonName: string, client: Discord.Client): Pro
     return;
   }
 
-  const discordChannel = <Discord.TextChannel | undefined>client.channels.get(VERIFICATION_CHANNEL.id);
+  const discordChannel = <Discord.TextChannel | undefined>client.channels.get(VERIFICATION_CHANNEL.ID);
   if (!discordChannel) {
     console.log('Couldn\t find the verification channel.');
     return;
