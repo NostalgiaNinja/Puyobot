@@ -1,5 +1,5 @@
 import Discord from 'discord.js';
-import { prefix, botOwnerId } from '../config.json';
+import { prefix, botOwnerID } from '../config.json';
 
 export default {
   name: 'setpresence',
@@ -9,7 +9,7 @@ export default {
   category: 'Administration',
   aliases: ['sp'],
   execute(message: Discord.Message, args: string[], client: Discord.Client): void {
-    if (message.author.id == botOwnerId) {
+    if (message.author.id == botOwnerID) {
       {
         const richpresence = parseInt(args[0], 10);
         const gamename = args.slice(1).join(' ');

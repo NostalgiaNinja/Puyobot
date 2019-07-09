@@ -6,7 +6,7 @@ export default {
   aliases: [],
   category: ['League'],
   usage: ['pickreacter #channel messageID'],
-  async execute(message: Discord.Message, args: string[], client: Discord.Client): Promise<void> {
+  async execute(message: Discord.Message, args: string[]): Promise<void> {
     if (args.length !== 2) {
       message.reply('Error. Incorrect number of permissions supplied.');
       return;

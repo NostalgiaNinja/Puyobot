@@ -1,5 +1,5 @@
 import config from '../config.json';
-const botOwnerId = config.botOwnerId;
+const botOwnerId = config.botOwnerID;
 
 import Discord from 'discord.js';
 import sqlite3 from 'sqlite3';

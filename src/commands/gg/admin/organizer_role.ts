@@ -24,9 +24,9 @@ export default {
         .set(
           {
             ORGANIZER_ROLE: {
-              id: role,
-              at: args[0],
-              name: (<Discord.Role>message.guild.roles.get(role)).name,
+              ID: role,
+              AT: args[0],
+              NAME: (<Discord.Role>message.guild.roles.get(role)).name,
             },
           },
           { merge: true },

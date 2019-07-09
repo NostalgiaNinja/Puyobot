@@ -8,7 +8,7 @@ export default {
   aliases: ['clearcache', 'cc'],
   category: 'Administration',
   execute(message: Discord.Message): void {
-    if (message.author.id === config.botOwnerId) {
+    if (message.author.id === config.botOwnerID) {
       try {
         process.exit();
       } catch (e) {

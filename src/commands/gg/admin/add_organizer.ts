@@ -33,7 +33,7 @@ export default {
     }
 
     // Add the requested user to the list of tournament organizers
-    if (ORGANIZERS && ORGANIZERS.some((organizer): boolean => organizer.id === USER_ID)) {
+    if (ORGANIZERS && ORGANIZERS.some((organizer): boolean => organizer.ID === USER_ID)) {
       message.reply(`${USER} is already a tournament organizer.`);
       return;
     } else {
@@ -41,9 +41,9 @@ export default {
       const newOrganizersArray = [
         ...oldArray,
         {
-          id: USER_ID,
-          at: USER,
-          name: USER_NAME,
+          ID: USER_ID,
+          AT: USER,
+          NAME: USER_NAME,
         },
       ];
 
@@ -52,7 +52,7 @@ export default {
           (<Discord.GuildMember>message.guild.members.get(USER_ID)).addRole(ORGANIZER_ROLE);
           message.channel.send(`${USER} was successfully added as a tournament organizer.`);
         })
-        .catch((err): void => {
+        .catch((err: Error): void => {
           console.error(err);
           message.reply(`There was an error trying to add ${USER} as a tournament organizer.`);
         });
