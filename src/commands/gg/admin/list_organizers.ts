@@ -15,7 +15,7 @@ export default {
       return;
     }
 
-    const organizerString = ORGANIZERS.map((organizer): string => organizer.at).join(', ');
+    const organizerString = ORGANIZERS.map((organizer): string => organizer.AT).join(', ');
 
     message.channel.send(`The current Tournament Organizers are: ${organizerString}.`);
   },

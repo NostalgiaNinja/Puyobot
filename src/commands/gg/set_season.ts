@@ -3,11 +3,11 @@ import { configRef, getOrganizers, setSeason } from '../../utility/firebase';
 import { ChannelRefs, LeagueConfig } from '../../@types/league';
 
 export default {
-  name: 'new_season',
-  description: 'Create and set the current league season.',
+  name: 'set_season',
+  description: 'Set the current league season.',
   aliases: [],
   category: ['League'],
-  usage: ['.gg admin new_season'],
+  usage: ['.gg admin set_season'],
   async execute(message: Discord.Message, args: string[], client: Discord.Client): Promise<void> {
     // Check if the current user the current user is a tournament organizer
     const USER = message.author.id;
@@ -18,7 +18,7 @@ export default {
       return;
     }
 
-    if (!ORGANIZERS.some((ORGANIZER): boolean => ORGANIZER.id === USER)) {
+    if (!ORGANIZERS.some((ORGANIZER): boolean => ORGANIZER.ID === USER)) {
       message.reply("Error: You can't use this command because you're not a tournament organizer.");
       return;
     }
@@ -45,7 +45,7 @@ export default {
     }
 
     // Send a message to the verification channel.
-    const discordChannel = <Discord.TextChannel | undefined>client.channels.get(VERIFICATION_CHANNEL.id);
+    const discordChannel = <Discord.TextChannel | undefined>client.channels.get(VERIFICATION_CHANNEL.ID);
     if (!discordChannel) {
       console.log('Couldn\t find the verification channel.');
       return;
@@ -59,7 +59,7 @@ export default {
     // First, make sure the user reacting is a tournament organizer.
     const filter = (reaction: Discord.MessageReaction, user: Discord.User): boolean => {
       const validEmojis = ['✅', '❌'].some((emoji): boolean => emoji === reaction.emoji.name);
-      const validUser = ORGANIZERS.some((ORGANIZER): boolean => ORGANIZER.id === user.id);
+      const validUser = ORGANIZERS.some((ORGANIZER): boolean => ORGANIZER.ID === user.id);
       return validEmojis && validUser;
     };
 

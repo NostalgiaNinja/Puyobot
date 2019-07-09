@@ -1,22 +1,24 @@
 export interface UserRefs {
-  id: string;
-  at: string;
-  name: string;
+  ID: string;
+  AT: string;
+  NAME: string;
 }
 
 export interface ChannelRefs {
-  id: string;
-  at: string;
-  name: string;
+  ID: string;
+  AT: string;
+  NAME: string;
 }
 
 export interface PlayerData {
-  avatar: string;
-  createdTimestamp: number;
-  current_rating: number;
-  id: string;
-  match_history: object;
-  tag: string;
+  ID: string;
+  AVATAR: string;
+  AT: string;
+  TAG: string;
+  USERNAME: string;
+  CREATED_TIMESTAMP: number;
+  CURRENT_RATING: number;
+  MATCH_HISTORY: object;
 }
 
 export interface LeagueConfig {

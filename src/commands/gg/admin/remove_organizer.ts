@@ -37,7 +37,7 @@ export default {
     }
 
     // Remove requested user from the list of tournament organizers.
-    const removalIndex = ORGANIZERS.map((user): string => user.id).indexOf(USER_ID);
+    const removalIndex = ORGANIZERS.map((user): string => user.ID).indexOf(USER_ID);
     if (removalIndex === -1) {
       message.reply(`${USER} is not a tournament organizer.`);
       return;
