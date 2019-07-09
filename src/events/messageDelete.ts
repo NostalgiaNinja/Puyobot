@@ -2,7 +2,7 @@
 import Discord from 'discord.js';
 import sqlite3 from 'sqlite3';
 sqlite3.verbose();
-const dbFile = './data/database.sqlite';
+const dbFile = './src/data/database.sqlite';
 const db = new sqlite3.Database(dbFile);
 
 export default (client: Discord.Client, message: Discord.Message): void => {

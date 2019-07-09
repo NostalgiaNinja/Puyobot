@@ -1,5 +1,5 @@
 import sqlite3 from 'sqlite3';
-const db = new sqlite3.Database('./data/database.sqlite');
+const db = new sqlite3.Database('./src/data/database.sqlite');
 import Discord from 'discord.js';
 
 export default {

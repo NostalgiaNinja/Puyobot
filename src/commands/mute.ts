@@ -1,6 +1,6 @@
 import Discord from 'discord.js'; //discord JS library - needed for API access
 import sqlite3 from 'sqlite3'; //Sqlite 3 - Needed to role to time out
-const db = new sqlite3.Database('./data/database.sqlite'); //database file.
+const db = new sqlite3.Database('./src/data/database.sqlite'); //database file.
 
 export default {
   name: 'mute',
