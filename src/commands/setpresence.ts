@@ -1,5 +1,4 @@
 import Discord from 'discord.js';
-import { prefix, botOwnerID } from '../config.json';
 
 export default {
   name: 'setpresence',
@@ -9,7 +8,7 @@ export default {
   category: 'Administration',
   aliases: ['sp'],
   execute(message: Discord.Message, args: string[], client: Discord.Client): void {
-    if (message.author.id == botOwnerID) {
+    if (message.author.id == process.env.BOTOWNERID) {
       {
         const richpresence = parseInt(args[0], 10);
         const gamename = args.slice(1).join(' ');
@@ -40,7 +39,7 @@ export default {
             client.user.setPresence({ game: { name: gamename, type: rpvalue as 'PLAYING' | 'STREAMING' | 'LISTENING' | 'WATCHING' } }); // setting user presence!
             message.channel.send(em);
           } else {
-            message.channel.send(`\`Syntax: ${prefix}setpresence [richpresence enum] [game]\` \n where richpresence = 0, 1, 2, 3 `);
+            message.channel.send(`\`Syntax: ${process.env.PREFIX}setpresence [richpresence enum] [game]\` \n where richpresence = 0, 1, 2, 3 `);
           }
         } catch (e) {
           message.channel.send('something went wrong: ' + e);

@@ -1,5 +1,4 @@
 import Discord from 'discord.js';
-import { prefix } from '../config.json';
 
 export default {
   name: 'help',
@@ -15,7 +14,7 @@ export default {
 
     if (!args.length) {
       em.addField('command list:', commands.map((command): string => command.name).join('\n'), true);
-      em.setFooter(`\nyou can send \`${prefix} help <command name>\` to get info on a specific command!`);
+      em.setFooter(`\nyou can send \`${process.env.PREFIX}help <command name>\` to get info on a specific command!`);
 
       await message.author
         .send(em)
@@ -43,7 +42,7 @@ export default {
     if (command.category) em.addField('Category:', command.category, true);
     if (command.aliases) em.addField('Aliases:', command.aliases, true);
     if (command.description) em.addField('Description:', command.description, false);
-    if (command.usage) em.addField('Usage:', prefix + command.name + ' ' + command.usage, false);
+    if (command.usage) em.addField('Usage:', process.env.PREFIX + command.name + ' ' + command.usage, false);
 
     message.channel.send(em);
   },
