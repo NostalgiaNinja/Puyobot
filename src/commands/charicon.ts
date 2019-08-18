@@ -10,7 +10,7 @@ export default {
   category: 'utility',
   execute(message: Discord.Message): void {
     if (message.member.hasPermission('MANAGE_ROLES')) {
-      const args = message.content.slice(JSON.parse(<string>process.env.PREFIX).length).split(',');
+      const args = message.content.slice(1).split(',');
       const em = new Discord.RichEmbed();
       let charName = args[0].toLowerCase();
       let charURL = args[1];
