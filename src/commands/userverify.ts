@@ -11,7 +11,7 @@ export default {
       const verifyUser = message.mentions.members.first();
 
       try {
-        verifyUser.removeRole(JSON.parse(<string>process.env.VERIFYUSERID), `User verified by ${message.author.username}`);
+        verifyUser.removeRole(<Discord.Snowflake>process.env.VERIFYUSERID, `User verified by ${message.author.username}`);
         const em = new Discord.RichEmbed();
         em.addField('User Verified', `Please let the user know that their access has been granted.`);
         message.channel.send(em);
