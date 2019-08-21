@@ -1,17 +1,17 @@
 import Discord from 'discord.js';
 
 export default {
-  name: 'pickreacter',
+  name: 'pickreactor',
   description: "Pick a random user from a message's reactions",
-  aliases: [],
-  category: ['League'],
+  args: true,
+  category: 'fun',
   usage: ['pickreacter #channel messageID'],
   async execute(message: Discord.Message, args: string[]): Promise<void> {
     if (!message.member.hasPermission('MANAGE_MESSAGES')) {
       return;
     }
     if (args.length !== 2) {
-      message.reply('Error. Incorrect number of permissions supplied.');
+      message.reply('Error. Incorrect number of arguments supplied.');
       return;
     }
 
