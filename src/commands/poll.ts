@@ -39,20 +39,16 @@ export default {
         em.addField('Poll Answer 4', args[4], false);
       }
 
-      message.channel.send(em).then((sentMessage): void => {
-        if (args[1]) {
-          (sentMessage as Discord.Message).react('1⃣');
-        }
-        if (args[2]) {
-          (sentMessage as Discord.Message).react('2⃣');
-        }
-        if (args[3]) {
-          (sentMessage as Discord.Message).react('3⃣');
-        }
-        if (args[4]) {
-          (sentMessage as Discord.Message).react('4⃣');
-        }
-      });
+      message.channel.send(em).then(
+        async (sentMessage): Promise<void> => {
+          const numbers = ['1⃣', '2⃣', '3⃣', '4⃣'];
+          for (let i = 1; i <= 4; i++) {
+            if (args[i]) {
+              await (sentMessage as Discord.Message).react(numbers[i - 1]);
+            }
+          }
+        },
+      );
     }
   },
 };
