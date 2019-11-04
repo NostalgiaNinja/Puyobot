@@ -10,9 +10,9 @@ export default {
   name: 'init',
   description: 'Intializes the database',
   args: true,
-  usage: '<database | server | charaicon>',
+  usage: '<database | server | charaicon | commands>',
   category: 'Administration',
-  execute(message: Discord.Message, args: string[]): void {
+  async execute(message: Discord.Message, args: string[]): Promise<void> {
     if (message.member.hasPermission('MANAGE_ROLES')) {
       const type = args[0];
 
@@ -30,6 +30,58 @@ export default {
 
           message.channel.send('Database initialized successfully!');
           console.log('Database tables initialized.');
+        }
+        if (type == 'commands') {
+          if (message.author.id != botOwnerId) {
+            message.channel.send(`Bot commands can't be used until the server owner enables them. Please notify a moderator.`);
+            console.log(botOwnerId);
+            console.log(message.author.id);
+            return;
+          }
+
+          // Create the table if doesn't already exists. Same code as in /src/index.ts
+          db.run(
+            `CREATE TABLE IF NOT EXISTS command_settings (serverID TEXT, commandName TEXT, enabled BOOLEAN NOT NULL CHECK (enabled IN (0,1)), usageCount INT, PRIMARY KEY (serverID, commandName))`,
+          );
+          db.run(`CREATE TABLE IF NOT EXISTS command_usableBy (serverID TEXT, commandName TEXT, roleID TEXT, PRIMARY KEY (serverID, commandName))`);
+
+          // You can reuse ".init commands" to add newly created commands to a table that already exists
+          // First, get the list of current commands
+          const currentCommands = await new Promise<string[]>((resolve, reject): void => {
+            db.all(`SELECT DISTINCT commandName FROM command_settings`, (err, rows): void => {
+              if (err) reject(err);
+              resolve(rows.map((row): string => row.commandName));
+            });
+          });
+
+          // Populate the command_settings table with the current commands
+          // Only get new commands
+          const loadedNames = message.client.commandNames;
+          const commandNames = loadedNames.filter((name): boolean => !currentCommands.includes(name));
+          console.log(commandNames);
+          const serverID = message.guild.id;
+          let modID = '';
+          db.serialize((): void => {
+            // Get the moderator ID
+            db.get(`SELECT moderatorID FROM server`, (err, row): void => {
+              modID = row['moderatorID'];
+              if (modID === undefined || modID.length == 0) {
+                message.channel.send(`Error. Couldn't setup the commands table because the moderatorID was not found or was invalid.`);
+                return;
+              }
+
+              commandNames.forEach((name): void => {
+                db.run(`INSERT INTO command_settings (serverID, commandName, enabled, usageCount)
+                        VALUES (${serverID}, "${name}", 1, 0)`);
+
+                // By default, all commands are enabled, but only usable by those with moderatorID.
+                db.run(`INSERT INTO command_usableBy (serverID, commandName, roleID)
+                        VALUES (${serverID}, "${name}", ${modID})`);
+              });
+            });
+
+            // Add each command to command_settings and command_usableBy
+          });
         }
         if (type == 'server') {
           db.run('INSERT INTO server (serverID) VALUES (?)', message.guild.id);

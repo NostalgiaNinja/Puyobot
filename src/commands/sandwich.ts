@@ -1,8 +1,9 @@
 import Discord from 'discord.js';
 
 export default {
-  name: '12chainsandwich',
+  name: 'sandwich',
   description: '12 Chain Sandwich',
+  aliases: ['12chainsandwich'],
   args: false,
   usage: '',
   category: 'fun',
