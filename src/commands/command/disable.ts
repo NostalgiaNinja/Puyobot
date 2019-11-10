@@ -8,28 +8,27 @@ interface QueryRow {
 }
 
 export default {
-  name: 'enable',
-  description: 'List the current commands and their ',
+  name: 'disable',
+  description: 'Disable',
   aliases: [],
   category: ['Administration'],
-  usage: ['command enable [commandName] [@role | roleID]'],
+  usage: ['command disable [commandName] [@role | roleID]'],
   async execute(message: Discord.Message, args: string[]): Promise<void> {
     // Check if arguments were passed
-    if (args.length == 0) {
-      message.channel.send('Error. Insufficient parameters.');
+    if (args.length === 0) {
+      message.channel.send(`Error. Insufficient parameters.`);
       return;
     }
 
-    // Check if the command you're trying to enable is a valid command
+    // Check if the command you're trying to disable is a valid command
     const isValidCommand = message.channel.client.commandNames.includes(args[0]);
     if (!isValidCommand) {
-      message.channel.send(`Error. The command you're trying to enable permissions for could not be found.`);
+      message.channel.send(`Error. The command you're trying to disable permissions for could not be found.`);
       return;
     }
 
     // Check if the role you're trying to enable permissions for is a valid role
     const role = args[1] && !args[1].includes('@&') ? message.guild.roles.get(args[1]) : message.mentions.roles.first();
-
     if (!role) {
       message.channel.send(`Error. You didn't supply a roleID or tag a role.`);
       return;
@@ -54,25 +53,24 @@ export default {
       );
     });
 
-    // Check if the role already has the command enabled.
-    const isAlreadyEnabled = tableRows.some((row): boolean => row['roleID'] === roleID);
-    if (isAlreadyEnabled) {
-      message.channel.send(`Error. The role ${role.name} already has permission to use the command: ${commandName}`);
+    // Check if the role is already disabled
+    const isAlreadyDisabled = !tableRows.some((row): boolean => row['roleID'] === roleID);
+    if (isAlreadyDisabled) {
+      message.channel.send(`The role ${role.name} already has the ${commandName} command disabled.`);
       return;
     }
 
-    // Add role to command_usableBy table
+    // Delete row from table
     db.run(
-      `INSERT INTO command_usableBy (serverID, commandName, roleID)
-       VALUES (?, ?, ?)`,
-      [serverID, commandName, roleID],
+      `DELETE FROM command_usableBy
+       WHERE serverID = '${serverID}' AND commandName = '${commandName}' AND roleID = '${roleID}'`,
       (err): void => {
         if (err) {
           console.error(err.message);
-          message.channel.send(`Error. Failed to enable the role in the database.`);
+          message.channel.send(`Error. Failed to disable the role in the database.`);
           return;
         }
-        message.channel.send(`Success. The role ${role.name} can now use the command: ${commandName}.`);
+        message.channel.send(`Success. The command ${commandName} was disabled for the role ${role.name}`);
       },
     );
   },

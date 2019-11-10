@@ -51,7 +51,7 @@ db.serialize((): void => {
   db.run('CREATE TABLE IF NOT EXISTS server (serverID TEXT, moderatorID TEXT, moderationChannel TEXT, mutedRoleID TEXT, PRIMARY KEY (serverID))');
   db.run('CREATE TABLE IF NOT EXISTS yike (serverID TEXT, yikecount INT)');
   db.run(`CREATE TABLE IF NOT EXISTS command_settings (serverID TEXT, commandName TEXT, enabled BOOLEAN NOT NULL CHECK (enabled IN (0,1)), usageCount INT, PRIMARY KEY (serverID, commandName))`);
-  db.run(`CREATE TABLE IF NOT EXISTS command_usableBy (serverID TEXT, commandName TEXT, roleID TEXT, PRIMARY KEY (serverID, commandName))`);
+  db.run(`CREATE TABLE IF NOT EXISTS command_usableBy (serverID TEXT, commandName TEXT, roleID TEXT, PRIMARY KEY (serverID, commandName, roleID))`);
   console.log('Database files initialized');
 });
 
@@ -88,13 +88,16 @@ client.on(
 
     // Check if command is usable by the user.
     const commandIsUsable = await new Promise<boolean>((resolve, reject): void => {
+      if (message.member.hasPermission('ADMINISTRATOR')) {
+        resolve(true);
+        return;
+      }
       db.get(`SELECT roleID FROM command_usableBy WHERE commandName = '${command.name}'`, (err, row): void => {
         if (err) {
           console.error(err.message);
           reject(false);
         }
-        // Administrators can use any command
-        resolve(message.member.hasPermission('ADMINISTRATOR') || message.member.roles.has(row['roleID']));
+        resolve(message.member.roles.has(row['roleID']));
       });
     });
 

@@ -40,10 +40,21 @@ export default {
           }
 
           // Create the table if doesn't already exists. Same code as in /src/index.ts
-          db.run(
-            `CREATE TABLE IF NOT EXISTS command_settings (serverID TEXT, commandName TEXT, enabled BOOLEAN NOT NULL CHECK (enabled IN (0,1)), usageCount INT, PRIMARY KEY (serverID, commandName))`,
-          );
-          db.run(`CREATE TABLE IF NOT EXISTS command_usableBy (serverID TEXT, commandName TEXT, roleID TEXT, PRIMARY KEY (serverID, commandName))`);
+          await new Promise((resolve, reject): void => {
+            db.run(
+              `CREATE TABLE IF NOT EXISTS command_settings (serverID TEXT, commandName TEXT, enabled BOOLEAN NOT NULL CHECK (enabled IN (0,1)), usageCount INT, PRIMARY KEY (serverID, commandName))`,
+              (err): void => {
+                if (err) reject(err);
+                resolve();
+              },
+            );
+          });
+          await new Promise((resolve, reject): void => {
+            db.run(`CREATE TABLE IF NOT EXISTS command_usableBy (serverID TEXT, commandName TEXT, roleID TEXT, PRIMARY KEY (serverID, commandName, roleID))`, (err): void => {
+              if (err) reject(err);
+              resolve();
+            });
+          });
 
           // You can reuse ".init commands" to add newly created commands to a table that already exists
           // First, get the list of current commands
@@ -53,6 +64,8 @@ export default {
               resolve(rows.map((row): string => row.commandName));
             });
           });
+
+          console.log(currentCommands);
 
           // Populate the command_settings table with the current commands
           // Only get new commands
@@ -79,8 +92,6 @@ export default {
                         VALUES (${serverID}, "${name}", ${modID})`);
               });
             });
-
-            // Add each command to command_settings and command_usableBy
           });
         }
         if (type == 'server') {

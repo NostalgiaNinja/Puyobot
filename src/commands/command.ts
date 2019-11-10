@@ -25,7 +25,7 @@ export default {
   description: 'Commands enabling and disabling user commands.',
   aliases: [],
   category: ['Administration'],
-  usage: ['command [enable/disable/setupAll/list/getRoleId] [commandName]'],
+  usage: ['command [enable/disable/permissions/getRoleId] [commandName]'],
   execute(message: Discord.Message, args: string[], client: Discord.Client): void {
     // Only allow administrators to use this command
     if (!message.member.hasPermission('ADMINISTRATOR')) return;
