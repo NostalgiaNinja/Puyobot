@@ -5,10 +5,10 @@ import Discord from 'discord.js';
 export default {
   name: 'yikes',
   description: 'A yikes counter',
-  args: false,
+  args: true,
   usage: '',
   category: 'fun',
-  execute(message: Discord.Message): void {
+  execute(message: Discord.Message, args: string[]): void {
     //initialize variables for command
 
     const em = new Discord.RichEmbed();
@@ -18,12 +18,21 @@ export default {
         db.run(`INSERT INTO yike VALUES (?, ?)`, message.guild.id, 0);
         message.channel.send(`This is the first time the yike counter has been ordered on this server.  Yikes will be counted now.`);
       } else {
+        if ((args[0] = 'reset')) {
+          if (!message.member.hasPermission('MANAGE_ROLES')) return;
+          yikes = 0;
+          db.run(`UPDATE yike SET yikecount = ${yikes} WHERE serverID = ${message.guild.id}`);
+
+          em.setTitle('Yikes counter reset!')
+            .setColor(0x1887d2)
+            .setDescription('The Yikes counter has been reset for this server.');
+        }
         yikes = row.yikecount + 1;
         db.run(`UPDATE yike SET yikecount = ${yikes} WHERE serverID = ${message.guild.id}`);
 
         em.setTitle('Yikes!')
           .setColor(0xf9a704)
-          .setDescription('A yike has been ordered. The yikes count is now ' + yikes);
+          .setDescription('The yikes count is now ' + yikes);
 
         message.channel.send(em);
       }
