@@ -11,7 +11,7 @@ export default {
   execute(message: Discord.Message, args: string[]): void {
     //initialize variables for command
 
-    args[0] = ''; //initialize to nothing so that arguments can be allowed
+    let yikesreset = args[0]; //initialize to nothing so that arguments can be allowed
     const em = new Discord.RichEmbed();
     let yikes = 0;
     db.get(`SELECT * FROM yike WHERE serverID = ${message.guild.id}`, function(err, row): void {
@@ -19,7 +19,7 @@ export default {
         db.run(`INSERT INTO yike VALUES (?, ?)`, message.guild.id, 0);
         message.channel.send(`This is the first time the yike counter has been ordered on this server.  Yikes will be counted now.`);
       } else {
-        if ((args[0] = 'reset')) {
+        if (yikesreset == 'reset') {
           if (!message.member.hasPermission('MANAGE_ROLES')) return;
           yikes = 0;
           db.run(`UPDATE yike SET yikecount = ${yikes} WHERE serverID = ${message.guild.id}`);
