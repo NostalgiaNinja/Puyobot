@@ -11,6 +11,7 @@ export default {
   execute(message: Discord.Message, args: string[]): void {
     //initialize variables for command
 
+    args[0] = ''; //initialize to nothing so that arguments can be allowed
     const em = new Discord.RichEmbed();
     let yikes = 0;
     db.get(`SELECT * FROM yike WHERE serverID = ${message.guild.id}`, function(err, row): void {
