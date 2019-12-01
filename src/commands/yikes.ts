@@ -27,13 +27,14 @@ export default {
             .setColor(0x1887d2)
             .setDescription('The Yikes counter has been reset for this server.');
         }
+        else {
         yikes = row.yikecount + 1;
         db.run(`UPDATE yike SET yikecount = ${yikes} WHERE serverID = ${message.guild.id}`);
 
         em.setTitle('Yikes!')
           .setColor(0xf9a704)
           .setDescription('The yikes count is now ' + yikes);
-
+        }
         message.channel.send(em);
       }
     });
