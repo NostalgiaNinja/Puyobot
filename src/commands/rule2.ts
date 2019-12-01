@@ -1,8 +1,9 @@
 import Discord from 'discord.js';
 
 export default {
-  name: 'r2',
+  name: 'rule2',
   description: 'Displays Rule 2 in an embed',
+  aliases: ['r2'],
   args: true,
   usage: '',
   execute(message: Discord.Message): void {

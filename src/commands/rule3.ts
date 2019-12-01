@@ -1,9 +1,10 @@
 import Discord from 'discord.js';
 
 export default {
-  name: 'r3',
+  name: 'rule3',
   description: 'Displays Rule 3 in an embed',
   args: true,
+  aliases: ['r3'],
   usage: '',
   execute(message: Discord.Message): void {
     const em = new Discord.RichEmbed();
