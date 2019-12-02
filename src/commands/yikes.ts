@@ -6,7 +6,6 @@ export default {
   name: 'yikes',
   description: 'A yikes counter',
   args: true,
-  usage: '',
   category: 'fun',
   execute(message: Discord.Message, args: string[]): void {
     //initialize variables for command

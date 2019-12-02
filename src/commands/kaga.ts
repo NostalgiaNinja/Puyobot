@@ -28,6 +28,7 @@ export default {
       'LQxljcs.png',
       'KgCNTtM.png',
       'hP9MZvB.png',
+      'AjJefXd.jpg'
     ];
 
     const suffix = parseInt(args[0], 10);
@@ -36,9 +37,9 @@ export default {
 
     if (!suffix) {
       // change this value whenever you add more.
-      rng = Math.floor(Math.random() * Math.floor(20));
+      rng = Math.floor(Math.random() * Math.floor(21));
     } else {
-      if (isNaN(suffix) == true || suffix > 19 || suffix < 0) {
+      if (isNaN(suffix) == true || suffix > 20 || suffix < 0) {
         message.channel.send('Not a valid number!  Specify a number from 0 to 19 to receive your sleep message!');
         return;
       }
