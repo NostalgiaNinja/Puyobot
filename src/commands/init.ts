@@ -13,14 +13,20 @@ export default {
   usage: '<database | server | charaicon>',
   category: 'Administration',
   execute(message: Discord.Message, args: string[]): void {
+    if (message.channel.type === 'dm') {
+      const em = new Discord.RichEmbed();
+
+      em.setTitle('Server exclusive command')
+        .setDescription('This command is intended for server use only!')
+        .setFooter('With love, Nostalgia Ninja');
+
+      message.channel.send(em);
+      return;
+    }
     if (message.member.hasPermission('MANAGE_ROLES')) {
       const type = args[0];
 
       try {
-        if (message.channel.type === 'dm') {
-          message.channel.send('Please do not use this command in DMs!');
-          return;
-        }
         if (type == 'database') {
           if (message.author.id != botOwnerId) {
             message.channel.send('This is used to initialize the database.  If not initialized, ask the bot owner to run this command.');

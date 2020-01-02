@@ -10,10 +10,10 @@ export default {
   execute(message: Discord.Message): void {
     const em = new Discord.RichEmbed();
     em.setTitle('Puyobot version ' + version)
-      .setDescription('TypeScript update!')
+      .setDescription('DM patches!')
       .setColor(0x59afef)
-      .addField('Rule aliases added!', 'Added additional aliases to rules, use `rule#` where # is the rule number to apply rules.  old r# aliases still work, too!', false)
-      .addField('Yikes update: Resetter added', 'Resetter for .yikes added, number has been reset to 0 for most servers as a result.')
+      .addField('DM checks put in place for commands exclusively for use on servers', "Yikes command won't break now when using it in DMs", false)
+      .addField('console outputs cleaned up', 'minor debugging tools cleaned up that were left behind.', false)
       .setFooter('Puyobot ver.' + version + ' made by the English Puyo Puyo Community, for the English Puyo Puyo Communtiy!');
 
     message.channel.send(em);

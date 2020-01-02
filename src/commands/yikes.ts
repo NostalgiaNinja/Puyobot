@@ -9,6 +9,16 @@ export default {
   category: 'fun',
   execute(message: Discord.Message, args: string[]): void {
     //initialize variables for command
+    if (message.channel.type === 'dm') {
+      const em = new Discord.RichEmbed();
+
+      em.setTitle('Yikes!')
+        .setDescription('Since this was done in DMs, there will not be a counter for the command.')
+        .setFooter('With love, Nostalgia Ninja');
+
+      message.channel.send(em);
+      return;
+    }
 
     let yikesreset = args[0]; //initialize to nothing so that arguments can be allowed
     const em = new Discord.RichEmbed();
