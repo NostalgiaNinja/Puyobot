@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import sqlite3 from 'sqlite3';
 const db = new sqlite3.Database('./src/data/database.sqlite');
 import Discord from 'discord.js';
@@ -17,23 +18,25 @@ export default {
             status TEXT,            --> READY | SEARCHING | PLAYING | DISQUALIFIED
             wins UNSIGNED INT,      --> Wins
             losses UNSIGNED INT,    --> Losses
+            forfeits UNSIGNED INT   --> Forfeits (forfeiter gains a forfeit, winner does not gain a win)
             wl_ratio DOUBLE         --> Win to loss ratio in percentage (2 decimal places)
 
         match table: Verifying the PLAYING state and making sure players get awarded points appropriately.
             serverID TEXT (FK),  --> Server ID to verify playing match state
             hostID TEXT (FK),    --> Player who requested the match
             clientID TEXT        --> Player who accepted match request
+            ^? ClientID needs to be accessible to the whole command.  - will think this through further.
 
         */
 
     //creates the database tables if it doesn't exist on first iteration.
-    db.run('CREATE TABLE IF NOT EXISTS player (serverID TEXT, playerID TEXT, status TEXT, wins TEXT, losses TEXT, wl_ratio TEXT, PRIMARY KEY(serverID))');
+    db.run('CREATE TABLE IF NOT EXISTS player (serverID TEXT, playerID TEXT, status TEXT, wins UNSIGNED INT, losses UNSIGNED INT, forfeits UNSIGNED INT, wl_ratio TEXT, PRIMARY KEY(serverID))');
     db.run('CREATE TABLE IF NOT EXISTS match (serverID TEXT, hostID TEXT, clientID TEXT)');
 
     //if the player doesn't exist in the database, create a new record.
     db.get(`SELECT * FROM player WHERE serverID = ${message.guild.id} AND playerID = ${message.author.id}`, function(err, row): void {
       if (!row) {
-        db.run('INSERT INTO player VALUES (?, ?, ?, ?, ?, ?)', message.guild.id, message.author.id, 'READY', 0, 0, 0.0);
+        db.run('INSERT INTO player VALUES (?, ?, ?, ?, ?, ?, ?)', message.guild.id, message.author.id, 'READY', 0, 0, 0, 0.0);
         message.channel.send('Since you are new, your stats are at 0 and you are all set up for play.');
       }
     });
@@ -59,7 +62,7 @@ export default {
 
           //send a message with a reaction, and listen for a reaction return.  If reaction return comes from the same user, cancel matchmaking, otherwise listen for someone else's reaction and respond.
           message.channel.send(em).then((sentMessage): void => {
-            (sentMessage as Discord.Message).react('650775380201832459');
+            (sentMessage as Discord.Message).react('650775380201832459'); //vs emote
 
             //===============================================//
             //                  CONTINUE HERE                //
@@ -70,9 +73,8 @@ export default {
 
         //user state: DISQUALIFIED (Disqualified from league by either cheating or foul play) - Hopefully this never has to get used.
         else if (row.status == 'DISQUALIFIED') {
-          em.setTitle('Sorry, but you are disqualified from this league and therefore cannot request matches.  Please ask a Tournament Organizer/Moderator for help.').setColor(
-            message.member.colorRole.color,
-          );
+          em.setTitle('Sorry, but you are disqualified from this league and therefore cannot request matches.  Please ask a Tournament Organizer/Moderator for help.');
+          em.setColor(0xff0000);
 
           message.channel.send(em);
         }
@@ -96,8 +98,9 @@ export default {
           em.setTitle('Statistics for player: ' + message.author.username)
             .setThumbnail(message.author.avatarURL)
             .addField('Wins', row.wins, true)
-            .addField('losses', row.losses, true)
-            .addField('Win-to-Loss Ratio', row.wl_ratio + '%', true)
+            .addField('Losses', row.losses, true)
+            .addField('Forfeits', row.forfeits, true)
+            .addField('Win-to-Loss Ratio', row.wl_ratio + '%', true)  //calculate at run level.
             .addField('Current Status', row.status, false)
             .setColor(message.member.colorRole.color);
 
@@ -113,6 +116,11 @@ export default {
       db.get(`SELECT * FROM player WHERE serverID = ${message.guild.id} AND playerID = ${message.author.id}`, function(err, row): void {
         if (row.status !== 'READY') {
           db.run(`UPDATE player SET status = "READY" WHERE serverID = ${message.guild.id} AND playerID = ${stateupdateUID}`);
+        } 
+        else {
+          em.setTitle('Player is already in READY state!')
+            .setDescription("You can't reset a player already in READY state")
+            .setColor(message.member.colorRole.color);
         }
 
         em.setTitle('League state for member updated')
@@ -126,8 +134,8 @@ export default {
     //Moderator disqualifies a user for cheating or foul play - Hopefully this never has to get used.
     else if (request == 'dq') {
       if (!message.member.hasPermission('MANAGE_ROLES')) return;
-      db.get(`SELECT * FROM player WHERE serverID = ${message.guild.id} AND playerID = ${message.author.id}`, function(err, row): void {
-        if (row.status !== 'READY') {
+      db.get(`SELECT * FROM player WHERE serverID = ${message.guild.id} AND playerID = ${stateupdateUID}`, function(err, row): void {
+        if (row) {
           db.run(`UPDATE player SET status = "DISQUALIFIED" WHERE serverID = ${message.guild.id} AND playerID = ${stateupdateUID}`);
         }
 
@@ -138,5 +146,76 @@ export default {
         message.channel.send(em);
       });
     }
+
+    else if (request == 'win') {
+      db.get(`SELECT * FROM player WHERE playerID = ${message.author.id} AND serverID = ${message.guild.id}`, function(err, row): void {
+        if (row.status !== 'PLAYING'){
+          em.setTitle('You are not in PLAYING state, therefore you cannot add a win to the player')
+            .setDescription('Please start a game with someone and report your game stats to the system once done.')
+            .setColor(message.member.colorRole.color)
+
+            message.channel.send(em);
+            return;
+        }
+        else {
+          //get both players, add win+1 to winner, add lose+1 to loser, reset player states thereafter.
+          db.run(`UPDATE player SET wins = wins + 1 WHERE serverID = ${message.guild.id} AND playerID = ${message.author.id}`);
+          db.run(`UPDATE player SET status = "READY" WHERE serverID = ${message.guild.id} AND playerID = ${stateupdateUID}`);
+        }
+        em.setTitle('Congratulations, you won the match!')
+          .setDescription('Adding your score to the scoreboard')
+          .setColor(message.member.colorRole.color);
+
+        message.channel.send(em);
+      });
+    }
+
+    else if (request == 'lose') {
+      db.get(`SELECT * FROM player WHERE playerID = ${message.author.id} AND serverID = ${message.guild.id}`, function(err,row): void {
+        if (row.status !== 'PLAYING') {
+          em.setTitle('You are not in PLAYING state, therefore you cannot add a win to the player')
+          .setDescription('Please start a game with someone and report your game stats to the system once done.')
+          .setColor(message.member.colorRole.color)
+
+          message.channel.send(em);
+          return;
+        }
+        else {
+          //get both players, add losses+1 to the loser, and wins+1 to the winner, reset player states thereafter
+          db.run(`UPDATE player SET losses = losses + 1 WHERE serverID = ${message.guild.id} AND playerID = ${message.author.id}`);
+          db.run(`UPDATE player SET status = "READY" WHERE serverID = ${message.guild.id} AND playerID = ${stateupdateUID}`);
+        }
+        em.setTitle('Sorry that you lost the match, better luck next time!')
+          .setDescription('Adding your score to the scoreboard')
+          .setColor(message.member.colorRole.color);
+  
+        message.channel.send(em);
+      });
+    }
+
+    else if (request == 'forfeit') {
+      db.get(`SELECT * FROM player WHERE playerID = ${message.author.id} AND serverID = ${message.guild.id}`, function(err,row): void {
+        if (row.status !== 'PLAYING') {
+          em.setTitle('You are not in PLAYING state, therefore you cannot add a win to the player')
+          .setDescription('Please start a game with someone and report your game stats to the system once done.')
+          .setColor(message.member.colorRole.color)
+
+          message.channel.send(em);
+          return;          
+        }
+        else {
+          //get both players, for forfeiter add forfeits+1 to forfeits, and reset game state for both players.  Winner does not get a win (to be fair.)
+          db.run(`UPDATE player SET forfeits = forfeits + 1 WHERE serverID = ${message.guild.id} AND playerID = ${message.author.id}`);
+          db.run(`UPDATE player SET status = "READY" WHERE serverID = ${message.guild.id} AND playerID = ${stateupdateUID}`);
+        }
+        em.setTitle('Match forfeited. Matchmaking will be reset for both players.')
+          .setDescription('Forfeiting will not increase your score towards plays.')
+          .setColor(message.member.colorRole.color);
+
+        message.channel.send(em);
+      });
+    }
+
   },
 };
+
