@@ -22,17 +22,17 @@ export default {
             forfeits UNSIGNED INT   --> Forfeits (forfeiter gains a forfeit, winner does not gain a win)
 
         match table: Verifying the PLAYING state and making sure players get awarded points appropriately.
-            matchID INT (PK)     --> Match ID so that either the client or the host can report scores.
+            rowID     --> Match ID so that either the client or the host can report scores. - automatically created by SQLite3
             serverID TEXT (FK),  --> Server ID to verify playing match state
             hostID TEXT (FK),    --> Player who requested the match
             clientID TEXT        --> Player who accepted match request
-            ^? ClientID needs to be accessible to the whole command.  - will think this through further.
+            ^! clientID accessible from rowID on call.
 
         */
 
     //creates the database tables if it doesn't exist on first iteration.
     db.run('CREATE TABLE IF NOT EXISTS player (serverID TEXT, playerID TEXT, playerName TEXT, status TEXT, wins UNSIGNED INT, losses UNSIGNED INT, forfeits UNSIGNED INT, PRIMARY KEY(serverID))');
-    db.run('CREATE TABLE IF NOT EXISTS match (matchID INT, serverID TEXT, hostID TEXT, clientID TEXT, PRIMARY KEY(matchID))');
+    db.run('CREATE TABLE IF NOT EXISTS match (serverID TEXT, hostID TEXT, clientID TEXT');
 
     //if the player doesn't exist in the database, create a new record.
     db.get(`SELECT * FROM player WHERE serverID = ${message.guild.id} AND playerID = ${message.author.id}`, function(err, row): void {
@@ -66,7 +66,7 @@ export default {
             (sentMessage as Discord.Message).react('650775380201832459'); //vs emote
 
             //===============================================//
-            //                  CONTINUE HERE                //
+            // -- TESTREACT BOILERPLATE CODE HERE --         //
             //===============================================//
             // Player reacts, check for user and see if they're registered, if not register them and set up battle states for both players.
           });
@@ -103,6 +103,11 @@ export default {
             .addField('Forfeits', row.forfeits, true)
             .addField('Current Status', row.status, false)
             .setColor(message.member.colorRole.color);
+
+          if (row.status == 'PLAYING') {
+            //get player state and see who is being played against
+            em.setFooter('Currently playing against someone in a match.  Please report your score when done!');            
+          }
 
           message.channel.send(em);
         }
