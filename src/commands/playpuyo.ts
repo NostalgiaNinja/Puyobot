@@ -15,6 +15,7 @@ export default {
         player table: Setting up the table for player statistics as well as player state (also known as a state machine.)
             serverID TEXT (FK),     --> Server ID to prevent gaming the system on another server.
             playerID TEXT (PK),     --> Players User ID from Discord.
+            playerName TEXT         --> Player registered name for ease of table use.
             status TEXT,            --> READY | SEARCHING | PLAYING | DISQUALIFIED
             wins UNSIGNED INT,      --> Wins
             losses UNSIGNED INT,    --> Losses
@@ -30,13 +31,13 @@ export default {
         */
 
     //creates the database tables if it doesn't exist on first iteration.
-    db.run('CREATE TABLE IF NOT EXISTS player (serverID TEXT, playerID TEXT, status TEXT, wins UNSIGNED INT, losses UNSIGNED INT, forfeits UNSIGNED INT, wl_ratio TEXT, PRIMARY KEY(serverID))');
+    db.run('CREATE TABLE IF NOT EXISTS player (serverID TEXT, playerID TEXT, playerName TEXT, status TEXT, wins UNSIGNED INT, losses UNSIGNED INT, forfeits UNSIGNED INT, wl_ratio TEXT, PRIMARY KEY(serverID))');
     db.run('CREATE TABLE IF NOT EXISTS match (serverID TEXT, hostID TEXT, clientID TEXT)');
 
     //if the player doesn't exist in the database, create a new record.
     db.get(`SELECT * FROM player WHERE serverID = ${message.guild.id} AND playerID = ${message.author.id}`, function(err, row): void {
       if (!row) {
-        db.run('INSERT INTO player VALUES (?, ?, ?, ?, ?, ?, ?)', message.guild.id, message.author.id, 'READY', 0, 0, 0, 0.0);
+        db.run('INSERT INTO player VALUES (?, ?, ?, ?, ?, ?, ?, ?)', message.guild.id, message.author.id, message.author.username, 'READY', 0, 0, 0, 0.0);
         message.channel.send('Since you are new, your stats are at 0 and you are all set up for play.');
       }
     });
@@ -189,7 +190,7 @@ export default {
     else if (request == 'lose') {
       db.get(`SELECT * FROM player WHERE playerID = ${message.author.id} AND serverID = ${message.guild.id}`, function(err,row): void {
         if (row.status !== 'PLAYING') {
-          em.setTitle('You are not in PLAYING state, therefore you cannot add a win to the player')
+          em.setTitle('You are not in PLAYING state, therefore you cannot add a loss to the player')
           .setDescription('Please start a game with someone and report your game stats to the system once done.')
           .setColor(message.member.colorRole.color)
 
