@@ -113,6 +113,14 @@ export default {
     //probably need to ask for confirmation in this case.  Will double check.
     else if (request == 'reset') {
       if (!message.member.hasPermission('MANAGE_ROLES')) return;
+      if (!stateupdateUID) {
+        em.setTitle('Error')
+          .setDescription('Please add a target user to this setting.')
+          .setColor(0xff0000);
+
+        message.channel.send(em);
+        return
+      }
       db.get(`SELECT * FROM player WHERE serverID = ${message.guild.id} AND playerID = ${message.author.id}`, function(err, row): void {
         if (row.status !== 'READY') {
           db.run(`UPDATE player SET status = "READY" WHERE serverID = ${message.guild.id} AND playerID = ${stateupdateUID}`);
@@ -134,6 +142,14 @@ export default {
     //Moderator disqualifies a user for cheating or foul play - Hopefully this never has to get used.
     else if (request == 'dq') {
       if (!message.member.hasPermission('MANAGE_ROLES')) return;
+      if (!stateupdateUID) {
+        em.setTitle('Error')
+          .setDescription('Please add a target user to this setting.')
+          .setColor(0xff0000);
+
+        message.channel.send(em);
+        return
+      }
       db.get(`SELECT * FROM player WHERE serverID = ${message.guild.id} AND playerID = ${stateupdateUID}`, function(err, row): void {
         if (row) {
           db.run(`UPDATE player SET status = "DISQUALIFIED" WHERE serverID = ${message.guild.id} AND playerID = ${stateupdateUID}`);
@@ -160,7 +176,7 @@ export default {
         else {
           //get both players, add win+1 to winner, add lose+1 to loser, reset player states thereafter.
           db.run(`UPDATE player SET wins = wins + 1 WHERE serverID = ${message.guild.id} AND playerID = ${message.author.id}`);
-          db.run(`UPDATE player SET status = "READY" WHERE serverID = ${message.guild.id} AND playerID = ${stateupdateUID}`);
+          db.run(`UPDATE player SET status = "READY" WHERE serverID = ${message.guild.id} AND playerID = ${message.author.id}`);
         }
         em.setTitle('Congratulations, you won the match!')
           .setDescription('Adding your score to the scoreboard')
@@ -183,7 +199,7 @@ export default {
         else {
           //get both players, add losses+1 to the loser, and wins+1 to the winner, reset player states thereafter
           db.run(`UPDATE player SET losses = losses + 1 WHERE serverID = ${message.guild.id} AND playerID = ${message.author.id}`);
-          db.run(`UPDATE player SET status = "READY" WHERE serverID = ${message.guild.id} AND playerID = ${stateupdateUID}`);
+          db.run(`UPDATE player SET status = "READY" WHERE serverID = ${message.guild.id} AND playerID = ${message.author.id}`);
         }
         em.setTitle('Sorry that you lost the match, better luck next time!')
           .setDescription('Adding your score to the scoreboard')
@@ -206,7 +222,7 @@ export default {
         else {
           //get both players, for forfeiter add forfeits+1 to forfeits, and reset game state for both players.  Winner does not get a win (to be fair.)
           db.run(`UPDATE player SET forfeits = forfeits + 1 WHERE serverID = ${message.guild.id} AND playerID = ${message.author.id}`);
-          db.run(`UPDATE player SET status = "READY" WHERE serverID = ${message.guild.id} AND playerID = ${stateupdateUID}`);
+          db.run(`UPDATE player SET status = "READY" WHERE serverID = ${message.guild.id} AND playerID = ${message.author.id}`);
         }
         em.setTitle('Match forfeited. Matchmaking will be reset for both players.')
           .setDescription('Forfeiting will not increase your score towards plays.')
