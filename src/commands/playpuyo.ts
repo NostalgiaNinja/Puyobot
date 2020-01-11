@@ -20,9 +20,9 @@ export default {
             wins UNSIGNED INT,      --> Wins
             losses UNSIGNED INT,    --> Losses
             forfeits UNSIGNED INT   --> Forfeits (forfeiter gains a forfeit, winner does not gain a win)
-            wl_ratio DOUBLE         --> Win to loss ratio in percentage (2 decimal places)
 
         match table: Verifying the PLAYING state and making sure players get awarded points appropriately.
+            matchID INT (PK)     --> Match ID so that either the client or the host can report scores.
             serverID TEXT (FK),  --> Server ID to verify playing match state
             hostID TEXT (FK),    --> Player who requested the match
             clientID TEXT        --> Player who accepted match request
@@ -31,13 +31,13 @@ export default {
         */
 
     //creates the database tables if it doesn't exist on first iteration.
-    db.run('CREATE TABLE IF NOT EXISTS player (serverID TEXT, playerID TEXT, playerName TEXT, status TEXT, wins UNSIGNED INT, losses UNSIGNED INT, forfeits UNSIGNED INT, wl_ratio TEXT, PRIMARY KEY(serverID))');
-    db.run('CREATE TABLE IF NOT EXISTS match (serverID TEXT, hostID TEXT, clientID TEXT)');
+    db.run('CREATE TABLE IF NOT EXISTS player (serverID TEXT, playerID TEXT, playerName TEXT, status TEXT, wins UNSIGNED INT, losses UNSIGNED INT, forfeits UNSIGNED INT, PRIMARY KEY(serverID))');
+    db.run('CREATE TABLE IF NOT EXISTS match (matchID INT, serverID TEXT, hostID TEXT, clientID TEXT, PRIMARY KEY(matchID))');
 
     //if the player doesn't exist in the database, create a new record.
     db.get(`SELECT * FROM player WHERE serverID = ${message.guild.id} AND playerID = ${message.author.id}`, function(err, row): void {
       if (!row) {
-        db.run('INSERT INTO player VALUES (?, ?, ?, ?, ?, ?, ?, ?)', message.guild.id, message.author.id, message.author.username, 'READY', 0, 0, 0, 0.0);
+        db.run('INSERT INTO player VALUES (?, ?, ?, ?, ?, ?, ?, ?)', message.guild.id, message.author.id, message.author.username, 'READY', 0, 0, 0);
         message.channel.send('Since you are new, your stats are at 0 and you are all set up for play.');
       }
     });
@@ -96,12 +96,11 @@ export default {
       //get player data and then pull the information as necessary.
       db.get(`SELECT * FROM player WHERE serverID = ${message.guild.id} AND playerID = ${message.author.id}`, function(err, row): void {
         if (row) {
-          em.setTitle('Statistics for player: ' + message.author.username)
+          em.setTitle('Statistics for player: ' + message.author.username + 'On Server: ' + message.guild.name)
             .setThumbnail(message.author.avatarURL)
             .addField('Wins', row.wins, true)
             .addField('Losses', row.losses, true)
             .addField('Forfeits', row.forfeits, true)
-            .addField('Win-to-Loss Ratio', row.wl_ratio + '%', true)  //calculate at run level.
             .addField('Current Status', row.status, false)
             .setColor(message.member.colorRole.color);
 
