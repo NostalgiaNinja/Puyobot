@@ -1,6 +1,8 @@
 [![Build Status](https://travis-ci.org/NostalgiaNinja/Puyobot.svg?branch=master)](https://travis-ci.org/NostalgiaNinja/Puyobot)
 # Puyobot
 
+## NB: This project will not be actively maintained unless an issue is brought up or a PR gets brought to my attention. The project no longer has active scope on this Github repository and therefore updates will either slow to a crawl or be non-existent.  Modify the code at your own risk!
+
 ## v4 Notes
 Dev environment with hot reloading that uses ts-node.
 ```bash
