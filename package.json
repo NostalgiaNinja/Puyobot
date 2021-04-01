@@ -9,7 +9,7 @@
   },
   "scripts": {
     "tsc": "tsc",
-    "dev": "ts-node-dev --respawn --transpileOnly ./src/index.ts",
+    "dev": "ts-node-dev --respawn --transpile-only ./src/index.ts",
     "prod": "rm -r built && tsc && node built/src/index.js"
   },
   "keywords": [],
