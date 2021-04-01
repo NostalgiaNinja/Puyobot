@@ -12,6 +12,16 @@ export default {
   aliases: ['w'],
   category: 'Administration',
   execute(message: Discord.Message, args: string[], client: Discord.Client): void {
+    if (message.channel.type === 'dm') {
+      const em = new Discord.RichEmbed();
+
+      em.setTitle('Server exclusive command')
+        .setDescription('This command is intended for server use only!')
+        .setFooter('With love, Nostalgia Ninja');
+
+      message.channel.send(em);
+      return;
+    }
     try {
       db.each(`SELECT * FROM server WHERE serverID = '${message.guild.id}'`, function(err, row): void {
         if (!row) return;

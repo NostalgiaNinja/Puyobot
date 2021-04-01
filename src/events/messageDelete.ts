@@ -7,6 +7,8 @@ const db = new sqlite3.Database(dbFile);
 
 export default (client: Discord.Client, message: Discord.Message): void => {
   try {
+    if (message.channel.type === 'dm') return;
+
     db.each(`SELECT * FROM server WHERE serverID = '${message.guild.id}'`, function(err, row): void {
       // SQL - Select everything from server where serverID is the guild ID.  THEN
 

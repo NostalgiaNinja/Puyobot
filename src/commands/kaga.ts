@@ -4,9 +4,10 @@ export default {
   name: 'kaga',
   description: "Let's go to sleep!",
   args: true,
-  usage: '',
+  usage: '[number from 1-20]',
   category: 'fun',
   execute(message: Discord.Message, args: string[]): void {
+    const em = new Discord.RichEmbed();
     const kagas = [
       'J3MSLRU.png',
       'lQ07HO5.png',
@@ -28,25 +29,30 @@ export default {
       'LQxljcs.png',
       'KgCNTtM.png',
       'hP9MZvB.png',
+      'AjJefXd.jpg'
     ];
 
-    const suffix = parseInt(args[0], 10);
+    const suffix = Number(args[0]);
 
     let rng: number;
 
-    if (!suffix) {
+    if (isNaN(suffix)) {
       // change this value whenever you add more.
-      rng = Math.floor(Math.random() * Math.floor(20));
-    } else {
-      if (isNaN(suffix) == true || suffix > 19 || suffix < 0) {
-        message.channel.send('Not a valid number!  Specify a number from 0 to 19 to receive your sleep message!');
+      rng = Math.floor(Math.random() * Math.trunc(20));
+    }
+    else {
+      if (isNaN(suffix) && (suffix > 20 || suffix < 0)) {
+        message.channel.send('Not a valid number! Specify a number from 0 to 20 to receive your sleep message!');
         return;
       }
-      rng = Math.floor(suffix);
+      rng = Number(suffix);
     }
 
-    const em = new Discord.RichEmbed();
-    em.setImage('https://imgur.com/' + kagas[rng]);
+    em.setImage('https://imgur.com/' + kagas[Number(rng)]);
+    em.setFooter('Kaga Reference number: ' + rng);
     message.channel.send(em);
+
   },
 };
+
+  //https://imgur.com/AjJefXd.jpg

@@ -14,7 +14,6 @@ export default {
     const em = new Discord.RichEmbed();
     const testval = args[0];
 
-    console.log('out');
     db.get(`SELECT * FROM charaicon WHERE character = '${testval}'`, function(err, row): void {
       if (!row) {
         em.addField('character not added', 'please verify if the name is correct or you made a mistake.');

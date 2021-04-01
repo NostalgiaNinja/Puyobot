@@ -12,12 +12,14 @@ dotenv();
 // Module augmentation to extend Discord.Client with "commands" property
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
+client.commandNames = [];
 
 // Load command files
 const commandFiles = fs.readdirSync(path.resolve(__dirname, './commands')).filter((file: string): boolean => /(\.js|\.ts)/.test(file));
 commandFiles.forEach((file: string): void => {
   const command = require(path.resolve(__dirname, `./commands/${file}`)).default as Command;
   client.commands.set(command.name, command);
+  client.commandNames.push(command.name);
 
   // Clone additional commands in client.commands if the current command has aliases.
   if (command.aliases) {

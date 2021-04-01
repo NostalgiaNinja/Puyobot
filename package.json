@@ -1,6 +1,6 @@
 {
   "name": "puyobot",
-  "version": "4.0.0",
+  "version": "4.1.1",
   "description": "Public repository for Puyobot",
   "main": "PuyoBot.js",
   "repository": {
@@ -21,23 +21,25 @@
   "homepage": "https://github.com/NostalgiaNinja/Puyobot#readme",
   "dependencies": {
     "@types/dotenv": "^6.1.1",
+    "@types/node-fetch": "^2.5.7",
     "@types/sqlite3": "^3.1.5",
     "@typescript-eslint/eslint-plugin": "^1.10.2",
     "@typescript-eslint/parser": "^1.10.2",
     "arpad": "^1.0.2",
-    "discord.js": "^11.5.1",
+    "discord.js": "^11.6.4",
     "dotenv-json": "^1.0.0",
     "fetch": "^1.1.0",
-    "sqlite3": "^4.0.9",
-    "ts-node-dev": "^1.0.0-pre.40",
-    "typescript": "^3.5.2"
+    "node-fetch": "^2.6.1",
+    "sqlite3": "^4.2.0",
+    "ts-node-dev": "^1.0.0-pre.60",
+    "typescript": "^3.9.7"
   },
   "devDependencies": {
-    "@types/node": "^12.0.8",
+    "@types/node": "^12.12.54",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^5.0.0",
-    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "prettier": "^1.18.2",
-    "prettier-eslint": "^9.0.0"
+    "prettier-eslint": "^9.0.2"
   }
 }

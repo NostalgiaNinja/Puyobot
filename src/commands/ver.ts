@@ -10,9 +10,10 @@ export default {
   execute(message: Discord.Message): void {
     const em = new Discord.RichEmbed();
     em.setTitle('Puyobot version ' + version)
-      .setDescription('TypeScript update!')
+      .setDescription('DM patches!')
       .setColor(0x59afef)
-      .addField('TypeScript support added!', 'TypeScript now allows for easier use with a linter in VS Code.  Expect more frequent updates!', false)
+      .addField('DM checks put in place for commands exclusively for use on servers', "Yikes command won't break now when using it in DMs", false)
+      .addField('console outputs cleaned up', 'minor debugging tools cleaned up that were left behind.', false)
       .setFooter('Puyobot ver.' + version + ' made by the English Puyo Puyo Community, for the English Puyo Puyo Communtiy!');
 
     message.channel.send(em);

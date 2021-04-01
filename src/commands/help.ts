@@ -7,13 +7,14 @@ export default {
   category: ['Help'],
   usage: ['<command name - optional>'],
   async execute(message: Discord.Message, args: string[]): Promise<void> {
-    const { commands } = message.client;
+    const { commands, commandNames } = message.client;
     const em = new Discord.RichEmbed();
 
     em.setColor(0x59afef);
 
     if (!args.length) {
-      em.addField('command list:', commands.map((command): string => command.name).join('\n'), true);
+      // em.addField('command list:', commands.map((command): string => command.name).join('\n'), true);
+      em.addField('Command List: ', commandNames.join('\n'));
       em.setFooter(`\nyou can send \`${process.env.PREFIX}help <command name>\` to get info on a specific command!`);
 
       await message.author

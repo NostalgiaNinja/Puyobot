@@ -9,6 +9,17 @@ export default {
   usage: '[character name], [character URL]',
   category: 'utility',
   execute(message: Discord.Message): void {
+    if (message.channel.type === 'dm') {
+      const em = new Discord.RichEmbed();
+
+      em.setTitle('Server exclusive command')
+        .setDescription('This command is intended for server use only!')
+        .setFooter('With love, Nostalgia Ninja');
+
+      message.channel.send(em);
+      return;
+    }
+
     if (message.member.hasPermission('MANAGE_ROLES')) {
       const args = message.content.slice(1).split(',');
       const em = new Discord.RichEmbed();
