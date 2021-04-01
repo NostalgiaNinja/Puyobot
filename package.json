@@ -10,7 +10,7 @@
   "scripts": {
     "tsc": "tsc",
     "dev": "ts-node-dev --respawn --transpileOnly ./src/index.ts",
-    "prod": "tsc && node built/src/index.js"
+    "prod": "rm -r built && tsc && node built/src/index.js"
   },
   "keywords": [],
   "author": "Nostalgia Ninja",
