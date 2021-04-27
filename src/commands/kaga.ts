@@ -41,7 +41,7 @@ export default {
       rng = Math.floor(Math.random() * Math.trunc(20));
     }
     else {
-      if (isNaN(suffix) && (suffix > 20 || suffix < 0)) {
+      if (isNaN(suffix) || (suffix > 20 || suffix < 0)) {
         message.channel.send('Not a valid number! Specify a number from 0 to 20 to receive your sleep message!');
         return;
       }
