@@ -12,7 +12,7 @@ export default {
   execute(message: Discord.Message, args: string[], client: Discord.Client): void {
     try {
       if (!message.guild) throw Error('message.guild is null.');
-      
+
       db.each(`SELECT * FROM server WHERE serverID = '${message.guild.id}'`, (err, row: ServerRow): void => {
         if (!row) return;
         if (message.member?.hasPermission('MANAGE_ROLES')) {
@@ -51,10 +51,11 @@ export default {
 
           message.channel.send(em);
 
-          client.channels.fetch(row.moderationChannel).then((modChannel) => {
+          // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+          client.channels.fetch(row.moderationChannel).then(modChannel => {
             if (!modChannel.isText()) return;
             modChannel.send(em).catch(console.error);
-          })
+          });
         } else {
           return;
         }

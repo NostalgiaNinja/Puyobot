@@ -26,7 +26,7 @@ export default {
 
     // Get the messageReactions on the target message
     const messageReactions = targetMsg.reactions.cache.array();
-    
+
     // Combine the lists of users who reacted with each emoji
     const allUsers: string[] = [];
     for (const messageReaction of messageReactions) {
