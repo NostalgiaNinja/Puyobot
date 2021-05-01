@@ -20,7 +20,7 @@ export default {
       return;
     }
 
-    if (message.member.hasPermission('MANAGE_ROLES')) {
+    if (message.member?.hasPermission('MANAGE_ROLES')) {
       const args = message.content.slice(1).split(',');
       const em = new Discord.MessageEmbed();
       let charName = args[0].toLowerCase();

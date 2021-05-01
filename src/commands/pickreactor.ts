@@ -24,14 +24,23 @@ export default {
 
     const targetMsg = await targetChannel.messages.fetch(args[1]);
 
-    const users: string[] = [];
+    // Get the messageReactions on the target message
+    const messageReactions = targetMsg.reactions.cache.array();
+    
+    // Combine the lists of users who reacted with each emoji
+    const allUsers: string[] = [];
+    for (const messageReaction of messageReactions) {
+      const userCollection = await messageReaction.users.fetch();
+      const userIds = userCollection.keyArray();
+      allUsers.push(...userIds);
+    }
 
-    Promise.all(targetMsg.reactions.map((emoji): Promise<Discord.Collection<string, Discord.User>> => emoji.fetchUsers())).then((userCollections): void => {
-      userCollections.forEach((collection): void => collection.forEach((user): number => users.push(user.id)));
-      const uniqueUsers = [...new Set(users)];
+    // Some users may have given multiple reactions with different emojis.
+    // Find the unique set of users.
+    const uniqueUserIds = [...new Set(allUsers)];
 
-      const randomUser = uniqueUsers[Math.floor(Math.random() * uniqueUsers.length)];
-      message.reply(`${uniqueUsers.length} user(s) reacted to your message. The randomly chosen user is: <@${randomUser}>`);
-    });
+    // Select a random user
+    const randomUser = uniqueUserIds[Math.floor(Math.random() * uniqueUserIds.length)];
+    message.reply(`${uniqueUserIds}.length user(s) reacted to your message. The randomly chosen user is: <@${randomUser}>`);
   },
 };

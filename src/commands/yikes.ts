@@ -25,13 +25,18 @@ export default {
     let yikescount = args[1]; //initialize to nothing, if no argument, then 0, if argument, then amount.
     const em = new Discord.MessageEmbed();
     let yikes = 0 as number;
+
+    if (!message.guild) return;
+
     db.get(`SELECT * FROM yike WHERE serverID = ${message.guild.id}`, function(err, row): void {
-      if (!row) {
+      if (!message.guild) {
+        message.channel.send('Error retrieving guild');
+      } else if (!row) {
         db.run(`INSERT INTO yike VALUES (?, ?)`, message.guild.id, 0);
         message.channel.send(`This is the first time the yike counter has been ordered on this server.  Yikes will be counted now.`);
       } else {
         if (yikesreset == 'reset') {
-          if (!message.member.hasPermission('MANAGE_ROLES')) return;
+          if (!message.member?.hasPermission('MANAGE_ROLES')) return;
            
           if (!yikescount) 
             yikes = 0;
