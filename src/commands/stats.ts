@@ -9,14 +9,15 @@ export default {
   execute(message: Discord.Message): void {
     const em = new Discord.MessageEmbed();
 
-    em.setTitle(`Server statistics: ${message.guild.name}`);
-    em.addField('Total users', message.guild.memberCount, true);
-    em.addField('Owner', message.guild.owner.displayName, true);
-    em.addField('Creation Date', message.guild.createdAt, false);
-    em.addField('Server ID', message.guild.id, false);
+    em.setTitle(`Server statistics: ${message.guild?.name}`);
+    em.addField('Total users', message.guild?.memberCount, true);
+    em.addField('Owner', message.guild?.owner?.displayName, true);
+    em.addField('Creation Date', message.guild?.createdAt, false);
+    em.addField('Server ID', message.guild?.id, false);
 
     em.setColor(0x59afef);
-    em.setThumbnail(message.guild.iconURL);
+    const iconURL = message.guild?.iconURL();
+    if (iconURL) em.setThumbnail(iconURL);
 
     message.channel.send(em);
   },

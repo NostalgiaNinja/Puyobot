@@ -1,5 +1,6 @@
 import Discord from 'discord.js'; //discord JS library - needed for API access
 import sqlite3 from 'sqlite3'; //Sqlite 3 - Needed to role to time out
+import { ServerRow } from '../@types/db-types';
 const db = new sqlite3.Database('./src/data/database.sqlite'); //database file.
 
 export default {
@@ -10,21 +11,27 @@ export default {
   category: 'Administration',
   execute(message: Discord.Message, args: string[], client: Discord.Client): void {
     try {
-      db.each(`SELECT * FROM server WHERE serverID = '${message.guild.id}'`, function(err, row): void {
-        if (!row) return;
+      if (!message.guild) throw Error('message.guild is null.');
 
-        if (message.member.hasPermission('MANAGE_ROLES')) {
+      db.each(`SELECT * FROM server WHERE serverID = '${message.guild.id}'`, (err, row: ServerRow): void => {
+        if (!row) return;
+        if (message.member?.hasPermission('MANAGE_ROLES')) {
           //variables for the command
 
           const em = new Discord.MessageEmbed();
-          const timeoutUser = message.mentions.members.first();
+          const timeoutUser = message.mentions.members?.first();
+          if (!timeoutUser) {
+            message.channel.send('No user to time out. exiting.');
+            return;
+          }
+
           const reason = args.slice(1).join(' ');
 
           //for now, let's not do any time allocation stuff until finalized.
           //const currentTime = moment();
           //const endTime = moment.add(mutedTime, 'days');
 
-          if (message.mentions.members.size === 0) {
+          if (message.mentions.members?.size === 0) {
             message.channel.send('No user to time out. exiting.');
             return;
           }
@@ -34,7 +41,7 @@ export default {
             return;
           }
 
-          timeoutUser.addRole(row.mutedRoleID, reason);
+          timeoutUser.roles.add(row.mutedRoleID, reason);
 
           em.setTitle(`🛑 Timeout given to ${timeoutUser} 🛑`)
             .addField('User Name:', `${timeoutUser.user.username}:${timeoutUser.user.discriminator}`, true)
@@ -43,10 +50,12 @@ export default {
             .setColor(0xff0000);
 
           message.channel.send(em);
-          const modChannel = client.channels.get(row.moderationChannel);
-          if (!modChannel) return;
-          if (!((modChannel): modChannel is Discord.TextChannel => modChannel.type === 'text')(modChannel)) return;
-          modChannel.send(em).catch(console.error);
+
+          // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+          client.channels.fetch(row.moderationChannel).then(modChannel => {
+            if (!modChannel.isText()) return;
+            modChannel.send(em).catch(console.error);
+          });
         } else {
           return;
         }

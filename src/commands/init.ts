@@ -23,10 +23,12 @@ export default {
       message.channel.send(em);
       return;
     }
-    if (message.member.hasPermission('MANAGE_ROLES')) {
+    if (message.member?.hasPermission('MANAGE_ROLES')) {
       const type = args[0];
 
       try {
+        if (!message.guild) throw Error(`message.guild is null.`);
+        
         if (type == 'database') {
           if (message.author.id != botOwnerId) {
             message.channel.send('This is used to initialize the database.  If not initialized, ask the bot owner to run this command.');

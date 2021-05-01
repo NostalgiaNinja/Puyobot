@@ -7,7 +7,7 @@ export default {
   usage: '<@user>',
   category: 'Administration',
   execute(message: Discord.Message): void {
-    if (message.member.hasPermission('MANAGE_ROLES')) {
+    if (message.member?.hasPermission('MANAGE_ROLES')) {
       const em = new Discord.MessageEmbed();
       const target = message.mentions.users.first();
       em.setTitle('Please take this to DMs!')
