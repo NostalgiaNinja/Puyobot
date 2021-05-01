@@ -16,7 +16,7 @@ export default {
         if (message.member.hasPermission('MANAGE_ROLES')) {
           //variables for the command
 
-          const em = new Discord.RichEmbed();
+          const em = new Discord.MessageEmbed();
           const timeoutUser = message.mentions.members.first();
           const reason = args.slice(1).join(' ');
 

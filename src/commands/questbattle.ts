@@ -8,7 +8,7 @@ export default {
   category: 'PPQ',
   aliases: ['qb', 'bq'],
   execute(message: Discord.Message, args: string[]): void {
-    const em = new Discord.RichEmbed();
+    const em = new Discord.MessageEmbed();
 
     const roomcode = args[0];
     const roomtype = args[1];

@@ -9,7 +9,7 @@ export default {
   execute(message: Discord.Message, args: string[]): void {
     const postfix = args[0];
 
-    const em = new Discord.RichEmbed();
+    const em = new Discord.MessageEmbed();
 
     if (!postfix) {
       em.setColor(0x59afef);

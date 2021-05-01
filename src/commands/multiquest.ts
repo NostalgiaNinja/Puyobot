@@ -11,14 +11,14 @@ export default {
   aliases: ['mq'],
   execute(message: Discord.Message, args: string[]): void {
     try {
-      const em = new Discord.RichEmbed();
+      const em = new Discord.MessageEmbed();
 
       const roomcode = args[0];
       const roomaccess = args[1];
       const roomname = args.slice(2).join(' ');
       const roomparser = roomname.toLowerCase();
 
-      // set up the richEmbed values beforehand: no needing to mess with room access values any longer
+      // set up the MessageEmbed values beforehand: no needing to mess with room access values any longer
       em.setTitle('A Multiplayer Quest room has opened!');
 
       // check if room name exists

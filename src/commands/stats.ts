@@ -7,7 +7,7 @@ export default {
   usage: '',
   category: 'Administration',
   execute(message: Discord.Message): void {
-    const em = new Discord.RichEmbed();
+    const em = new Discord.MessageEmbed();
 
     em.setTitle(`Server statistics: ${message.guild.name}`);
     em.addField('Total users', message.guild.memberCount, true);

@@ -7,7 +7,7 @@ export default {
   usage: '',
   category: 'fun',
   execute(message: Discord.Message): void {
-    const em = new Discord.RichEmbed();
+    const em = new Discord.MessageEmbed();
     em.setImage('https://imgur.com/WrJmrmY.gif');
     message.channel.send(em);
   },

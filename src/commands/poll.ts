@@ -13,7 +13,7 @@ export default {
       await message.channel.send('Poll set up incorrectly. use the help command to see how this works.');
       return;
     } else {
-      const em = new Discord.RichEmbed();
+      const em = new Discord.MessageEmbed();
 
       em.setTitle(`${message.author.username} asks:`).setColor(0x215f88);
 

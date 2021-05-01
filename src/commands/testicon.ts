@@ -11,7 +11,7 @@ export default {
   usage: '',
   category: 'utility',
   execute(message: Discord.Message, args: string[]): void {
-    const em = new Discord.RichEmbed();
+    const em = new Discord.MessageEmbed();
     const testval = args[0];
 
     db.get(`SELECT * FROM charaicon WHERE character = '${testval}'`, function(err, row): void {

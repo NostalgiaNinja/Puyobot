@@ -9,16 +9,16 @@ export default (client: Discord.Client, message: Discord.Message): void => {
   try {
     if (message.channel.type === 'dm') return;
 
-    db.each(`SELECT * FROM server WHERE serverID = '${message.guild.id}'`, function(err, row): void {
+    db.each(`SELECT * FROM server WHERE serverID = '${message.guild?.id}'`, function(err, row): void {
       // SQL - Select everything from server where serverID is the guild ID.  THEN
 
       if (!row) return; // Checks if the guildID has been initialized
 
-      if (!client.channels.get(row.moderationChannel)) return; // checks if the channel exists
+      if (!client.channels.fetch(row.moderationChannel)) return; // checks if the channel exists
 
       if (message.content.length > 1000) return; // check if the command is higher than 1000 characters and if so don't throw an error.
 
-      const em = new Discord.RichEmbed(); // create a new rich embed.
+      const em = new Discord.MessageEmbed(); // create a new rich embed.
       em.setTitle('Message Deleted');
       em.addField('Message Author', message.author.username, true);
       em.addField('Message created at', message.createdAt, true);
@@ -33,7 +33,7 @@ export default (client: Discord.Client, message: Discord.Message): void => {
 
       // Have to test for undefined and check type as Text Channel as "Type Guards"
       // https://stackoverflow.com/questions/53563862/send-message-to-specific-channel-with-typescript
-      const modChannel = client.channels.get(row.moderationChannel);
+      const modChannel = client.channels.fetch(row.moderationChannel);
       if (!modChannel) return;
       if (!((modChannel): modChannel is Discord.TextChannel => modChannel.type === 'text')(modChannel)) return;
       modChannel.send(em).catch(console.error);

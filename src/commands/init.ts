@@ -14,7 +14,7 @@ export default {
   category: 'Administration',
   execute(message: Discord.Message, args: string[]): void {
     if (message.channel.type === 'dm') {
-      const em = new Discord.RichEmbed();
+      const em = new Discord.MessageEmbed();
 
       em.setTitle('Server exclusive command')
         .setDescription('This command is intended for server use only!')
@@ -45,7 +45,7 @@ export default {
         if (type == 'charaicon') {
           db.run('CREATE TABLE IF NOT EXISTS charaicon (character TEXT, urlcode TEXT)');
 
-          const em = new Discord.RichEmbed()
+          const em = new Discord.MessageEmbed()
             .setTitle('Character Icon Tables initialized')
             .setDescription('Please contact a moderator to add character icons.')
             .setColor(0xff0000);

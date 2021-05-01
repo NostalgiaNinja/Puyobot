@@ -8,7 +8,7 @@ export default {
   category: ['Help'],
   usage: [''],
   execute(message: Discord.Message): void {
-    const em = new Discord.RichEmbed();
+    const em = new Discord.MessageEmbed();
     em.setTitle('Puyobot version ' + version)
       .setDescription('DM patches!')
       .setColor(0x59afef)

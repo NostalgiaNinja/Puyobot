@@ -30,7 +30,7 @@ export default {
               rpvalue = 'WATCHING';
             }
 
-            const em = new Discord.RichEmbed();
+            const em = new Discord.MessageEmbed();
 
             em.setTitle('Success!');
             em.addField('User Presence set to: ', rpvalue);

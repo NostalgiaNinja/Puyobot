@@ -7,7 +7,7 @@ export default {
   category: 'fun',
   usage: ['pickreacter #channel messageID'],
   async execute(message: Discord.Message, args: string[]): Promise<void> {
-    if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+    if (!message.member?.permissions.has('MANAGE_MESSAGES')) {
       return;
     }
     if (args.length !== 2) {
@@ -15,14 +15,14 @@ export default {
       return;
     }
 
-    const targetChannel = <Discord.TextChannel>message.guild.channels.get(args[0].replace(/\D/g, ''));
+    const targetChannel = <Discord.TextChannel>message.guild?.channels.resolve(args[0].replace(/\D/g, ''));
 
     if (!targetChannel) {
       message.reply('Error. The target channel could not be found.');
       return;
     }
 
-    const targetMsg = await targetChannel.fetchMessage(args[1]);
+    const targetMsg = await targetChannel.messages.fetch(args[1]);
 
     const users: string[] = [];
 

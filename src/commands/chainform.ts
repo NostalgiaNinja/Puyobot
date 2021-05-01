@@ -7,7 +7,7 @@ export default {
   category: ['Help'],
   usage: [''],
   execute(message: Discord.Message): void {
-    const em = new Discord.RichEmbed();
+    const em = new Discord.MessageEmbed();
 
     em.setColor(0x59afef);
     em.setTitle('List of Chaining forms');

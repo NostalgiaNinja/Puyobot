@@ -13,7 +13,7 @@ export default {
   category: 'Administration',
   execute(message: Discord.Message, args: string[], client: Discord.Client): void {
     if (message.channel.type === 'dm') {
-      const em = new Discord.RichEmbed();
+      const em = new Discord.MessageEmbed();
 
       em.setTitle('Server exclusive command')
         .setDescription('This command is intended for server use only!')
@@ -26,8 +26,8 @@ export default {
       db.each(`SELECT * FROM server WHERE serverID = '${message.guild.id}'`, function(err, row): void {
         if (!row) return;
 
-        if (message.member.hasPermission('MANAGE_ROLES')) {
-          const em = new Discord.RichEmbed();
+        if (message.member?.permissions.has('MANAGE_ROLES')) {
+          const em = new Discord.MessageEmbed();
           const warnedUser = message.mentions.users.first();
           const warning = args.slice(1).join(' ');
 
@@ -51,18 +51,18 @@ export default {
 
           // Have to test for undefined and check type as Text Channel as "Type Guards"
           // https://stackoverflow.com/questions/53563862/send-message-to-specific-channel-with-typescript
-          const modChannel = client.channels.get(row.moderationChannel);
+          const modChannel = client.channels.fetch(row.moderationChannel);
           if (!modChannel) return;
           if (!((modChannel): modChannel is Discord.TextChannel => modChannel.type === 'text')(modChannel)) return;
           modChannel.send(em).catch(console.error);
         } else {
-          const em = new Discord.RichEmbed();
+          const em = new Discord.MessageEmbed();
           em.setTitle("You can't use that.");
           em.setDescription("You don't have the permissions to warn other members.  This incident will be reported.").setColor(0xff0000);
 
           message.channel.send(em);
 
-          const em2 = new Discord.RichEmbed();
+          const em2 = new Discord.MessageEmbed();
           em2.setTitle('Warning used without permissions:');
           em2
             .addField('User Name: ', message.author.username, false)
@@ -72,7 +72,7 @@ export default {
 
           // Have to test for undefined and check type as Text Channel as "Type Guards"
           // https://stackoverflow.com/questions/53563862/send-message-to-specific-channel-with-typescript
-          const modChannel = client.channels.get(row.moderationChannel);
+          const modChannel = client.channels.fetch(row.moderationChannel);
           if (!modChannel) return;
           if (!((modChannel): modChannel is Discord.TextChannel => modChannel.type === 'text')(modChannel)) return;
           modChannel.send(em2).catch(console.error);

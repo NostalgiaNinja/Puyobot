@@ -7,7 +7,7 @@ export default {
   usage: '',
   category: 'fun',
   execute(message: Discord.Message): void {
-    const em = new Discord.RichEmbed();
+    const em = new Discord.MessageEmbed();
 
     em.setTitle('Basic English Puyo Termiology for Japanese Players')
       .setColor(0x00ff00)

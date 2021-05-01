@@ -11,7 +11,7 @@ export default {
   execute(message: Discord.Message, args: string[]): void {
     //initialize variables for command
     if (message.channel.type === 'dm') {
-      const em = new Discord.RichEmbed();
+      const em = new Discord.MessageEmbed();
 
       em.setTitle('Yikes!')
         .setDescription('Since this was done in DMs, there will not be a counter for the command.')
@@ -23,7 +23,7 @@ export default {
 
     let yikesreset = args[0]; //initialize to nothing so that arguments can be allowed
     let yikescount = args[1]; //initialize to nothing, if no argument, then 0, if argument, then amount.
-    const em = new Discord.RichEmbed();
+    const em = new Discord.MessageEmbed();
     let yikes = 0 as number;
     db.get(`SELECT * FROM yike WHERE serverID = ${message.guild.id}`, function(err, row): void {
       if (!row) {

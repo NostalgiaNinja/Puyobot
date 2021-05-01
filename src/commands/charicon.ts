@@ -10,7 +10,7 @@ export default {
   category: 'utility',
   execute(message: Discord.Message): void {
     if (message.channel.type === 'dm') {
-      const em = new Discord.RichEmbed();
+      const em = new Discord.MessageEmbed();
 
       em.setTitle('Server exclusive command')
         .setDescription('This command is intended for server use only!')
@@ -22,7 +22,7 @@ export default {
 
     if (message.member.hasPermission('MANAGE_ROLES')) {
       const args = message.content.slice(1).split(',');
-      const em = new Discord.RichEmbed();
+      const em = new Discord.MessageEmbed();
       let charName = args[0].toLowerCase();
       let charURL = args[1];
 

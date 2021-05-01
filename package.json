@@ -1,6 +1,6 @@
 {
   "name": "puyobot",
-  "version": "4.1.1",
+  "version": "4.1.2",
   "description": "Public repository for Puyobot",
   "main": "PuyoBot.js",
   "repository": {
@@ -26,7 +26,7 @@
     "@typescript-eslint/eslint-plugin": "^1.10.2",
     "@typescript-eslint/parser": "^1.10.2",
     "arpad": "^1.0.2",
-    "discord.js": "^11.6.4",
+    "discord.js": "^12.5.3",
     "dotenv-json": "^1.0.0",
     "fetch": "^1.1.0",
     "node-fetch": "^2.6.1",

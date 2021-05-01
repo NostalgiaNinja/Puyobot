@@ -8,7 +8,7 @@ export default {
   usage: ['<command name - optional>'],
   async execute(message: Discord.Message, args: string[]): Promise<void> {
     const { commands, commandNames } = message.client;
-    const em = new Discord.RichEmbed();
+    const em = new Discord.MessageEmbed();
 
     em.setColor(0x59afef);
 

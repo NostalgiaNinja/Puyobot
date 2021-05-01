@@ -7,7 +7,7 @@ export default {
   args: true,
   usage: '',
   execute(message: Discord.Message): void {
-    const em = new Discord.RichEmbed();
+    const em = new Discord.MessageEmbed();
     em.setTitle('Rule 2:')
       .setColor(0xff0000)
       .addField(

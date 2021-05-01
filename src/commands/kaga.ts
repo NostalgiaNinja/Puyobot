@@ -7,7 +7,7 @@ export default {
   usage: '[number from 1-20]',
   category: 'fun',
   execute(message: Discord.Message, args: string[]): void {
-    const em = new Discord.RichEmbed();
+    const em = new Discord.MessageEmbed();
     const kagas = [
       'J3MSLRU.png',
       'lQ07HO5.png',
