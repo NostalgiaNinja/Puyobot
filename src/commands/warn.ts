@@ -23,7 +23,7 @@ export default {
       return;
     }
     try {
-      db.each(`SELECT * FROM server WHERE serverID = '${message.guild.id}'`, function(err, row): void {
+      db.each(`SELECT * FROM server WHERE serverID = '${message.guild?.id}'`, function(err, row): void {
         if (!row) return;
 
         if (message.member?.permissions.has('MANAGE_ROLES')) {
@@ -42,7 +42,7 @@ export default {
           }
 
           em.setTitle(`⚠ WARNING GIVEN TO ${warnedUser} ⚠`)
-            .addField('User Name:', `${warnedUser.username}:${warnedUser.discriminator}`, true)
+            .addField('User Name:', `${warnedUser?.username}:${warnedUser?.discriminator}`, true)
             .addField('Current Display name:', `${warnedUser}`, true)
             .addField('Warned for:', warning, false)
             .setColor(0xffff00);

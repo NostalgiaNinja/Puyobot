@@ -36,7 +36,7 @@ export default {
             em.addField('User Presence set to: ', rpvalue);
             em.addField('Set game name to: ', gamename);
 
-            client.user.setPresence({ game: { name: gamename, type: rpvalue as 'PLAYING' | 'STREAMING' | 'LISTENING' | 'WATCHING' } }); // setting user presence!
+            client.user?.setPresence({ activity: { name: gamename, type: rpvalue as 'PLAYING' | 'STREAMING' | 'LISTENING' | 'WATCHING' }, status: 'online' }); // setting user presence!
             message.channel.send(em);
           } else {
             message.channel.send(`\`Syntax: ${process.env.PREFIX}setpresence [richpresence enum] [game]\` \n where richpresence = 0, 1, 2, 3 `);
